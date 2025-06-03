@@ -1,0 +1,106 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.TaoKhieuNaiViewModel
+
+@{
+    ViewData["Title"] = Model.LoaiKhieuNai == "ThanhToan" ? "Gửi khiếu nại thanh toán" : "Yêu cầu bằng chứng vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-2xl mx-auto py-8">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="mb-6 flex items-center">
+            <a href="@Url.Action("ChiTietViPham", "CongDan", new { id = Model.MaBienBan })" class="text-blue-600 hover:text-blue-800 flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i> Quay lại biên bản
+            </a>
+            <h1 class="text-xl font-bold text-gray-900 ml-6">@(Model.LoaiKhieuNai == "ThanhToan" ? "Gửi khiếu nại thanh toán" : "Yêu cầu bằng chứng vi phạm")</h1>
+        </div>
+
+        <div class="mb-4 p-4 bg-blue-50 border-l-4 border-blue-400 rounded">
+            <i class="fas fa-info-circle text-blue-400 mr-2"></i>
+            @if (Model.LoaiKhieuNai == "ThanhToan")
+            {
+                <span>Vui lòng cung cấp chi tiết về vấn đề bạn gặp phải với thanh toán này. Chúng tôi sẽ xem xét và phản hồi trong thời gian sớm nhất.</span>
+            }
+            else
+            {
+                <span>Bạn có quyền yêu cầu cán bộ cung cấp bằng chứng về vi phạm. Vui lòng cung cấp lý do yêu cầu bằng chứng.</span>
+            }
+        </div>
+
+        <div class="mb-6 bg-gray-50 rounded-lg p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <div class="text-sm text-gray-500">Mã biên bản:</div>
+                    <div class="font-semibold">@Model.MaBienBan</div>
+                    <div class="text-sm text-gray-500 mt-2">Tên biên bản:</div>
+                    <div class="font-semibold">@Model.TenBienBan</div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-500">Ngày lập:</div>
+                    <div class="font-semibold">@Model.NgayLapBienBan.ToString("dd/MM/yyyy")</div>
+                    <div class="text-sm text-gray-500 mt-2">Số tiền phạt:</div>
+                    <div class="font-semibold">@Model.SoTienPhat.ToString("N0") VNĐ</div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.LoaiKhieuNai == "BangChung")
+        {
+            <div class="mb-6 bg-gray-50 rounded-lg p-4">
+                <div class="text-sm text-gray-500 mb-1">Nội dung vi phạm:</div>
+                <div class="font-semibold">@Model.NoiDungViPham</div>
+            </div>
+        }
+
+        <form asp-action="TaoKhieuNai" method="post" enctype="multipart/form-data" class="space-y-6">
+            <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
+            <input type="hidden" asp-for="MaBienBan" />
+            <input type="hidden" asp-for="TenBienBan" />
+            <input type="hidden" asp-for="NgayLapBienBan" />
+            <input type="hidden" asp-for="SoTienPhat" />
+            <input type="hidden" asp-for="NoiDungViPham" />
+            <input type="hidden" asp-for="LoaiKhieuNai" />
+
+            @if (Model.LoaiKhieuNai == "ThanhToan")
+            {
+                <div>
+                    <label asp-for="NoiDungKhieuNai" class="block font-medium mb-1">Nội dung khiếu nại <span class="text-red-500">*</span></label>
+                    <textarea asp-for="NoiDungKhieuNai" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="5" required></textarea>
+                    <span asp-validation-for="NoiDungKhieuNai" class="text-red-500 text-sm"></span>
+                    <small class="text-gray-500">Vui lòng mô tả chi tiết vấn đề bạn gặp phải với thanh toán này (tối thiểu 20 ký tự).</small>
+                </div>
+                <div>
+                    <label asp-for="FileBangChung" class="block font-medium mb-1">File chứng minh (nếu có)</label>
+                    <input asp-for="FileBangChung" type="file" class="block w-full text-sm text-gray-500" />
+                    <small class="text-gray-500">Đính kèm biên lai, ảnh chụp màn hình hoặc tài liệu khác để hỗ trợ khiếu nại của bạn.</small>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <label asp-for="LyDoYeuCau" class="block font-medium mb-1">Lý do yêu cầu bằng chứng <span class="text-red-500">*</span></label>
+                    <textarea asp-for="LyDoYeuCau" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="5" required></textarea>
+                    <span asp-validation-for="LyDoYeuCau" class="text-red-500 text-sm"></span>
+                    <small class="text-gray-500">Vui lòng giải thích lý do bạn yêu cầu bằng chứng vi phạm.</small>
+                </div>
+                <div>
+                    <label asp-for="NoiDungKhieuNai" class="block font-medium mb-1">Thông tin bổ sung (nếu có)</label>
+                    <textarea asp-for="NoiDungKhieuNai" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3"></textarea>
+                    <small class="text-gray-500">Thông tin bổ sung để giúp cán bộ hiểu rõ hơn về yêu cầu của bạn.</small>
+                </div>
+            }
+
+            <div class="flex space-x-3 mt-4">
+                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold flex items-center">
+                    <i class="fas fa-paper-plane mr-2"></i> Gửi @(Model.LoaiKhieuNai == "ThanhToan" ? "khiếu nại" : "yêu cầu")
+                </button>
+                <a href="@Url.Action("ChiTietViPham", "CongDan", new { id = Model.MaBienBan })" class="px-6 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 flex items-center">
+                    <i class="fas fa-times mr-2"></i> Hủy
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

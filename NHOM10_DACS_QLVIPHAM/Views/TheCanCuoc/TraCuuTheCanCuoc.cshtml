@@ -1,0 +1,126 @@
+@model string
+
+@{
+    ViewData["Title"] = "Tra cứu thẻ căn cước";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="bg-blue-600 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">Tra cứu thẻ căn cước công dân</h2>
+        </div>
+        <div class="p-6">
+            <form asp-controller="TheCanCuoc" asp-action="TraCuuTheCanCuoc" method="post">
+                <div class="mb-4">
+                    <label for="maTheCC" class="block text-sm font-medium text-gray-700 mb-1">Nhập mã căn cước công dân</label>
+                    <div class="flex">
+                        <input type="text" id="maTheCC" name="maTheCC" class="flex-1 rounded-l-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Ví dụ: 079123456789">
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            <i class="fas fa-search mr-2"></i> Tra cứu
+                        </button>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500">Nhập mã căn cước công dân để tra cứu thông tin thẻ</p>
+                </div>
+            </form>
+            
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 mt-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <div asp-validation-summary="All" class="text-sm text-red-700"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+            @if (ViewBag.KetQua != null)
+            {
+                <div class="mt-6 border-t border-gray-200 pt-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Kết quả tra cứu</h3>
+                    
+                    @if (ViewBag.KetQua == true && ViewBag.CongDan != null)
+                    {
+                        <div class="mb-4 text-right">
+                            <a asp-controller="TheCanCuoc" asp-action="TraCuuTheCanCuocById" asp-route-maTheCC="@ViewBag.CongDan.MaTheCC" 
+                               class="inline-flex items-center px-4 py-2 border border-blue-500 shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <i class="fas fa-id-card mr-2"></i>
+                                Xem chi tiết thẻ
+                            </a>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg p-6 text-white shadow-lg">
+                            <div class="flex justify-between">
+                                <div>
+                                    <div class="text-sm opacity-80 mb-1">Căn cước công dân</div>
+                                    <div class="text-xl font-bold mb-6">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+                                    <div class="text-sm mb-1">Số thẻ / Card No:</div>
+                                    <div class="text-xl font-mono mb-4">@ViewBag.CongDan.MaTheCC</div>
+                                    <div class="text-sm mb-1">Họ và tên / Full name:</div>
+                                    <div class="text-xl mb-2">@ViewBag.CongDan.TenCongDan</div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <div class="text-sm mb-1">Ngày sinh / DOB:</div>
+                                            <div>@(ViewBag.CongDan.NgaySinh?.ToString("dd/MM/yyyy") ?? "N/A")</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm mb-1">Giới tính / Sex:</div>
+                                            <div>@ViewBag.CongDan.GIOTTING</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-center">
+                                    @if (!string.IsNullOrEmpty(ViewBag.CongDan.AnhChanDung))
+                                    {
+                                        <img src="data:image/jpeg;base64,@ViewBag.CongDan.AnhChanDung" alt="Ảnh chân dung" class="w-32 h-40 object-cover rounded-md border-2 border-white">
+                                    }
+                                    else
+                                    {
+                                        <div class="w-32 h-40 bg-gray-100 rounded-md flex items-center justify-center text-gray-400">
+                                            <i class="fas fa-user text-4xl"></i>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="text-sm mb-1">Địa chỉ / Address:</div>
+                                <div>@ViewBag.CongDan.DiaChi</div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-yellow-700">
+                                        @if (ViewBag.MaTheCC != null)
+                                        {
+                                            <span>Không tìm thấy thông tin căn cước công dân với mã: <strong>@ViewBag.MaTheCC</strong></span>
+                                        }
+                                        else
+                                        {
+                                            <span>Không tìm thấy thông tin căn cước công dân.</span>
+                                        }
+                                    </p>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-yellow-700">
+                                            Vui lòng kiểm tra lại mã căn cước công dân và thử lại.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div> 

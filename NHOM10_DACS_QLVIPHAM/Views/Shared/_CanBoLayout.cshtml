@@ -1,0 +1,40 @@
+@* Layout chuẩn cho giao diện cán bộ *@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - QLVIPHAM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg flex flex-col">
+            <div class="p-6 border-b">
+                <h2 class="text-xl font-bold text-blue-700">Quản lý cán bộ</h2>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a class="block px-4 py-2 rounded hover:bg-blue-100 text-gray-700" asp-controller="CanBo" asp-action="Dashboard">
+                    <i class="fas fa-home mr-2"></i>Trang chủ
+                </a>
+                <a class="block px-4 py-2 rounded hover:bg-blue-100 text-gray-700" asp-controller="CanBo" asp-action="DanhSachCongDan">
+                    <i class="fas fa-users mr-2"></i>Công dân
+                </a>
+                <a class="block px-4 py-2 rounded hover:bg-blue-100 text-gray-700" asp-controller="CanBo" asp-action="QuanLyTheCanCuoc">
+                    <i class="fas fa-id-card mr-2"></i>Quản lý CCCD
+                </a>
+                <a class="block px-4 py-2 rounded hover:bg-blue-100 text-gray-700" asp-controller="CanBo" asp-action="CapNhatThongTinCanBo">
+                    <i class="fas fa-user-cog mr-2"></i>Cập nhật thông tin
+                </a>
+            </nav>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            @RenderBody()
+        </main>
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html> 

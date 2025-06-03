@@ -1,0 +1,366 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.ThongKeThanhToanViewModel
+@{
+    ViewData["Title"] = "Thống kê thanh toán vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bg-gray-50 min-h-screen pb-10">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-8 mb-6 rounded-b-lg shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-3xl font-bold tracking-tight">Thống kê thanh toán vi phạm</h1>
+            <p class="mt-2 text-blue-100">Theo dõi và phân tích doanh thu từ thanh toán vi phạm</p>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Filter Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <form method="get" class="space-y-4 md:space-y-0 md:grid md:grid-cols-12 md:gap-4">
+                <div class="md:col-span-3">
+                    <label asp-for="TuNgay" class="block text-sm font-medium text-gray-700 mb-1">Từ ngày</label>
+                    <input asp-for="TuNgay" type="date" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div class="md:col-span-3">
+                    <label asp-for="DenNgay" class="block text-sm font-medium text-gray-700 mb-1">Đến ngày</label>
+                    <input asp-for="DenNgay" type="date" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div class="md:col-span-3">
+                    <label asp-for="LoaiThongKe" class="block text-sm font-medium text-gray-700 mb-1">Loại thống kê</label>
+                    <select asp-for="LoaiThongKe" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <option value="Ngay">Theo ngày</option>
+                        <option value="Thang">Theo tháng</option>
+                        <option value="Nam">Theo năm</option>
+                    </select>
+                </div>
+                <div class="md:col-span-3 flex items-end">
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md shadow transition flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        Thống kê
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Analytics Cards -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+            <!-- Card 1: Đã thanh toán -->
+            <div class="bg-white overflow-hidden rounded-lg shadow-md transition hover:shadow-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
+                            <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Đã thanh toán</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900">@Model.TongTienDaThanhToan.ToString("N0") ₫</div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-5 py-3">
+                    <div class="text-sm">
+                        <div class="font-medium text-green-700">@Model.SoBienBanDaThanhToan biên bản</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Chưa thanh toán -->
+            <div class="bg-white overflow-hidden rounded-lg shadow-md transition hover:shadow-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-red-100 rounded-md p-3">
+                            <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Chưa thanh toán</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900">@Model.TongTienChuaThanhToan.ToString("N0") ₫</div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-5 py-3">
+                    <div class="text-sm">
+                        <div class="font-medium text-red-700">@Model.SoBienBanChuaThanhToan biên bản</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Tổng thu -->
+            <div class="bg-white overflow-hidden rounded-lg shadow-md transition hover:shadow-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
+                            <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Tổng doanh thu</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900">@((Model.TongTienDaThanhToan + Model.TongTienChuaThanhToan).ToString("N0")) ₫</div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-5 py-3">
+                    <div class="text-sm">
+                        <div class="font-medium text-blue-700">@(Model.SoBienBanDaThanhToan + Model.SoBienBanChuaThanhToan) biên bản</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Tỷ lệ thu -->
+            @{
+                double tyLeThuDuocPercent = (Model.SoBienBanDaThanhToan + Model.SoBienBanChuaThanhToan) > 0 
+                    ? (double)Model.SoBienBanDaThanhToan / (Model.SoBienBanDaThanhToan + Model.SoBienBanChuaThanhToan) * 100 
+                    : 0;
+            }
+            <div class="bg-white overflow-hidden rounded-lg shadow-md transition hover:shadow-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                            <svg class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                            </svg>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Tỷ lệ thanh toán</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900">@Math.Round(tyLeThuDuocPercent, 1)%</div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-5 py-3">
+                    <div class="relative pt-1">
+                        <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
+                            <div style="width: @tyLeThuDuocPercent%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Bar Chart -->
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Biểu đồ doanh thu</h3>
+                <div class="h-80">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Pie Chart -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Tỷ lệ biên bản</h3>
+                <div class="h-72 flex justify-center items-center">
+                    <canvas id="ratioChart"></canvas>
+                </div>
+                <div class="flex justify-center mt-4 space-x-6">
+                    <div class="flex items-center">
+                        <span class="h-3 w-3 bg-green-500 rounded-full mr-2"></span>
+                        <span class="text-sm text-gray-600">Đã thanh toán</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="h-3 w-3 bg-red-500 rounded-full mr-2"></span>
+                        <span class="text-sm text-gray-600">Chưa thanh toán</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Table -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800">
+                    Chi tiết thống kê theo @(Model.LoaiThongKe == "Ngay" ? "ngày" : Model.LoaiThongKe == "Thang" ? "tháng" : "năm")
+                </h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                @(Model.LoaiThongKe == "Ngay" ? "Ngày" : Model.LoaiThongKe == "Thang" ? "Tháng" : "Năm")
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Đã thanh toán
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Chưa thanh toán
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Biên bản đã TT
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Biên bản chưa TT
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Tỷ lệ thanh toán
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var item in Model.ThongKeTheoThoiGian)
+                        {
+                            int tongBienBan = item.SoBienBanDaThanhToan + item.SoBienBanChuaThanhToan;
+                            double tyLe = tongBienBan > 0 ? (double)item.SoBienBanDaThanhToan / tongBienBan * 100 : 0;
+                            
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    @item.ThoiGian
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <span class="text-green-600 font-medium">@item.TongTienDaThanhToan.ToString("N0") ₫</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <span class="text-red-600 font-medium">@item.TongTienChuaThanhToan.ToString("N0") ₫</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    @item.SoBienBanDaThanhToan
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    @item.SoBienBanChuaThanhToan
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <span class="mr-2">@Math.Round(tyLe, 1)%</span>
+                                        <div class="relative w-24 h-2 bg-gray-200 rounded">
+                                            <div style="width: @tyLe%" class="absolute top-0 h-2 rounded bg-indigo-600"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data preparation
+        const labels = [@Html.Raw(string.Join(",", Model.ThongKeTheoThoiGian.Select(t => $"'{t.ThoiGian}'")))];
+        const daThanhToanData = [@string.Join(",", Model.ThongKeTheoThoiGian.Select(t => t.TongTienDaThanhToan))];
+        const chuaThanhToanData = [@string.Join(",", Model.ThongKeTheoThoiGian.Select(t => t.TongTienChuaThanhToan))];
+        
+        // Bar chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Đã thanh toán',
+                        data: daThanhToanData,
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                        borderColor: 'rgb(16, 185, 129)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Chưa thanh toán',
+                        data: chuaThanhToanData,
+                        backgroundColor: 'rgba(239, 68, 68, 0.7)',
+                        borderColor: 'rgb(239, 68, 68)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('vi-VN') + ' ₫';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.parsed.y.toLocaleString('vi-VN') + ' ₫';
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Pie chart
+        const ratioCtx = document.getElementById('ratioChart').getContext('2d');
+        new Chart(ratioCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Đã thanh toán', 'Chưa thanh toán'],
+                datasets: [{
+                    data: [@Model.SoBienBanDaThanhToan, @Model.SoBienBanChuaThanhToan],
+                    backgroundColor: ['rgb(16, 185, 129)', 'rgb(239, 68, 68)'],
+                    borderColor: ['rgb(16, 185, 129)', 'rgb(239, 68, 68)'],
+                    borderWidth: 1,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                let value = context.raw;
+                                let percentage = Math.round((value / (@Model.SoBienBanDaThanhToan + @Model.SoBienBanChuaThanhToan)) * 100);
+                                return `${label}: ${value} biên bản (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+} 

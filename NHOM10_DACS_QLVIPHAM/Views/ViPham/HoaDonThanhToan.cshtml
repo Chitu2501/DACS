@@ -1,0 +1,124 @@
+@model NHOM10_DACS_QLVIPHAM.Models.HoaDon
+
+@{
+    ViewData["Title"] = "Hóa đơn thanh toán";
+}
+
+<div class="container mt-4 mb-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-check-circle me-2"></i> Thanh toán thành công</h5>
+                </div>
+                
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-block p-3 bg-success bg-opacity-10 rounded-circle mb-3">
+                            <i class="fas fa-check-circle text-success fa-4x"></i>
+                        </div>
+                        <h4 class="text-success mb-2">Thanh toán thành công</h4>
+                        <p class="text-muted">Cảm ơn bạn đã thanh toán vi phạm!</p>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="fas fa-file-invoice me-2 text-primary"></i> Thông tin hóa đơn</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-5">Mã hóa đơn:</dt>
+                                        <dd class="col-sm-7">HD-@Model.MaHoaDon</dd>
+                                        
+                                        <dt class="col-sm-5">Ngày thanh toán:</dt>
+                                        <dd class="col-sm-7">@Model.NgayLap.ToString("dd/MM/yyyy HH:mm")</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-5">Số tiền thanh toán:</dt>
+                                        <dd class="col-sm-7 fw-bold">@Model.SoTien.ToString("#,##0") VNĐ</dd>
+                                        
+                                        <dt class="col-sm-5">Trạng thái:</dt>
+                                        <dd class="col-sm-7"><span class="badge bg-success">Đã thanh toán</span></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="fas fa-info-circle me-2 text-primary"></i> Chi tiết thanh toán</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Nội dung</th>
+                                            <th class="text-end">Số tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@Model.NoiDung</td>
+                                            <td class="text-end fw-bold">@Model.SoTien.ToString("#,##0") VNĐ</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phí giao dịch</td>
+                                            <td class="text-end">0 VNĐ</td>
+                                        </tr>
+                                        <tr class="table-light">
+                                            <td class="fw-bold">Tổng thanh toán</td>
+                                            <td class="text-end fw-bold">@Model.SoTien.ToString("#,##0") VNĐ</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="fas fa-user me-2 text-primary"></i> Thông tin người nộp phạt</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-5">Họ và tên:</dt>
+                                        <dd class="col-sm-7">@ViewBag.CongDan?.TenCongDan</dd>
+                                        
+                                        <dt class="col-sm-5">Số CCCD:</dt>
+                                        <dd class="col-sm-7">@ViewBag.CongDan?.MaTheCC</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-5">Ngày sinh:</dt>
+                                        <dd class="col-sm-7">@(ViewBag.CongDan?.NgaySinh.ToString("dd/MM/yyyy"))</dd>
+                                        
+                                        <dt class="col-sm-5">Địa chỉ:</dt>
+                                        <dd class="col-sm-7">@ViewBag.CongDan?.DiaChi</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="@Url.Action("TraCuuViPham", "ViPham")" class="btn btn-secondary">
+                            <i class="fas fa-search me-2"></i> Tiếp tục tra cứu
+                        </a>
+                        <a href="#" class="btn btn-primary" onclick="window.print()">
+                            <i class="fas fa-print me-2"></i> In hóa đơn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,265 @@
+@{
+    ViewData["Title"] = "Báo cáo yêu cầu cập nhật thông tin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-800 px-6 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center">
+                    <i class="fas fa-chart-bar text-white text-2xl mr-3"></i>
+                    <h1 class="text-xl font-bold text-white">Báo cáo yêu cầu cập nhật thông tin</h1>
+                </div>
+                <div class="mt-4 md:mt-0 flex space-x-4">
+                    <a href="@Url.Action("YeuCauCapNhatThongTinDashboard", "CanBo")" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400">
+                        <i class="fas fa-th-large mr-2"></i>
+                        Quay lại Dashboard
+                    </a>
+                    <button id="printReport" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        <i class="fas fa-print mr-2"></i>
+                        In báo cáo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Date Range Selector -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900">Chọn khoảng thời gian</h2>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Từ ngày</label>
+                    <input type="date" id="startDate" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                </div>
+                <div>
+                    <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">Đến ngày</label>
+                    <input type="date" id="endDate" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                </div>
+                <div class="flex items-end">
+                    <button id="applyDateFilter" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Áp dụng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <!-- Tổng số yêu cầu -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="px-6 py-5">
+                <h3 class="text-lg font-medium text-gray-900 mb-1">Tổng số yêu cầu</h3>
+                <p class="text-3xl font-bold text-indigo-600">@ViewBag.TongYeuCau</p>
+                <p class="text-sm text-gray-500 mt-1">trong khoảng thời gian đã chọn</p>
+            </div>
+        </div>
+
+        <!-- Tỷ lệ chấp thuận -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="px-6 py-5">
+                <h3 class="text-lg font-medium text-gray-900 mb-1">Tỷ lệ chấp thuận</h3>
+                <p class="text-3xl font-bold text-green-600">@ViewBag.TyLeChapThuan%</p>
+                <p class="text-sm text-gray-500 mt-1">yêu cầu được duyệt</p>
+            </div>
+        </div>
+
+        <!-- Tỷ lệ từ chối -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="px-6 py-5">
+                <h3 class="text-lg font-medium text-gray-900 mb-1">Tỷ lệ từ chối</h3>
+                <p class="text-3xl font-bold text-red-600">@ViewBag.TyLeTuChoi%</p>
+                <p class="text-sm text-gray-500 mt-1">yêu cầu bị từ chối</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Status Distribution Chart -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Phân bố trạng thái</h2>
+            </div>
+            <div class="p-6 h-80">
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Time Trend Chart -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Xu hướng theo thời gian</h2>
+            </div>
+            <div class="p-6 h-80">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Report -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900">Chi tiết báo cáo</h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Ngày
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Tổng yêu cầu
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Đã duyệt
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Đã từ chối
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Chờ xử lý
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var report in ViewBag.DailyReports)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                @report.Date.ToString("dd/MM/yyyy")
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @report.Total
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @report.Approved
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @report.Rejected
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @report.Pending
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample data - in a real app, this would be populated from the ViewBag
+            const statusData = {
+                labels: ['Đã duyệt', 'Đã từ chối', 'Chờ xử lý'],
+                datasets: [{
+                    data: [@ViewBag.SoYeuCauDaDuyet, @ViewBag.SoYeuCauDaTuChoi, @ViewBag.SoYeuCauChoXuLy],
+                    backgroundColor: ['#10B981', '#EF4444', '#F59E0B']
+                }]
+            };
+            
+            const trendLabels = @Html.Raw(Json.Serialize(ViewBag.TrendLabels));
+            const trendApproved = @Html.Raw(Json.Serialize(ViewBag.TrendApproved));
+            const trendRejected = @Html.Raw(Json.Serialize(ViewBag.TrendRejected));
+            const trendPending = @Html.Raw(Json.Serialize(ViewBag.TrendPending));
+            
+            const trendData = {
+                labels: trendLabels,
+                datasets: [
+                    {
+                        label: 'Đã duyệt',
+                        data: trendApproved,
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: '#10B981',
+                        borderWidth: 2,
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Đã từ chối',
+                        data: trendRejected,
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        borderColor: '#EF4444',
+                        borderWidth: 2,
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Chờ xử lý',
+                        data: trendPending,
+                        backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                        borderColor: '#F59E0B',
+                        borderWidth: 2,
+                        tension: 0.2
+                    }
+                ]
+            };
+            
+            // Status distribution chart (pie)
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            const statusChart = new Chart(statusCtx, {
+                type: 'pie',
+                data: statusData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Time trend chart (line)
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            const trendChart = new Chart(trendCtx, {
+                type: 'line',
+                data: trendData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Print report functionality
+            document.getElementById('printReport').addEventListener('click', function() {
+                window.print();
+            });
+            
+            // Date filter functionality
+            document.getElementById('applyDateFilter').addEventListener('click', function() {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                
+                if (startDate && endDate) {
+                    window.location.href = `@Url.Action("BaoCaoYeuCauCapNhatThongTin", "CanBo")?startDate=${startDate}&endDate=${endDate}`;
+                } else {
+                    alert('Vui lòng chọn khoảng thời gian');
+                }
+            });
+        });
+    </script>
+} 

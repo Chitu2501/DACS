@@ -1,0 +1,105 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<NHOM10_DACS_QLVIPHAM.Models.ApplicationUser> SignInManager
+@inject UserManager<NHOM10_DACS_QLVIPHAM.Models.ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="relative" x-data="{ isOpen: false }">
+        <button x-on:click="isOpen = !isOpen" type="button" class="flex items-center gap-x-1 text-sm font-medium text-gray-700 hover:text-gray-800 pr-2" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+            <i class="fas fa-user-circle mr-1"></i>
+            <span>@UserManager.GetUserAsync(User).Result?.HoTen</span>
+            <i class="fas fa-chevron-down text-xs"></i>
+        </button>
+
+        <div x-show="isOpen" 
+             x-on:click.away="isOpen = false"
+             x-transition:enter="transition ease-out duration-100"
+             x-transition:enter-start="transform opacity-0 scale-95"
+             x-transition:enter-end="transform opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-75"
+             x-transition:leave-start="transform opacity-100 scale-100"
+             x-transition:leave-end="transform opacity-0 scale-95"
+             class="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" 
+             role="menu" 
+             aria-orientation="vertical" 
+             aria-labelledby="user-menu-button" 
+             style="display: none;">
+            @if (User.IsInRole("CongDan"))
+            {
+                <a href="@Url.Action("Dashboard", "CongDan")" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                    <i class="fas fa-tachometer-alt mr-2"></i>Bảng điều khiển
+                </a>
+                <a href="@Url.Action("ThongTinCaNhan", "CongDan")" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                    <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+                </a>
+                <a href="@Url.Action("DanhSachViPham", "ViPham")" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                    <i class="fas fa-list mr-2"></i>Vi phạm của tôi
+                </a>
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                <a href="@Url.Action("Dashboard", "Admin")" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                    <i class="fas fa-tachometer-alt mr-2"></i>Bảng điều khiển
+                </a>
+                <a href="@Url.Action("QuanLyNguoiDung", "Admin")" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                    <i class="fas fa-users mr-2"></i>Quản lý người dùng
+                </a>
+            }
+            else if (User.IsInRole("CanBo"))
+            {
+                <a href="@Url.Action("Dashboard", "CanBo")" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                    <i class="fas fa-tachometer-alt mr-2"></i>Bảng điều khiển
+                </a>
+                <a href="@Url.Action("QuanLyViPham", "CanBo")" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                    <i class="fas fa-clipboard-list mr-2"></i>Quản lý vi phạm
+                </a>
+            }
+            <div class="border-t border-gray-100 my-1"></div>
+            <form asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" class="block">
+                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100" role="menuitem">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                </button>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="flex items-center space-x-4">
+        <!-- <a href="@Url.Action("Register", "Account")" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-user-plus mr-1"></i> Đăng ký
+        </a> -->
+        <a href="@Url.Action("Login", "Account")" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-sign-in-alt mr-1"></i> Đăng nhập
+        </a>
+    </div>
+}
+
+@* Fallback for when Alpine.js fails to load *@
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if Alpine.js is not loaded properly
+        if (typeof Alpine === 'undefined') {
+            const dropdownButton = document.getElementById('user-menu-button');
+            if (dropdownButton) {
+                const dropdownMenu = dropdownButton.nextElementSibling;
+                
+                dropdownButton.addEventListener('click', function() {
+                    // Toggle dropdown visibility
+                    if (dropdownMenu.style.display === 'none' || !dropdownMenu.style.display) {
+                        dropdownMenu.style.display = 'block';
+                    } else {
+                        dropdownMenu.style.display = 'none';
+                    }
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                        dropdownMenu.style.display = 'none';
+                    }
+                });
+            }
+        }
+    });
+</script> 

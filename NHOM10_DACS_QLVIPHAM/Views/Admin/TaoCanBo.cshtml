@@ -1,0 +1,68 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.TaoCanBoViewModel
+
+@{
+    ViewData["Title"] = "Tạo tài khoản cán bộ";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h2 class="text-2xl font-bold mb-6">Tạo tài khoản cán bộ</h2>
+
+        <form asp-action="TaoCanBo" method="post" class="space-y-6">
+            <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label asp-for="UserName" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                    <input asp-for="UserName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none" />
+                    <span asp-validation-for="UserName" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                    <input asp-for="Email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none" />
+                    <span asp-validation-for="Email" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label asp-for="HoTen" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                    <input asp-for="HoTen" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none" />
+                    <span asp-validation-for="HoTen" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Password" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                    <input asp-for="Password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none" />
+                    <span asp-validation-for="Password" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label asp-for="ChucVu" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                    <input asp-for="ChucVu" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none" />
+                    <span asp-validation-for="ChucVu" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label asp-for="MaPhongBan" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                    <select asp-for="MaPhongBan" asp-items="Model.PhongBans" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none">
+                        <option value="">-- Chọn phòng ban --</option>
+                    </select>
+                    <span asp-validation-for="MaPhongBan" class="text-red-500 text-sm"></span>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-4">
+                <a asp-action="QuanLyNguoiDung" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Hủy
+                </a>
+                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Tạo tài khoản
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

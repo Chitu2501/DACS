@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\NHOM10_DACS_QLVIPHAM.props" />
+</Project>

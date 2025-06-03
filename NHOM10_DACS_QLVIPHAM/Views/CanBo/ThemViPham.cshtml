@@ -1,0 +1,79 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.ThemViPhamViewModel
+
+@{
+    ViewData["Title"] = "Thêm vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-exclamation-circle mr-2"></i> Thêm vi phạm mới
+            </h2>
+            <p class="text-blue-100 text-sm mt-1">Tạo mới một vi phạm trong hệ thống</p>
+        </div>
+        
+        <div class="p-6">
+            <form asp-action="ThemViPham" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4 p-3 bg-red-50 rounded-md"></div>
+                
+                <div class="mb-6">
+                    <label asp-for="TenViPham" class="block text-sm font-medium text-gray-700 mb-1">Tên vi phạm</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-exclamation-triangle text-gray-400"></i>
+                        </div>
+                        <input asp-for="TenViPham" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Nhập tên vi phạm" />
+                    </div>
+                    <span asp-validation-for="TenViPham" class="text-sm text-red-500 mt-1 block"></span>
+                </div>
+                
+                <div class="mb-6">
+                    <label asp-for="MaLoaiVPham" class="block text-sm font-medium text-gray-700 mb-1">Loại vi phạm</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-list-alt text-gray-400"></i>
+                        </div>
+                        <select asp-for="MaLoaiVPham" asp-items="Model.LoaiViPhams" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                            <option value="">-- Chọn loại vi phạm --</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="MaLoaiVPham" class="text-sm text-red-500 mt-1 block"></span>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0 sm:space-x-4 mt-8">
+                    <div class="flex space-x-3">
+                        <a href="@Url.Action("QuanLyViPham", "CanBo")" class="flex items-center px-4 py-2 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            <span>Quay lại</span>
+                        </a>
+                        <a href="@Url.Action("ThemLoaiViPham", "CanBo")" class="flex items-center px-4 py-2 bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
+                            <i class="fas fa-plus-circle mr-2"></i>
+                            <span>Thêm loại vi phạm</span>
+                        </a>
+                    </div>
+                    <button type="submit" class="w-full sm:w-auto flex justify-center items-center px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        <span>Lưu vi phạm</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <h3 class="text-sm font-medium text-blue-800 flex items-center">
+            <i class="fas fa-info-circle mr-2"></i> Thông tin hữu ích
+        </h3>
+        <ul class="mt-2 text-sm text-blue-700 list-disc list-inside space-y-1">
+            <li>Vi phạm phải thuộc một loại vi phạm đã được định nghĩa trong hệ thống.</li>
+            <li>Nếu không tìm thấy loại vi phạm phù hợp, bạn có thể thêm loại vi phạm mới.</li>
+            <li>Tên vi phạm nên rõ ràng, dễ hiểu và phản ánh đúng bản chất của hành vi vi phạm.</li>
+        </ul>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

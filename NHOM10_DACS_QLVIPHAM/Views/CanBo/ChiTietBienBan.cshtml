@@ -1,0 +1,211 @@
+@model NHOM10_DACS_QLVIPHAM.Models.BienBanVPham
+
+@{
+    ViewData["Title"] = "Chi tiết biên bản vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="mb-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="@Url.Action("QuanLyBienBanViPham", "CanBo")" class="mr-4 text-blue-600 hover:text-blue-800 flex items-center">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    <span>Quay lại</span>
+                </a>
+                <h1 class="text-2xl font-bold text-gray-900">Chi tiết biên bản vi phạm</h1>
+            </div>
+            <div class="flex space-x-3">
+                <a href="@Url.Action("SuaBienBanViPham", "CanBo", new { id = Model.MaBienBan })" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                    <i class="fas fa-edit mr-2"></i>
+                    Chỉnh sửa
+                </a>
+                <a href="#" onclick="confirmDelete(@Model.MaBienBan)" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none">
+                    <i class="fas fa-trash-alt mr-2"></i>
+                    Xóa
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+        <div class="bg-gradient-to-r from-green-600 to-green-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-file-signature mr-2"></i>
+                @Model.TenBienBan - Mã số: @Model.MaBienBan
+            </h2>
+        </div>
+        <div class="border-t border-gray-200">
+            <dl>
+                <div class="bg-gray-50 px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Tên biên bản</dt>
+                        <dd class="mt-1 text-base font-medium text-gray-900">@Model.TenBienBan</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Ngày lập biên bản</dt>
+                        <dd class="mt-1 text-base text-gray-900">@Model.NgayLapBienBan.ToString("dd/MM/yyyy")</dd>
+                    </div>
+                </div>
+                <div class="bg-white px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Người lập</dt>
+                        <dd class="mt-1 text-base text-gray-900">@Model.NguoiLap</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Loại vi phạm</dt>
+                        <dd class="mt-1 text-base text-gray-900">@(Model.ViPham?.TenViPham ?? "N/A")</dd>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Thời gian vi phạm</dt>
+                        <dd class="mt-1 text-base text-gray-900">@Model.ThoiGianVPham.ToString("dd/MM/yyyy HH:mm")</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Địa điểm</dt>
+                        <dd class="mt-1 text-base text-gray-900">@Model.DiaChi</dd>
+                    </div>
+                </div>
+                <div class="bg-white px-6 py-5">
+                    <dt class="text-sm font-medium text-gray-500">Nội dung vi phạm</dt>
+                    <dd class="mt-2 text-base text-gray-900 whitespace-pre-line">@Model.NoiDungVPham</dd>
+                </div>
+                <div class="bg-gray-50 px-6 py-5">
+                    <dt class="text-sm font-medium text-gray-500">Kết quả xử lý</dt>
+                    <dd class="mt-2 text-base text-gray-900">
+                        @if (string.IsNullOrEmpty(Model.KetQuaXuLy))
+                        {
+                            <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">Chưa xử lý</span>
+                        }
+                        else
+                        {
+                            <span class="@(Model.KetQuaXuLy == "Đã thanh toán" ? "inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800" : "inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800")">
+                                @Model.KetQuaXuLy
+                            </span>
+                        }
+                    </dd>
+                </div>
+                <div class="bg-white px-6 py-5">
+                    <dt class="text-sm font-medium text-gray-500">Số tiền phạt</dt>
+                    <dd class="mt-2 text-lg font-semibold text-red-600">@Model.SoTienPhat.ToString("N0") VNĐ</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Citizen Information -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-user mr-2"></i>
+                Thông tin công dân
+            </h2>
+        </div>
+        @if (Model.CongDan != null)
+        {
+            <div class="border-t border-gray-200">
+                <!-- Citizen Photo -->
+                <div class="px-6 py-4 flex justify-center">
+                    @if (!string.IsNullOrEmpty(Model.CongDan.AnhChanDung))
+                    {
+                        <img src="data:image/jpeg;base64,@Model.CongDan.AnhChanDung" alt="Ảnh công dân" class="h-48 w-48 object-cover rounded-full border-4 border-blue-500 shadow-lg" />
+                    }
+                    else
+                    {
+                        <div class="h-48 w-48 rounded-full bg-gray-200 flex items-center justify-center border-4 border-blue-300">
+                            <i class="fas fa-user text-6xl text-gray-400"></i>
+                        </div>
+                    }
+                </div>
+                <dl>
+                    <div class="bg-gray-50 px-6 py-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Họ và tên</dt>
+                            <dd class="mt-1 text-base text-gray-900">@Model.CongDan.TenCongDan</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Mã CCCD</dt>
+                            <dd class="mt-1 text-base text-gray-900">@Model.CongDan.MaTheCC</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Mã công dân</dt>
+                            <dd class="mt-1 text-base text-gray-900">@Model.CongDan.MaCongDan</dd>
+                        </div>
+                    </div>
+                    <div class="bg-white px-6 py-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Ngày sinh</dt>
+                            <dd class="mt-1 text-base text-gray-900">@Model.CongDan.NgaySinh.ToString("dd/MM/yyyy")</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Giới tính</dt>
+                            <dd class="mt-1 text-base text-gray-900">@Model.CongDan.GioiTinh</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Điện thoại</dt>
+                            <dd class="mt-1 text-base text-gray-900">@Model.CongDan.SDT</dd>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-6 py-4">
+                        <dt class="text-sm font-medium text-gray-500">Địa chỉ</dt>
+                        <dd class="mt-1 text-base text-gray-900">@Model.CongDan.DiaChi</dd>
+                    </div>
+                </dl>
+            </div>
+        }
+        else
+        {
+            <div class="px-6 py-4 text-center">
+                <span class="text-gray-500">Không có thông tin công dân</span>
+            </div>
+        }
+    </div>
+
+    <!-- Actions Section -->
+    <div class="mt-8 flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+        <a href="@Url.Action("PrintBienBan", "ViPham", new { id = Model.MaBienBan })" class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+            <i class="fas fa-print mr-2"></i>
+            In biên bản
+        </a>
+        <a href="@Url.Action("GuiThongBao", "CanBo", new { id = Model.MaBienBan })" class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+            <i class="fas fa-envelope mr-2"></i>
+            Gửi thông báo
+        </a>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white rounded-lg mx-auto p-4 max-w-md">
+        <div class="text-center">
+            <i class="fas fa-exclamation-triangle text-red-500 text-5xl mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Xác nhận xóa</h3>
+            <p class="text-sm text-gray-500">Bạn có chắc chắn muốn xóa biên bản vi phạm này?</p>
+        </div>
+        <div class="mt-5 sm:mt-6 flex justify-center space-x-2">
+            <button type="button" id="cancelDelete" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                Hủy
+            </button>
+            <a id="confirmDeleteBtn" href="@Url.Action("XoaBienBan", "CanBo", new { id = Model.MaBienBan })" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm">
+                Xóa
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(id) {
+            const deleteModal = document.getElementById('deleteModal');
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex');
+            
+            const cancelDeleteBtn = document.getElementById('cancelDelete');
+            cancelDeleteBtn.addEventListener('click', function() {
+                deleteModal.classList.add('hidden');
+                deleteModal.classList.remove('flex');
+            });
+        }
+    </script>
+} 

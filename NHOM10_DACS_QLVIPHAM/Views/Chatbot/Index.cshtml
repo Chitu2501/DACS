@@ -1,0 +1,146 @@
+@{
+    ViewData["Title"] = "Chatbot Tra Cứu Vi Phạm";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Chatbot Tra Cứu Vi Phạm</h4>
+                </div>
+                <div class="card-body">
+                    <div id="chat-messages" class="mb-3" style="height: 400px; overflow-y: auto;">
+                        <div class="message bot-message">
+                            Xin chào! Tôi có thể giúp gì cho bạn? Bạn có thể:
+                            <ul>
+                                <li>Tìm kiếm thông tin vi phạm theo tên, nội dung</li>
+                                <li>Xem thông tin chi tiết về mức phạt</li>
+                                <li>Xem danh sách tất cả các loại vi phạm</li>
+                            </ul>
+                            Ví dụ: "Tìm vi phạm vượt đèn đỏ" hoặc "Mức phạt vi phạm giao thông"
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="user-input" class="form-control" placeholder="Nhập từ khóa tìm kiếm...">
+                        <button class="btn btn-primary" id="send-button">Gửi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            const chatMessages = $('#chat-messages');
+            const userInput = $('#user-input');
+            const sendButton = $('#send-button');
+            let lastViPham = null;
+
+            function addMessage(message, isUser = false) {
+                const messageDiv = $('<div>').addClass('message').addClass(isUser ? 'user-message' : 'bot-message');
+                messageDiv.html(message.replace(/\n/g, '<br>'));
+                chatMessages.append(messageDiv);
+                chatMessages.scrollTop(chatMessages[0].scrollHeight);
+            }
+
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+            }
+
+            function handleUserInput() {
+                const query = userInput.val().trim();
+                if (!query) return;
+
+                addMessage(query, true);
+                userInput.val('');
+
+                // Nếu người dùng hỏi về mức phạt tối đa
+                if (query.toLowerCase().includes('phạt tối đa')) {
+                    if (lastViPham) {
+                        $.get('/ChatBot/GetLoaiViPhamInfo', { query: lastViPham }, function(response) {
+                            if (response.data && response.data.length > 0) {
+                                let item = response.data[0];
+                                addMessage(`Mức phạt tối đa cho "${item.tenLoaiVPham}": <strong>${formatCurrency(item.mucPhatToiDa)}</strong>`);
+                            } else {
+                                addMessage('Không tìm thấy thông tin mức phạt tối đa cho vi phạm này.');
+                            }
+                        });
+                    } else {
+                        addMessage('Bạn vui lòng nhập tên vi phạm cụ thể trước khi hỏi về mức phạt tối đa.');
+                    }
+                    return;
+                }
+
+                // Nếu người dùng hỏi về một vi phạm cụ thể
+                $.get('/ChatBot/GetLoaiViPhamInfo', { query: query }, function(response) {
+                    if (response.data && response.data.length > 0) {
+                        let item = response.data[0];
+                        lastViPham = item.tenLoaiVPham; // Lưu lại tên vi phạm
+                        let message = `<strong>${item.tenLoaiVPham}</strong><br>`;
+                        message += `Mô tả: ${item.moTa || 'Không có'}<br>`;
+                        message += `Cơ quan quản lý: ${item.coquanQuanLy || 'Không có'}<br>`;
+                        message += `Mức phạt: ${formatCurrency(item.mucPhatToiThieu)} - ${formatCurrency(item.mucPhatToiDa)}<br>`;
+                        addMessage(message);
+                    } else {
+                        // Nếu không tìm thấy trong LoaiViPham, thử tìm trong ViPham
+                        $.get('/ChatBot/GetDetailedViPhamInfo', { query: query }, function(response2) {
+                            if (response2.data && response2.data.length > 0) {
+                                let item = response2.data[0];
+                                lastViPham = item.loaiViPham.tenLoaiVPham;
+                                let message = `<strong>Vi phạm: ${item.tenViPham}</strong><br>`;
+                                message += `<strong>Loại vi phạm:</strong> ${item.loaiViPham.tenLoaiVPham}<br>`;
+                                message += `Mô tả: ${item.loaiViPham.moTa || 'Không có'}<br>`;
+                                message += `Cơ quan quản lý: ${item.loaiViPham.coquanQuanLy || 'Không có'}<br>`;
+                                message += `Mức phạt: ${formatCurrency(item.loaiViPham.mucPhatToiThieu)} - ${formatCurrency(item.loaiViPham.mucPhatToiDa)}<br>`;
+                                addMessage(message);
+                            } else {
+                                addMessage('Không tìm thấy thông tin vi phạm phù hợp.');
+                            }
+                        });
+                    }
+                });
+            }
+
+            sendButton.click(handleUserInput);
+            userInput.keypress(function(e) {
+                if (e.which === 13) {
+                    handleUserInput();
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .message {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            max-width: 80%;
+            white-space: pre-line;
+        }
+
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+
+        #chat-messages {
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+
+        .bot-message strong {
+            color: #0056b3;
+        }
+    </style>
+} 

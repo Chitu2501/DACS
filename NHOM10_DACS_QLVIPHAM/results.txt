@@ -1,0 +1,2 @@
+Sqlcmd: Error: Microsoft ODBC Driver 17 for SQL Server : Login failed for user 'SWEETHER\ADMIN'..
+Sqlcmd: Error: Microsoft ODBC Driver 17 for SQL Server : Cannot open database "NHOM10_DACS_QLVIPHAM" requested by the login. The login failed..

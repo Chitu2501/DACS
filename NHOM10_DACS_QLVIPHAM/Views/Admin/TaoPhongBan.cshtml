@@ -1,0 +1,39 @@
+@model NHOM10_DACS_QLVIPHAM.Models.PhongBan
+@{
+    ViewData["Title"] = "Tạo phòng ban mới";
+    Layout = "_Layout";
+}
+<div class="min-h-screen flex items-center justify-center bg-gray-100 py-8 px-2">
+    <div class="w-full max-w-lg">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="p-8">
+                <h2 class="text-3xl font-extrabold text-blue-700 mb-8 text-center">Tạo phòng ban mới</h2>
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+                <form asp-action="TaoPhongBan" method="post" class="space-y-6">
+                    <div>
+                        <label asp-for="TenPhongBan" class="block text-gray-700 text-base font-semibold mb-1">Tên phòng ban</label>
+                        <input asp-for="TenPhongBan" class="block w-full rounded-lg border border-gray-300 py-2 px-4 text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition" />
+                        <span asp-validation-for="TenPhongBan" class="text-red-500 text-xs italic"></span>
+                    </div>
+                    <div>
+                        <label asp-for="ChucVu" class="block text-gray-700 text-base font-semibold mb-1">Chức vụ</label>
+                        <input asp-for="ChucVu" class="block w-full rounded-lg border border-gray-300 py-2 px-4 text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition" />
+                        <span asp-validation-for="ChucVu" class="text-red-500 text-xs italic"></span>
+                    </div>
+                    <div class="flex items-center justify-between mt-8">
+                        <a href="@Url.Action("QuanLyNguoiDung")" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">Hủy</a>
+                        <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300">Tạo phòng ban</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

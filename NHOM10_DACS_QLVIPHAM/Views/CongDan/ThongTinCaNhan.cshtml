@@ -1,0 +1,127 @@
+@model NHOM10_DACS_QLVIPHAM.Controllers.ThongTinCongDanViewModel
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    var coYeuCauDangCho = ViewBag.CoYeuCauDangCho ?? false;
+    var trangThaiYeuCau = ViewBag.TrangThaiYeuCau ?? "";
+    var ngayYeuCau = ViewBag.NgayYeuCau is DateTime ? ((DateTime)ViewBag.NgayYeuCau).ToString("dd/MM/yyyy") : "";
+}
+
+<div class="max-w-3xl mx-auto px-4 py-10">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong class="font-bold">Thành công!</strong>
+            <span class="block sm:inline"> @TempData["SuccessMessage"]</span>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong class="font-bold">Lỗi!</strong>
+            <span class="block sm:inline"> @TempData["ErrorMessage"]</span>
+        </div>
+    }
+    <div class="bg-white shadow-2xl rounded-2xl overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-8 py-6 flex flex-col items-center">
+            <div class="w-24 h-24 rounded-full bg-white shadow-lg flex items-center justify-center mb-3">
+                <i class="fas fa-user text-5xl text-blue-600"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-1">@Model.HoTen</h2>
+            <p class="text-blue-100">@Model.Email</p>
+        </div>
+        <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-lg font-semibold text-blue-700 mb-4">Tài khoản</h3>
+                <div class="space-y-3">
+                    <div>
+                        <span class="text-gray-500">Tên đăng nhập:</span>
+                        <span class="font-medium text-gray-900 ml-2">@Model.UserName</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Số điện thoại:</span>
+                        <span class="font-medium text-gray-900 ml-2">@(string.IsNullOrEmpty(Model.PhoneNumber) ? "Chưa cập nhật" : Model.PhoneNumber)</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-blue-700 mb-4">Công dân</h3>
+                <div class="space-y-3">
+                    <div>
+                        <span class="text-gray-500">Số thẻ căn cước:</span>
+                        <span class="font-medium text-gray-900 ml-2">@(string.IsNullOrEmpty(Model.MaTheCC) ? "Chưa cập nhật" : Model.MaTheCC)</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Địa chỉ:</span>
+                        <span class="font-medium text-gray-900 ml-2">@(string.IsNullOrEmpty(Model.DiaChi) ? "Chưa cập nhật" : Model.DiaChi)</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Ngày sinh:</span>
+                        <span class="font-medium text-gray-900 ml-2">@(Model.NgaySinh.HasValue ? Model.NgaySinh.Value.ToString("dd/MM/yyyy") : "Chưa cập nhật")</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Giới tính:</span>
+                        <span class="font-medium text-gray-900 ml-2">@(string.IsNullOrEmpty(Model.GioiTinh) ? "Chưa cập nhật" : Model.GioiTinh)</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Nghề nghiệp:</span>
+                        <span class="font-medium text-gray-900 ml-2">@(string.IsNullOrEmpty(Model.CongViec) ? "Chưa cập nhật" : Model.CongViec)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (coYeuCauDangCho)
+        {
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mx-8 mb-4 rounded">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-yellow-400 mr-2"></i>
+                    <span class="text-sm text-yellow-700">
+                        Bạn có một yêu cầu cập nhật thông tin đang chờ xét duyệt (ngày gửi: @ngayYeuCau).
+                        Vui lòng đợi cán bộ xét duyệt trước khi gửi yêu cầu mới.
+                    </span>
+                </div>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(trangThaiYeuCau) && trangThaiYeuCau != "Chờ xét duyệt")
+        {
+            <div class="@(trangThaiYeuCau == "Đã duyệt" ? "bg-green-50 border-l-4 border-green-400" : "bg-red-50 border-l-4 border-red-400") p-4 mx-8 mb-4 rounded">
+                <div class="flex items-center">
+                    <i class="@(trangThaiYeuCau == "Đã duyệt" ? "fas fa-check-circle text-green-400 mr-2" : "fas fa-times-circle text-red-400 mr-2")"></i>
+                    <span class="text-sm @(trangThaiYeuCau == "Đã duyệt" ? "text-green-700" : "text-red-700")">
+                        Yêu cầu cập nhật thông tin của bạn đã được @(trangThaiYeuCau.ToLower()).
+                    </span>
+                </div>
+            </div>
+        }
+        <div class="px-8 pb-8 flex justify-end gap-4">
+            <a href="@Url.Action("LichSuYeuCauCapNhat", "CongDan")" class="inline-flex items-center px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 font-medium">
+                <i class="fas fa-history mr-2"></i>Lịch sử yêu cầu
+            </a>
+            @if (User.IsInRole("CanBo"))
+            {
+                <a href="@Url.Action("CapNhatThongTinCaNhan", "CongDan")" class="inline-flex items-center px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 font-medium shadow">
+                    <i class="fas fa-user-edit mr-2"></i>Chỉnh sửa thông tin
+                </a>
+            }
+            else if (!coYeuCauDangCho)
+            {
+                <a href="@Url.Action("YeuCauCapNhatThongTin", "CongDan")" class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 font-medium shadow">
+                    <i class="fas fa-user-edit mr-2"></i>Yêu cầu cập nhật
+                </a>
+            }
+        </div>
+        @if (!User.IsInRole("CongDan"))
+        {
+            <div class="bg-blue-100 rounded-xl flex items-center p-6 mb-6">
+                <div class="bg-blue-600 rounded-lg p-4 mr-4">
+                    <i class="fas fa-id-card text-white text-3xl"></i>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-gray-900">Cập nhật CCCD</div>
+                    <div class="text-gray-600">Cập nhật thông tin thẻ căn cước</div>
+                </div>
+            </div>
+        }
+    </div>
+</div> 

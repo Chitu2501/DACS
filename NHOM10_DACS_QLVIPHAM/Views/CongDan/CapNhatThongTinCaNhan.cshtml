@@ -1,0 +1,80 @@
+@model NHOM10_DACS_QLVIPHAM.Controllers.ThongTinCongDanViewModel
+@{
+    ViewData["Title"] = "Chỉnh sửa thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-green-600 to-green-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-user-edit mr-2"></i>
+                Chỉnh sửa thông tin cá nhân
+            </h2>
+        </div>
+        <div class="p-6">
+            <form asp-action="CapNhatThongTinCaNhan" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label asp-for="HoTen" class="block text-sm font-medium text-gray-700 mb-2">Họ và tên</label>
+                        <input asp-for="HoTen" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50" placeholder="Nhập họ và tên">
+                        <span asp-validation-for="HoTen" class="text-red-500 text-sm"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input asp-for="Email" type="email" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50" placeholder="Nhập email">
+                        <span asp-validation-for="Email" class="text-red-500 text-sm"></span>
+                    </div>
+                    <div>
+                        <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700 mb-2">Số điện thoại</label>
+                        <input asp-for="PhoneNumber" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50" placeholder="Nhập số điện thoại">
+                        <span asp-validation-for="PhoneNumber" class="text-red-500 text-sm"></span>
+                    </div>
+                    <div>
+                        <label asp-for="MaTheCC" class="block text-sm font-medium text-gray-700 mb-2">Số thẻ căn cước</label>
+                        <input asp-for="MaTheCC" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50" placeholder="Nhập số thẻ căn cước">
+                        <span asp-validation-for="MaTheCC" class="text-red-500 text-sm"></span>
+                    </div>
+                    <div>
+                        <label asp-for="NgaySinh" class="block text-sm font-medium text-gray-700 mb-2">Ngày sinh</label>
+                        <input asp-for="NgaySinh" type="date" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50">
+                        <span asp-validation-for="NgaySinh" class="text-red-500 text-sm"></span>
+                    </div>
+                    <div>
+                        <label asp-for="GioiTinh" class="block text-sm font-medium text-gray-700 mb-2">Giới tính</label>
+                        <select asp-for="GioiTinh" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50">
+                            <option value="">-- Chọn giới tính --</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                        <span asp-validation-for="GioiTinh" class="text-red-500 text-sm"></span>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <label asp-for="DiaChi" class="block text-sm font-medium text-gray-700 mb-2">Địa chỉ</label>
+                    <input asp-for="DiaChi" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50" placeholder="Nhập địa chỉ">
+                    <span asp-validation-for="DiaChi" class="text-red-500 text-sm"></span>
+                </div>
+                <div class="mt-6">
+                    <label asp-for="CongViec" class="block text-sm font-medium text-gray-700 mb-2">Nghề nghiệp</label>
+                    <input asp-for="CongViec" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50" placeholder="Nhập nghề nghiệp">
+                    <span asp-validation-for="CongViec" class="text-red-500 text-sm"></span>
+                </div>
+                <div class="flex items-center justify-between mt-8">
+                    <a asp-action="ThongTinCaNhan" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Quay lại
+                    </a>
+                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        <i class="fas fa-save mr-2"></i>
+                        Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

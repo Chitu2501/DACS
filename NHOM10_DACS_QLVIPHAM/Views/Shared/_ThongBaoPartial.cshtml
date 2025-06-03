@@ -1,0 +1,174 @@
+@using Microsoft.AspNetCore.Identity
+@using NHOM10_DACS_QLVIPHAM.Services
+
+@inject UserManager<ApplicationUser> UserManager
+@inject IThongBaoService ThongBaoService
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    int soThongBaoChuaDoc = 0;
+    
+    if (user != null)
+    {
+        soThongBaoChuaDoc = await ThongBaoService.DemThongBaoChuaDocAsync(user.Id);
+    }
+}
+
+<!-- Dropdown thông báo -->
+<div class="relative ml-3" x-data="{ open: false, notifications: [], unreadCount: @soThongBaoChuaDoc }">
+    <div>
+        <button class="relative p-1 rounded-full text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-2"
+                id="notification-menu-button"
+                type="button">
+            <span class="sr-only">Xem thông báo</span>
+            <span class="relative inline-block">
+                <i class="fas fa-bell text-lg"></i>
+                <span style="position: absolute; top: -7px; right: -7px; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; background: #ef4444; color: #fff; font-weight: bold; border-radius: 50%; font-size: 12px; border: 2px solid #fff; z-index: 10;">
+                    @soThongBaoChuaDoc
+                </span>
+            </span>
+        </button>
+    </div>
+
+    <!-- Menu thông báo -->
+    <div x-show="open"
+         x-on:click.away="open = false"
+         x-transition:enter="transition ease-out duration-100"
+         x-transition:enter-start="transform opacity-0 scale-95"
+         x-transition:enter-end="transform opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-75"
+         x-transition:leave-start="transform opacity-100 scale-100"
+         x-transition:leave-end="transform opacity-0 scale-95"
+         class="origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+         role="menu"
+         aria-orientation="vertical"
+         aria-labelledby="notification-menu-button"
+         tabindex="-1">
+        <div class="py-1" role="none">
+            <div class="border-b border-gray-200 px-4 py-2 flex justify-between items-center">
+                <h3 class="text-sm font-medium text-gray-900">Thông báo</h3>
+                <button x-on:click="markAllAsRead" 
+                        x-show="unreadCount > 0"
+                        class="text-xs text-blue-600 hover:text-blue-800">
+                    Đánh dấu tất cả đã đọc
+                </button>
+            </div>
+            
+            <!-- Danh sách thông báo -->
+            <div class="max-h-60 overflow-y-auto py-1">
+                <template x-if="notifications.length > 0">
+                    <div>
+                        <template x-for="notification in notifications" :key="notification.maThongBao">
+                            <a :href="'@Url.Action("ChiTiet", "ThongBao")?id=' + notification.maThongBao" 
+                               x-on:click="markAsRead(notification.maThongBao)"
+                               class="flex px-4 py-2 hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
+                               :class="{'bg-blue-50': !notification.daDoc}">
+                                <div class="flex-shrink-0 mr-3">
+                                    <template x-if="notification.loaiThongBao === 'THANH_TOAN'">
+                                        <div class="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-100 text-yellow-600">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                        </div>
+                                    </template>
+                                    <template x-if="notification.loaiThongBao === 'XAC_NHAN'">
+                                        <div class="w-8 h-8 flex items-center justify-center rounded-full bg-green-100 text-green-600">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                    </template>
+                                    <template x-if="notification.loaiThongBao === 'HE_THONG'">
+                                        <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                                            <i class="fas fa-bell"></i>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 truncate" x-text="notification.tieuDe"></p>
+                                    <p class="text-xs text-gray-500 truncate" x-text="notification.noiDung"></p>
+                                    <p class="text-xs text-gray-400 mt-1" x-text="notification.ngayTao"></p>
+                                </div>
+                            </a>
+                        </template>
+                    </div>
+                </template>
+                <template x-if="notifications.length === 0">
+                    <div class="px-4 py-6 text-center">
+                        <i class="fas fa-bell-slash text-gray-400 text-xl mb-2"></i>
+                        <p class="text-sm text-gray-500">Không có thông báo nào</p>
+                    </div>
+                </template>
+            </div>
+            
+            <div class="border-t border-gray-200 px-4 py-2">
+                <a href="@Url.Action("Index", "ThongBao")" class="flex justify-center items-center text-sm text-blue-600 hover:text-blue-800">
+                    Xem tất cả thông báo <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('notificationDropdown', () => ({
+            open: false,
+            notifications: [],
+            unreadCount: @soThongBaoChuaDoc,
+            
+            // Fetch notifications when opening dropdown
+            fetchNotifications() {
+                fetch('@Url.Action("GetThongBaoMoi", "ThongBao")')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.notifications = data.thongBaos;
+                        this.unreadCount = data.soLuongChuaDoc;
+                    })
+                    .catch(error => console.error('Error fetching notifications:', error));
+            },
+            
+            // Mark a single notification as read
+            markAsRead(id) {
+                fetch('@Url.Action("DanhDauDaDoc", "ThongBao")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({ id: id })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Update unread count
+                        this.unreadCount = Math.max(0, this.unreadCount - 1);
+                        
+                        // Mark the notification as read in the local list
+                        this.notifications = this.notifications.map(n => {
+                            if (n.maThongBao === id) {
+                                return { ...n, daDoc: true };
+                            }
+                            return n;
+                        });
+                    }
+                })
+                .catch(error => console.error('Error marking notification as read:', error));
+            },
+            
+            // Mark all notifications as read
+            markAllAsRead() {
+                fetch('@Url.Action("DanhDauTatCaDaDoc", "ThongBao")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        this.unreadCount = 0;
+                        // Mark all notifications as read in the local list
+                        this.notifications = this.notifications.map(n => ({ ...n, daDoc: true }));
+                    }
+                })
+                .catch(error => console.error('Error marking all notifications as read:', error));
+            }
+        }));
+    });
+</script> 

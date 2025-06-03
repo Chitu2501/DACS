@@ -1,0 +1,163 @@
+@model NHOM10_DACS_QLVIPHAM.Models.YeuCauBangChungViPham
+
+@{
+    ViewData["Title"] = "Xem bằng chứng vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    bool isAdmin = User.IsInRole("Admin") || User.IsInRole("CanBo");
+    string redirectUrl = isAdmin 
+        ? Url.Action("DanhSachYeuCau", "BangChung") 
+        : Url.Action("ChiTietViPham", "CongDan", new { id = Model.MaBienBan });
+    
+    string fileExtension = ".jpg"; // Mặc định là ảnh
+    if (!string.IsNullOrEmpty(Model.DuongDanBangChung))
+    {
+        // Kiểm tra định dạng file dựa trên header của base64
+        string base64Data = Model.DuongDanBangChung;
+        if (base64Data.StartsWith("JVBERi0")) // PDF header
+        {
+            fileExtension = ".pdf";
+        }
+        else if (base64Data.StartsWith("UEs")) // Office (docx, xlsx, pptx)
+        {
+            fileExtension = ".docx";
+        }
+        else if (base64Data.StartsWith("R0lGODlh")) // GIF
+        {
+            fileExtension = ".gif";
+        }
+        else if (base64Data.StartsWith("JFIF") || base64Data.StartsWith("/9j/")) // JPEG
+        {
+            fileExtension = ".jpg";
+        }
+        else if (base64Data.StartsWith("iVBORw0KGgo")) // PNG
+        {
+            fileExtension = ".png";
+        }
+    }
+    
+    bool isImage = fileExtension == ".jpg" || fileExtension == ".png" || fileExtension == ".gif";
+}
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-6">
+        <a href="@redirectUrl" class="flex items-center text-blue-600 hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-2"></i> Quay lại
+        </a>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">Bằng chứng vi phạm</h2>
+        </div>
+
+        <div class="p-6">
+            <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Thông tin yêu cầu</h3>
+                <div class="bg-gray-50 p-4 rounded-md">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Mã yêu cầu</label>
+                            <div class="mt-1 text-gray-900 font-semibold">#@Model.MaYeuCau</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Ngày yêu cầu</label>
+                            <div class="mt-1 text-gray-900">@Model.NgayYeuCau.ToString("dd/MM/yyyy HH:mm")</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Trạng thái</label>
+                            <div class="mt-1">
+                                <span class="px-2 py-1 inline-flex items-center text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    <i class="fas fa-check mr-1"></i> @Model.TrangThai
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Người xử lý</label>
+                            <div class="mt-1 text-gray-900">@Model.NguoiXuLy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Thông tin biên bản vi phạm</h3>
+                <div class="bg-gray-50 p-4 rounded-md">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Mã biên bản</label>
+                            <div class="mt-1 text-gray-900 font-semibold">#@Model.MaBienBan</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Tên biên bản</label>
+                            <div class="mt-1 text-gray-900">@Model.BienBanVPham?.TenBienBan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Lý do yêu cầu</h3>
+                <div class="bg-gray-50 p-4 rounded-md">
+                    <p class="text-gray-900">@Model.LyDoYeuCau</p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Ghi chú</h3>
+                <div class="bg-gray-50 p-4 rounded-md">
+                    <p class="text-gray-900">@Model.GhiChu</p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Bằng chứng vi phạm</h3>
+                <div class="bg-gray-50 p-4 rounded-md">
+                    @if (!string.IsNullOrEmpty(Model.DuongDanBangChung))
+                    {
+                        if (isImage)
+                        {
+                            <div class="flex justify-center">
+                                <img src="data:image/jpeg;base64,@Model.DuongDanBangChung" alt="Bằng chứng vi phạm" class="max-w-full h-auto max-h-96 rounded-lg shadow-md" />
+                            </div>
+                            <div class="mt-4 text-center">
+                                <a href="data:image/jpeg;base64,@Model.DuongDanBangChung" download="bangchung@(fileExtension)" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    <i class="fas fa-download mr-2"></i> Tải xuống
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="p-8 text-center">
+                                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-4">
+                                    <i class="fas fa-file-alt text-2xl"></i>
+                                </div>
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">Tài liệu bằng chứng</h4>
+                                <p class="text-gray-500 mb-4">Đây là một tài liệu không phải hình ảnh. Vui lòng tải xuống để xem.</p>
+                                <a href="data:application/octet-stream;base64,@Model.DuongDanBangChung" download="bangchung@(fileExtension)" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    <i class="fas fa-download mr-2"></i> Tải xuống tài liệu
+                                </a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="p-8 text-center">
+                            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-100 text-yellow-600 mb-4">
+                                <i class="fas fa-exclamation-triangle text-2xl"></i>
+                            </div>
+                            <h4 class="text-lg font-medium text-gray-900 mb-2">Không có bằng chứng</h4>
+                            <p class="text-gray-500">Chưa có bằng chứng nào được cung cấp cho yêu cầu này.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <a href="@redirectUrl" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+</div> 

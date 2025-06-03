@@ -1,0 +1,180 @@
+@model NHOM10_DACS_QLVIPHAM.Models.BienBanVPham
+@{
+    ViewData["Title"] = "Chi tiết vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var congDan = ViewBag.CongDan as NHOM10_DACS_QLVIPHAM.Models.CongDan;
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex flex-col md:flex-row gap-6">
+        <!-- Sidebar -->
+        <div class="w-full md:w-1/4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+                <div class="bg-blue-600 px-6 py-4">
+                    <h2 class="text-xl font-bold text-white">Bảng điều khiển</h2>
+                </div>
+                <div class="p-4">
+                    <div class="border-t border-gray-200 pt-4">
+                        <nav class="space-y-2">
+                            <a href="@Url.Action("Dashboard", "CongDan")" class="block px-4 py-2 rounded-md hover:bg-gray-50 text-gray-700 font-medium">
+                                <i class="fas fa-tachometer-alt mr-2"></i> Tổng quan
+                            </a>
+                            <a href="@Url.Action("ThongTinCaNhan", "CongDan")" class="block px-4 py-2 rounded-md hover:bg-gray-50 text-gray-700 font-medium">
+                                <i class="fas fa-user mr-2"></i> Thông tin cá nhân
+                            </a>
+                            <a href="@Url.Action("DanhSachViPham", "CongDan")" class="block px-4 py-2 rounded-md bg-blue-50 text-blue-700 font-medium">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Vi phạm của tôi
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="w-full md:w-3/4">
+            <div class="mb-6">
+                <a href="@Url.Action("DanhSachViPham", "CongDan")" class="inline-flex items-center text-gray-700 hover:text-blue-600">
+                    <i class="fas fa-arrow-left mr-2"></i> Quay lại danh sách
+                </a>
+            </div>
+            
+            <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+                <div class="bg-blue-600 px-6 py-4">
+                    <h2 class="text-xl font-bold text-white">Chi tiết biên bản vi phạm</h2>
+                </div>
+                <div class="p-6">
+                    <div class="mb-8 border-b border-gray-200 pb-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">@Model.TenBienBan</h3>
+                                <p class="text-gray-500">Mã biên bản: #@Model.MaBienBan</p>
+                            </div>
+                            <div>
+                                @{
+                                    string statusClass = "bg-yellow-100 text-yellow-800";
+                                    if (Model.KetQuaXuLy == "Đã thanh toán" || Model.KetQuaXuLy == "Đã xử lý")
+                                    {
+                                        statusClass = "bg-green-100 text-green-800";
+                                    }
+                                    else if (Model.KetQuaXuLy == "Chưa thanh toán" || Model.KetQuaXuLy == "Đang xử lý")
+                                    {
+                                        statusClass = "bg-red-100 text-red-800";
+                                    }
+                                }
+                                <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full @statusClass">
+                                    @Model.KetQuaXuLy
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-500 mb-2">Thông tin vi phạm</h4>
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="mb-4">
+                                        <p class="text-sm text-gray-500">Loại vi phạm:</p>
+                                        <p class="font-medium">@Model.ViPham.LoaiViPham.TenLoaiVPham</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p class="text-sm text-gray-500">Tên vi phạm:</p>
+                                        <p class="font-medium">@Model.ViPham.TenViPham</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p class="text-sm text-gray-500">Mã vi phạm:</p>
+                                        <p class="font-medium">#@Model.MaViPham</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p class="text-sm text-gray-500">Thời gian vi phạm:</p>
+                                        <p class="font-medium">@Model.ThoiGianVPham.ToString("dd/MM/yyyy HH:mm")</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Địa điểm:</p>
+                                        <p class="font-medium">@Model.DiaChi</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-500 mb-2">Thông tin xử lý</h4>
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="mb-4">
+                                        <p class="text-sm text-gray-500">Ngày lập biên bản:</p>
+                                        <p class="font-medium">@Model.NgayLapBienBan.ToString("dd/MM/yyyy")</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p class="text-sm text-gray-500">Người lập biên bản:</p>
+                                        <p class="font-medium">@Model.NguoiLap</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p class="text-sm text-gray-500">Số tiền phạt:</p>
+                                        <p class="font-medium text-red-600">@Model.SoTienPhat.ToString("N0") VNĐ</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Kết quả xử lý:</p>
+                                        <p class="font-medium">@Model.KetQuaXuLy</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h4 class="text-lg font-medium text-gray-800 mb-3">Nội dung vi phạm</h4>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-gray-700">@Model.NoiDungVPham</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h4 class="text-lg font-medium text-gray-800 mb-3">Thông tin cá nhân</h4>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-500">Họ và tên:</p>
+                                    <p class="font-medium">@congDan.TenCongDan</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Số CCCD:</p>
+                                    <p class="font-medium">@congDan.MaTheCC</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Ngày sinh:</p>
+                                    <p class="font-medium">@congDan.NgaySinh.ToString("dd/MM/yyyy")</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Địa chỉ:</p>
+                                    <p class="font-medium">@congDan.DiaChi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row justify-between gap-4">
+                        <div>
+                            @if (Model.KetQuaXuLy != "Đã thanh toán")
+                            {
+                                <a href="@Url.Action("ThanhToanViPham", "ViPham", new { id = Model.MaBienBan })" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none">
+                                    <i class="fas fa-money-bill-wave mr-2"></i> Thanh toán ngay
+                                </a>
+                            }
+                            @if (Model.KetQuaXuLy == "Đã thanh toán")
+                            {
+                                <a href="@Url.Action("TaoKhieuNai", "CongDan", new { maBienBan = Model.MaBienBan, loai = "ThanhToan" })" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-red-500 hover:bg-red-600 focus:outline-none">
+                                    <i class="fas fa-exclamation-circle mr-2"></i> Khiếu nại thanh toán
+                                </a>
+                            }
+                            <a href="@Url.Action("TaoKhieuNai", "CongDan", new { maBienBan = Model.MaBienBan, loai = "BangChung" })" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-600 focus:outline-none ml-2">
+                                <i class="fas fa-file-image mr-2"></i> Yêu cầu bằng chứng
+                            </a>
+                        </div>
+                        
+                        <a href="@Url.Action("DanhSachViPham", "CongDan")" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+                            <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

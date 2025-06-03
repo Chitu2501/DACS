@@ -1,0 +1,326 @@
+@model IEnumerable<NHOM10_DACS_QLVIPHAM.Models.LoaiViPham>
+
+@{
+    ViewData["Title"] = "Quản lý Loại Vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+        <div class="bg-gradient-to-r from-yellow-500 to-yellow-700 px-6 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center">
+                    <i class="fas fa-gavel text-white text-2xl mr-3"></i>
+                    <h1 class="text-xl font-bold text-white">Quản lý Loại Vi phạm</h1>
+                </div>
+                <div class="mt-3 md:mt-0">
+                    <a href="@Url.Action("ThemLoaiViPham", "CanBo")" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-yellow-700 bg-white hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                        <i class="fas fa-plus mr-2"></i>
+                        Thêm loại vi phạm mới
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6 p-4">
+        <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
+            <div class="flex-1">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <input id="searchInput" type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500" placeholder="Tìm kiếm loại vi phạm...">
+                </div>
+            </div>
+            <div class="flex-shrink-0">
+                <select id="sortOptions" class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500">
+                    <option value="name">Sắp xếp theo tên</option>
+                    <option value="min">Sắp xếp theo mức phạt tối thiểu</option>
+                    <option value="max">Sắp xếp theo mức phạt tối đa</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Mã loại
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Tên loại vi phạm
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Mô tả
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Cơ quan quản lý
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Mức phạt tối thiểu
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Mức phạt tối đa
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="lawTableBody">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-gray-50 law-row">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                @item.MaLoaiVPham
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 law-name">
+                                @item.TenLoaiVPham
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                                @item.MoTa
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @item.CoquanQuanLy
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 law-min">
+                                @item.MucPhatToiThieu.ToString("N0") VNĐ
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 law-max">
+                                @item.MucPhatToiDa.ToString("N0") VNĐ
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div class="flex justify-end space-x-2">
+                                    <a href="@Url.Action("SuaLoaiViPham", "CanBo", new { id = item.MaLoaiVPham })" class="text-blue-600 hover:text-blue-900" title="Chỉnh sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="text-gray-600 hover:text-gray-900" title="Chi tiết" onclick="showDetails(@item.MaLoaiVPham)">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="#" class="text-red-600 hover:text-red-900" title="Xóa" onclick="confirmDelete(@item.MaLoaiVPham, '@item.TenLoaiVPham')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (!Model.Any())
+        {
+            <div class="text-center py-10">
+                <i class="fas fa-exclamation-circle text-yellow-500 text-4xl mb-3"></i>
+                <p class="text-gray-500">Không có dữ liệu về loại vi phạm</p>
+                <a href="@Url.Action("ThemLoaiViPham", "CanBo")" class="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700">
+                    <i class="fas fa-plus mr-2"></i> Thêm loại vi phạm
+                </a>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    @if (Model.Any())
+    {
+        <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-4 rounded-lg shadow-md">
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-gray-700">
+                        Hiển thị <span class="font-medium">1</span> đến <span class="font-medium">@Model.Count()</span> trong tổng số <span class="font-medium">@Model.Count()</span> loại vi phạm
+                    </p>
+                </div>
+                <div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Previous</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">1</a>
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Next</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white rounded-lg mx-auto p-4 max-w-md">
+        <div class="text-center">
+            <i class="fas fa-exclamation-triangle text-red-500 text-5xl mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Xác nhận xóa</h3>
+            <p class="text-sm text-gray-500">Bạn có chắc chắn muốn xóa loại vi phạm "<span id="deleteLawName"></span>"?</p>
+        </div>
+        <div class="mt-5 sm:mt-6 flex justify-center space-x-2">
+            <button type="button" id="cancelDelete" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                Hủy
+            </button>
+            <a id="confirmDeleteBtn" href="#" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm">
+                Xóa
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div id="detailsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white rounded-lg mx-auto p-6 max-w-lg w-full">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Chi tiết loại vi phạm</h3>
+            <button id="closeDetailsBtn" class="text-gray-400 hover:text-gray-500">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="lawDetails" class="space-y-4">
+            <!-- Details will be populated via JavaScript -->
+        </div>
+        <div class="mt-6 flex justify-end">
+            <button type="button" id="closeDetailsButton" class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+                Đóng
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keyup', function() {
+                const searchText = this.value.toLowerCase();
+                const rows = document.querySelectorAll('.law-row');
+                
+                rows.forEach(row => {
+                    const nameCell = row.querySelector('.law-name');
+                    const name = nameCell.textContent.toLowerCase();
+                    
+                    if (name.includes(searchText)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Sort functionality
+            const sortSelect = document.getElementById('sortOptions');
+            sortSelect.addEventListener('change', function() {
+                const sortBy = this.value;
+                const tableBody = document.getElementById('lawTableBody');
+                const rows = Array.from(tableBody.querySelectorAll('tr'));
+                
+                rows.sort((a, b) => {
+                    if (sortBy === 'name') {
+                        const nameA = a.querySelector('.law-name').textContent.toLowerCase();
+                        const nameB = b.querySelector('.law-name').textContent.toLowerCase();
+                        return nameA.localeCompare(nameB);
+                    } else if (sortBy === 'min') {
+                        const minA = parseFloat(a.querySelector('.law-min').textContent.replace(/[^\d]/g, ''));
+                        const minB = parseFloat(b.querySelector('.law-min').textContent.replace(/[^\d]/g, ''));
+                        return minA - minB;
+                    } else if (sortBy === 'max') {
+                        const maxA = parseFloat(a.querySelector('.law-max').textContent.replace(/[^\d]/g, ''));
+                        const maxB = parseFloat(b.querySelector('.law-max').textContent.replace(/[^\d]/g, ''));
+                        return maxA - maxB;
+                    }
+                    return 0;
+                });
+                
+                // Re-append sorted rows
+                rows.forEach(row => tableBody.appendChild(row));
+            });
+            
+            // Delete modal
+            const deleteModal = document.getElementById('deleteModal');
+            const cancelDeleteBtn = document.getElementById('cancelDelete');
+            
+            cancelDeleteBtn.addEventListener('click', function() {
+                deleteModal.classList.add('hidden');
+                deleteModal.classList.remove('flex');
+            });
+            
+            window.confirmDelete = function(id, name) {
+                document.getElementById('deleteLawName').textContent = name;
+                document.getElementById('confirmDeleteBtn').href = '@Url.Action("XoaLoaiViPham", "CanBo")/' + id;
+                deleteModal.classList.remove('hidden');
+                deleteModal.classList.add('flex');
+            };
+            
+            // Details modal
+            const detailsModal = document.getElementById('detailsModal');
+            const closeDetailsBtn = document.getElementById('closeDetailsBtn');
+            const closeDetailsButton = document.getElementById('closeDetailsButton');
+            
+            closeDetailsBtn.addEventListener('click', function() {
+                detailsModal.classList.add('hidden');
+                detailsModal.classList.remove('flex');
+            });
+            
+            closeDetailsButton.addEventListener('click', function() {
+                detailsModal.classList.add('hidden');
+                detailsModal.classList.remove('flex');
+            });
+            
+            window.showDetails = function(id) {
+                // Fetch law details via AJAX
+                fetch('@Url.Action("ChiTietLoaiViPham", "CanBo")/' + id)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                            return;
+                        }
+                        
+                        const loaiViPham = data.loaiViPham;
+                        const detailsHtml = `
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">Mã loại vi phạm</p>
+                                        <p class="text-lg font-semibold">${loaiViPham.maLoaiVPham}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">Tên loại vi phạm</p>
+                                        <p class="text-lg font-semibold">${loaiViPham.tenLoaiVPham}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">Cơ quan quản lý</p>
+                                        <p class="text-lg">${loaiViPham.coquanQuanLy}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">Mức phạt</p>
+                                        <p class="text-lg">
+                                            ${new Intl.NumberFormat('vi-VN').format(loaiViPham.mucPhatToiThieu)} VNĐ
+                                            - 
+                                            ${new Intl.NumberFormat('vi-VN').format(loaiViPham.mucPhatToiDa)} VNĐ
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <p class="text-sm font-medium text-gray-500">Mô tả</p>
+                                    <p class="text-md">${loaiViPham.moTa}</p>
+                                </div>
+                            </div>
+                        `;
+                        
+                        document.getElementById('lawDetails').innerHTML = detailsHtml;
+                        detailsModal.classList.remove('hidden');
+                        detailsModal.classList.add('flex');
+                    })
+                    .catch(error => console.error('Error fetching law details:', error));
+            };
+        });
+    </script>
+} 

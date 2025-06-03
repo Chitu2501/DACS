@@ -1,0 +1,123 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.ThemViPhamViewModel
+
+@{
+    ViewData["Title"] = "Sửa vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Back button and page header -->
+    <div class="flex items-center space-x-3 mb-6">
+        <a href="@Url.Action("QuanLyViPham", "CanBo")" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>
+            <span>Quay lại danh sách</span>
+        </a>
+    </div>
+    
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Sửa thông tin vi phạm</h1>
+        <p class="mt-2 text-gray-600">Cập nhật thông tin chi tiết của loại vi phạm giao thông</p>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <!-- Header card section -->
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+            <div class="flex items-center">
+                <div class="rounded-full bg-white/20 p-3 mr-4">
+                    <i class="fas fa-exclamation-triangle text-white text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-white">Thông tin vi phạm #@ViewBag.MaViPham</h2>
+                    <p class="text-blue-100 text-sm">Vui lòng điền đầy đủ thông tin bên dưới</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Form section -->
+        <div class="p-8">
+            <form asp-action="SuaViPham" asp-route-id="@ViewBag.MaViPham" method="post" class="space-y-6">
+                <div asp-validation-summary="ModelOnly" class="mb-6 text-sm text-red-600 p-4 bg-red-50 rounded-lg"></div>
+                
+                <!-- Tên vi phạm input -->
+                <div>
+                    <label asp-for="TenViPham" class="block text-sm font-medium text-gray-700 mb-1">Tên vi phạm <span class="text-red-500">*</span></label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-file-alt text-gray-400"></i>
+                        </div>
+                        <input asp-for="TenViPham" class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Nhập tên vi phạm" />
+                    </div>
+                    <span asp-validation-for="TenViPham" class="mt-1 text-sm text-red-600"></span>
+                    <p class="mt-1 text-xs text-gray-500">Tên vi phạm nên mô tả rõ ràng hành vi vi phạm.</p>
+                </div>
+                
+                <!-- Loại vi phạm dropdown -->
+                <div>
+                    <label asp-for="MaLoaiVPham" class="block text-sm font-medium text-gray-700 mb-1">Loại vi phạm <span class="text-red-500">*</span></label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-tags text-gray-400"></i>
+                        </div>
+                        <select asp-for="MaLoaiVPham" asp-items="Model.LoaiViPhams" class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg appearance-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">-- Chọn loại vi phạm --</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fas fa-chevron-down text-gray-400"></i>
+                        </div>
+                    </div>
+                    <span asp-validation-for="MaLoaiVPham" class="mt-1 text-sm text-red-600"></span>
+                    <p class="mt-1 text-xs text-gray-500">Chọn loại vi phạm phù hợp để xác định mức phạt.</p>
+                </div>
+                
+                <!-- Form actions -->
+                <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-100">
+                    <a href="@Url.Action("QuanLyViPham", "CanBo")" class="px-5 py-2.5 border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors">
+                        Hủy
+                    </a>
+                    <button type="submit" class="px-5 py-2.5 border border-transparent rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                        <i class="fas fa-save mr-2"></i> Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Information panel -->
+    <div class="mt-8 bg-blue-50 rounded-xl p-6 shadow-sm border border-blue-100">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <i class="fas fa-info-circle text-blue-500 text-xl"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-medium text-blue-800">Về quản lý vi phạm</h3>
+                <div class="mt-2 text-sm text-blue-700 space-y-1">
+                    <p>Vi phạm sẽ được phân loại vào một trong các loại vi phạm có sẵn trong hệ thống.</p>
+                    <p>Mức phạt sẽ được áp dụng theo quy định của loại vi phạm được chọn.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Add custom form validation enhancements
+        $(document).ready(function() {
+            // Add focus effect to form fields
+            $('input, select').on('focus', function() {
+                $(this).parent().parent().addClass('ring-2 ring-blue-100 ring-opacity-50 rounded-lg');
+            }).on('blur', function() {
+                $(this).parent().parent().removeClass('ring-2 ring-blue-100 ring-opacity-50 rounded-lg');
+            });
+            
+            // Change icon color on form field focus
+            $('input, select').on('focus', function() {
+                $(this).prev('.absolute').find('i').removeClass('text-gray-400').addClass('text-blue-500');
+            }).on('blur', function() {
+                $(this).prev('.absolute').find('i').removeClass('text-blue-500').addClass('text-gray-400');
+            });
+        });
+    </script>
+} 

@@ -1,0 +1,29 @@
+@model IEnumerable<NHOM10_DACS_QLVIPHAM.ViewModels.NotificationModel>
+<div class="dropdown-body max-h-96 overflow-y-auto p-0">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var notify in Model)
+        {
+            <a href="@notify.LinkChiTiet" class="block px-5 py-4 border-b last:border-b-0 hover:bg-blue-50 transition flex items-start space-x-3">
+                <div class="pt-1">
+                    <i class="fas fa-bell text-blue-500"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="font-semibold text-gray-900">@notify.Title</div>
+                    <div class="text-gray-600 text-sm">@notify.Message</div>
+                    <div class="text-xs text-gray-400 mt-1">@notify.CreatedAt.ToString("dd/MM/yyyy HH:mm")</div>
+                </div>
+            </a>
+        }
+    }
+    else
+    {
+        <div class="text-center text-gray-400 py-8">
+            <i class="fas fa-bell-slash text-3xl mb-2"></i>
+            <div>Không có thông báo nào</div>
+        </div>
+    }
+</div>
+<div class="dropdown-footer text-center border-t bg-gray-50 py-3 rounded-b-xl">
+    <a href="/ThongBao" class="text-blue-600 hover:underline font-medium">Xem tất cả thông báo</a>
+</div> 

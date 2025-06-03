@@ -1,0 +1,114 @@
+@{
+    ViewData["Title"] = "Trang người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex flex-col md:flex-row gap-6">
+        <!-- Sidebar -->
+        <div class="w-full md:w-1/4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+                <div class="bg-blue-600 px-6 py-4">
+                    <h2 class="text-xl font-bold text-white">Bảng điều khiển</h2>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-blue-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-gray-600 text-sm">Xin chào,</p>
+                            <p class="text-lg font-semibold text-gray-800">@ViewBag.UserName</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                        <nav class="space-y-2">
+                            <a href="@Url.Action("Dashboard", "User")" class="block px-4 py-2 rounded-md bg-blue-50 text-blue-700 font-medium">
+                                <i class="fas fa-tachometer-alt mr-2"></i> Tổng quan
+                            </a>
+                            <a href="@Url.Action("ThongTinCaNhan", "User")" class="block px-4 py-2 rounded-md hover:bg-gray-50 text-gray-700 font-medium">
+                                <i class="fas fa-user mr-2"></i> Thông tin cá nhân
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="w-full md:w-3/4">
+            <!-- Tra cứu vi phạm -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+                <div class="bg-blue-600 px-6 py-4">
+                    <h2 class="text-xl font-bold text-white">Tra cứu vi phạm</h2>
+                </div>
+                <div class="p-6">
+                    <form asp-controller="ViPham" asp-action="TraCuuViPham" method="post">
+                        <div class="mb-4">
+                            <label for="maTheCC" class="block text-sm font-medium text-gray-700 mb-1">Nhập mã căn cước công dân</label>
+                            <div class="flex">
+                                <input type="text" id="maTheCC" name="maTheCC" class="flex-1 rounded-l-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Ví dụ: 079123456789">
+                                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    <i class="fas fa-search mr-2"></i> Tra cứu
+                                </button>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-500">Nhập mã căn cước công dân để tra cứu thông tin vi phạm</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Tra cứu CCCD -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+                <div class="bg-blue-600 px-6 py-4">
+                    <h2 class="text-xl font-bold text-white">Tra cứu thẻ căn cước</h2>
+                </div>
+                <div class="p-6">
+                    <form asp-controller="TheCanCuoc" asp-action="TraCuuTheCanCuoc" method="post">
+                        <div class="mb-4">
+                            <label for="maTheCC" class="block text-sm font-medium text-gray-700 mb-1">Nhập mã căn cước công dân</label>
+                            <div class="flex">
+                                <input type="text" id="maTheCC" name="maTheCC" class="flex-1 rounded-l-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Ví dụ: 079123456789">
+                                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    <i class="fas fa-search mr-2"></i> Tra cứu
+                                </button>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-500">Nhập mã căn cước công dân để tra cứu thông tin thẻ căn cước</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dịch vụ truy cập nhanh -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="bg-blue-600 px-6 py-4">
+                    <h2 class="text-xl font-bold text-white">Dịch vụ truy cập nhanh</h2>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <a href="@Url.Action("TraCuuViPham", "ViPham")" class="block p-4 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors">
+                            <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mb-3 mx-auto">
+                                <i class="fas fa-search text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-center font-medium text-gray-800">Tra cứu vi phạm</h3>
+                        </a>
+                        
+                        <a href="@Url.Action("LuatPhap", "Home")" class="block p-4 rounded-lg bg-amber-50 hover:bg-amber-100 transition-colors">
+                            <div class="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center mb-3 mx-auto">
+                                <i class="fas fa-gavel text-amber-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-center font-medium text-gray-800">Luật pháp</h3>
+                        </a>
+                        
+                        <a href="@Url.Action("HuongDan", "Home")" class="block p-4 rounded-lg bg-green-50 hover:bg-green-100 transition-colors">
+                            <div class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center mb-3 mx-auto">
+                                <i class="fas fa-question-circle text-green-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-center font-medium text-gray-800">Hướng dẫn</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

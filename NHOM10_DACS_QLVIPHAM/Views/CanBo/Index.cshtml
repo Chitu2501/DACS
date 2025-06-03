@@ -1,0 +1,113 @@
+@{
+    ViewData["Title"] = "Trang quản trị";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>Trang quản trị viên</h2>
+            <p>Quản lý vi phạm và thẻ căn cước công dân</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Quản lý vi phạm</h5>
+                </div>
+                <div class="card-body">
+                    <p>Quản lý danh sách vi phạm, loại vi phạm và biên bản vi phạm.</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="QuanLyViPham" class="btn btn-outline-primary w-100">Quản lý vi phạm</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h5><i class="fas fa-book"></i> Luật vi phạm</h5>
+                </div>
+                <div class="card-body">
+                    <p>Quản lý danh sách loại vi phạm, quy định và mức phạt.</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="QuanLyLuatViPham" class="btn btn-outline-info w-100">Quản lý luật vi phạm</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-file-alt"></i> Biên bản vi phạm</h5>
+                </div>
+                <div class="card-body">
+                    <p>Lập và quản lý biên bản vi phạm cho công dân.</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="QuanLyBienBanViPham" class="btn btn-outline-success w-100">Quản lý biên bản</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h5><i class="fas fa-id-card"></i> Thẻ căn cước</h5>
+                </div>
+                <div class="card-body">
+                    <p>Quản lý yêu cầu cấp lại thẻ căn cước công dân.</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="QuanLyYeuCauCapLaiThe" class="btn btn-outline-warning w-100">Yêu cầu cấp lại thẻ</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-danger text-white">
+                    <h5><i class="fas fa-exclamation-circle"></i> Khiếu nại</h5>
+                </div>
+                <div class="card-body">
+                    <p>Xử lý khiếu nại về vi phạm từ công dân.</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="QuanLyKhieuNai" class="btn btn-outline-danger w-100">Quản lý khiếu nại</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-dark text-white">
+                    <h5><i class="fas fa-plus"></i> Thao tác nhanh</h5>
+                </div>
+                <div class="card-body">
+                    <p>Các thao tác thường dùng và truy cập nhanh.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="d-grid gap-2">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+                        {
+                            <a asp-action="ThemViPham" class="btn btn-outline-dark mb-2">Thêm vi phạm</a>
+                            <a asp-action="ThemLoaiViPham" class="btn btn-outline-dark mb-2">Thêm loại vi phạm</a>
+                            <a asp-action="ThemBienBanViPham" class="btn btn-outline-dark">Lập biên bản</a>
+                        }
+                        else if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="AdminUser" asp-action="Create" class="btn btn-outline-primary mb-2">Tạo tài khoản</a>
+                            <a asp-controller="Admin" asp-action="QuanLyNguoiDung" class="btn btn-outline-danger">Khóa/Mở khóa tài khoản</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

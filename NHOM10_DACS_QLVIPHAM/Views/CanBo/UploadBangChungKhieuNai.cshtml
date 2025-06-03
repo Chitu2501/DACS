@@ -1,0 +1,119 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.UploadBangChungKhieuNaiViewModel
+
+@{
+    ViewData["Title"] = "Tải lên bằng chứng khiếu nại";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Tải lên bằng chứng khiếu nại</h1>
+    <p class="mb-4">Tải lên bằng chứng cho khiếu nại của công dân.</p>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin khiếu nại</h6>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Mã khiếu nại:</dt>
+                        <dd class="col-sm-8">@Model.MaKhieuNai</dd>
+                        
+                        <dt class="col-sm-4">Ngày khiếu nại:</dt>
+                        <dd class="col-sm-8">@Model.NgayKhieuNai.ToString("dd/MM/yyyy HH:mm")</dd>
+                        
+                        <dt class="col-sm-4">Công dân:</dt>
+                        <dd class="col-sm-8">@Model.TenCongDan</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Nội dung:</dt>
+                        <dd class="col-sm-8">@Model.NoiDungKhieuNai</dd>
+                        
+                        @if (Model.MaBienBan.HasValue)
+                        {
+                            <dt class="col-sm-4">Biên bản:</dt>
+                            <dd class="col-sm-8">
+                                <a href="@Url.Action("ChiTietBienBan", "CanBo", new { id = Model.MaBienBan })" class="btn btn-link p-0">
+                                    #@Model.MaBienBan
+                                </a>
+                            </dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tải lên bằng chứng</h6>
+        </div>
+        <div class="card-body">
+            <form asp-action="UploadBangChungKhieuNai" enctype="multipart/form-data" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="MaKhieuNai" />
+                <input type="hidden" asp-for="MaCongDan" />
+                <input type="hidden" asp-for="MaBienBan" />
+                
+                <div class="form-group">
+                    <label for="fileUpload" class="control-label">Chọn file bằng chứng</label>
+                    <input type="file" id="fileUpload" name="fileUpload" class="form-control-file" required />
+                    <small class="form-text text-muted">Hỗ trợ các định dạng: JPG, JPEG, PNG, PDF, DOC, DOCX. Kích thước tối đa: 10MB</small>
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="MoTa" class="control-label"></label>
+                    <textarea asp-for="MoTa" class="form-control" rows="3" required></textarea>
+                    <span asp-validation-for="MoTa" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group form-check">
+                    <input type="checkbox" asp-for="CapNhatTrangThai" class="form-check-input" id="capNhatTrangThai" />
+                    <label asp-for="CapNhatTrangThai" class="form-check-label"></label>
+                </div>
+                
+                <div id="ketQuaXuLySection" class="form-group">
+                    <label asp-for="KetQuaXuLy" class="control-label"></label>
+                    <textarea asp-for="KetQuaXuLy" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="KetQuaXuLy" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Tải lên
+                    </button>
+                    <a asp-action="QuanLyKhieuNai" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function() {
+            // Hiển thị/ẩn phần kết quả xử lý dựa trên checkbox
+            function toggleKetQuaXuLy() {
+                if ($("#capNhatTrangThai").is(":checked")) {
+                    $("#ketQuaXuLySection").show();
+                } else {
+                    $("#ketQuaXuLySection").hide();
+                }
+            }
+            
+            // Khi trang tải
+            toggleKetQuaXuLy();
+            
+            // Khi thay đổi checkbox
+            $("#capNhatTrangThai").change(function() {
+                toggleKetQuaXuLy();
+            });
+        });
+    </script>
+} 

@@ -1,0 +1,421 @@
+@model IEnumerable<NHOM10_DACS_QLVIPHAM.Models.KhieuNaiVPham>
+
+@{
+    ViewData["Title"] = "Quản lý khiếu nại & yêu cầu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-bold text-gray-800 mb-2">Quản lý khiếu nại & yêu cầu bằng chứng</h1>
+    <p class="text-gray-600 mb-6">Quản lý và phản hồi các khiếu nại thanh toán và yêu cầu bằng chứng từ người dân.</p>
+
+    <!-- Filter and Search Controls -->
+    <div class="bg-white rounded-lg shadow-md mb-8 overflow-hidden">
+        <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+            <h2 class="text-lg font-medium text-blue-600">Bộ lọc</h2>
+            <button type="button" id="toggleFilter" class="inline-flex items-center px-3 py-1 border border-blue-500 text-blue-500 bg-white rounded-md text-sm font-medium hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+                Hiển thị/Ẩn bộ lọc
+            </button>
+        </div>
+        <div class="px-4 py-5" id="filterCollapse">
+            <form id="filterForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
+                <div class="lg:col-span-3">
+                    <label for="loai" class="block text-sm font-medium text-gray-700 mb-1">Loại yêu cầu:</label>
+                    <select id="loai" name="loai" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option value="TatCa" selected="@(ViewBag.Loai == "TatCa")">Tất cả</option>
+                        <option value="ThanhToan" selected="@(ViewBag.Loai == "ThanhToan")">Khiếu nại thanh toán</option>
+                        <option value="BangChung" selected="@(ViewBag.Loai == "BangChung")">Yêu cầu bằng chứng</option>
+                    </select>
+                </div>
+                <div class="lg:col-span-3">
+                    <label for="trangThai" class="block text-sm font-medium text-gray-700 mb-1">Trạng thái:</label>
+                    <select id="trangThai" name="trangThai" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option value="TatCa" selected="@(ViewBag.TrangThai == "TatCa")">Tất cả</option>
+                        <option value="DangXuLy" selected="@(ViewBag.TrangThai == "DangXuLy")">Đang xử lý</option>
+                        <option value="DaXuLy" selected="@(ViewBag.TrangThai == "DaXuLy")">Đã xử lý</option>
+                        <option value="TuChoi" selected="@(ViewBag.TrangThai == "TuChoi")">Từ chối</option>
+                    </select>
+                </div>
+                <div class="lg:col-span-2">
+                    <label for="tuNgay" class="block text-sm font-medium text-gray-700 mb-1">Từ ngày:</label>
+                    <input type="date" id="tuNgay" name="tuNgay" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value="@ViewBag.TuNgay" />
+                </div>
+                <div class="lg:col-span-2">
+                    <label for="denNgay" class="block text-sm font-medium text-gray-700 mb-1">Đến ngày:</label>
+                    <input type="date" id="denNgay" name="denNgay" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value="@ViewBag.DenNgay" />
+                </div>
+                <div class="lg:col-span-2 flex items-end space-x-2">
+                    <button type="button" id="btnFilter" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        Lọc
+                    </button>
+                    <button type="button" id="resetFilter" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Đặt lại
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="loadingIndicator" class="hidden flex flex-col items-center justify-center py-12">
+        <svg class="animate-spin h-10 w-10 text-blue-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="text-gray-600 text-lg">Đang tải dữ liệu...</p>
+    </div>
+
+    <div id="dashboardContent">
+        <!-- Status Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden border-l-4 border-blue-500">
+                <div class="px-4 py-5 sm:p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
+                            <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dt class="text-sm font-medium text-gray-500 truncate uppercase">Tổng số yêu cầu</dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900" id="totalCount">@Model.Count()</div>
+                            </dd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden border-l-4 border-red-500">
+                <div class="px-4 py-5 sm:p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-red-100 rounded-md p-3">
+                            <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dt class="text-sm font-medium text-gray-500 truncate uppercase">Khiếu nại thanh toán</dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900" id="thanhToanCount">@Model.Count(k => k.LoaiKhieuNai == "ThanhToan")</div>
+                            </dd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden border-l-4 border-cyan-500">
+                <div class="px-4 py-5 sm:p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-cyan-100 rounded-md p-3">
+                            <svg class="h-6 w-6 text-cyan-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dt class="text-sm font-medium text-gray-500 truncate uppercase">Yêu cầu bằng chứng</dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900" id="bangChungCount">@Model.Count(k => k.LoaiKhieuNai == "BangChung")</div>
+                            </dd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden border-l-4 border-amber-500">
+                <div class="px-4 py-5 sm:p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-amber-100 rounded-md p-3">
+                            <svg class="h-6 w-6 text-amber-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dt class="text-sm font-medium text-gray-500 truncate uppercase">Đang chờ xử lý</dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900" id="pendingCount">@Model.Count(k => k.TrangThai == "Đang xử lý")</div>
+                            </dd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complaints DataTable -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-4 py-5 border-b border-gray-200 sm:px-6 flex items-center justify-between">
+                <h2 class="text-lg font-medium text-blue-600">Danh sách khiếu nại & yêu cầu</h2>
+            </div>
+            <div class="px-4 py-5 sm:p-6">
+                <div class="overflow-x-auto">
+                    <table id="dataTable" class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Loại</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên công dân</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày gửi</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Biên bản</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="khieuNaiTableBody">
+                            @foreach (var item in Model.OrderByDescending(k => k.NgayKhieuNai))
+                            {
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">@item.MaKhieuNai</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        @if (item.LoaiKhieuNai == "ThanhToan")
+                                        {
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                Khiếu nại thanh toán
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
+                                                Yêu cầu bằng chứng
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@(item.CongDan?.TenCongDan ?? "N/A")</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@item.NgayKhieuNai.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        @if (item.MaBienBan.HasValue)
+                                        {
+                                            <a href="@Url.Action("ChiTietBienBan", "CanBo", new { id = item.MaBienBan })" class="text-blue-600 hover:text-blue-900">
+                                                #@item.MaBienBan
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span>N/A</span>
+                                        }
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        @switch (item.TrangThai)
+                                        {
+                                            case "Đang xử lý":
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                                    Đang xử lý
+                                                </span>
+                                                break;
+                                            case "Đã xử lý":
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                    Đã xử lý
+                                                </span>
+                                                break;
+                                            case "Từ chối":
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                    Từ chối
+                                                </span>
+                                                break;
+                                            default:
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                                    @item.TrangThai
+                                                </span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="flex space-x-2">
+                                            <a href="@Url.Action("XemKhieuNai", "CanBo", new { id = item.MaKhieuNai })"
+                                               class="text-blue-600 hover:text-blue-900 bg-blue-100 hover:bg-blue-200 p-2 rounded-full"
+                                               title="Xem chi tiết">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                            </a>
+                                            <a href="@Url.Action("TraLoiKhieuNai", "CanBo", new { id = item.MaKhieuNai })"
+                                               class="flex items-center text-white bg-orange-500 hover:bg-orange-600 font-semibold px-3 py-1 rounded transition"
+                                               title="Trả lời khiếu nại">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                                                </svg>
+                                                Trả lời khiếu nại
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTable
+            var table = $('#dataTable').DataTable({
+                "order": [[3, "desc"]],
+                "language": {
+                    "search": "Tìm kiếm:",
+                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "info": "Hiển thị _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                    "infoEmpty": "Hiển thị 0 đến 0 trong tổng số 0 mục",
+                    "infoFiltered": "(lọc từ _MAX_ mục)",
+                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                }
+            });
+
+            // Toggle filter visibility
+            $('#toggleFilter').click(function() {
+                $('#filterCollapse').toggleClass('hidden');
+            });
+
+            // AJAX filter function
+            function filterKhieuNai() {
+                // Show loading indicator
+                $('#loadingIndicator').removeClass('hidden');
+                $('#dashboardContent').addClass('hidden');
+
+                // Get form data
+                var formData = {
+                    loai: $('#loai').val(),
+                    trangThai: $('#trangThai').val(),
+                    tuNgay: $('#tuNgay').val(),
+                    denNgay: $('#denNgay').val()
+                };
+
+                // Send AJAX request
+                $.ajax({
+                    url: '@Url.Action("GetFilteredKhieuNai", "CanBo")',
+                    type: 'GET',
+                    data: formData,
+                    success: function (data) {
+                        // Check if there's an error
+                        if (data.error) {
+                            alert(data.error);
+                            $('#loadingIndicator').addClass('hidden');
+                            $('#dashboardContent').removeClass('hidden');
+                            return;
+                        }
+                        
+                        // Update table with new data
+                        updateTable(data);
+                        
+                        // Update summary cards
+                        $('#totalCount').text(data.summary.total);
+                        $('#thanhToanCount').text(data.summary.thanhToanCount);
+                        $('#bangChungCount').text(data.summary.bangChungCount);
+                        $('#pendingCount').text(data.summary.pendingCount);
+                        
+                        // Hide loading indicator
+                        $('#loadingIndicator').addClass('hidden');
+                        $('#dashboardContent').removeClass('hidden');
+                    },
+                    error: function (error) {
+                        console.error('Error fetching data:', error);
+                        // Hide loading indicator
+                        $('#loadingIndicator').addClass('hidden');
+                        $('#dashboardContent').removeClass('hidden');
+                        
+                        // Show error alert
+                        alert('Có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại sau.');
+                    }
+                });
+            }
+
+            // Function to update table with new data
+            function updateTable(data) {
+                // Clear the table first
+                table.clear();
+                
+                // Add new rows
+                $.each(data.khieuNais, function (i, item) {
+                    var loaiBadge = item.loaiKhieuNai == "ThanhToan" 
+                        ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Khiếu nại thanh toán</span>'
+                        : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">Yêu cầu bằng chứng</span>';
+                        
+                    var statusBadge = '';
+                    switch (item.trangThai) {
+                        case "Đang xử lý":
+                            statusBadge = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Đang xử lý</span>';
+                            break;
+                        case "Đã xử lý":
+                            statusBadge = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Đã xử lý</span>';
+                            break;
+                        case "Từ chối":
+                            statusBadge = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Từ chối</span>';
+                            break;
+                        default:
+                            statusBadge = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">' + item.trangThai + '</span>';
+                    }
+                    
+                    var bienBanLink = item.maBienBan 
+                        ? '<a href="/CanBo/ChiTietBienBan/' + item.maBienBan + '" class="text-blue-600 hover:text-blue-900">#' + item.maBienBan + '</a>'
+                        : '<span>N/A</span>';
+                        
+                    var actions = '<div class="flex space-x-2">' +
+                        '<a href="/CanBo/XemKhieuNai/' + item.maKhieuNai + '" class="text-blue-600 hover:text-blue-900 bg-blue-100 hover:bg-blue-200 p-2 rounded-full" title="Xem chi tiết">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">' +
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />' +
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />' +
+                        '</svg></a>' +
+                        '<a href="/CanBo/TraLoiKhieuNai/' + item.maKhieuNai + '" class="flex items-center text-white bg-orange-500 hover:bg-orange-600 font-semibold px-3 py-1 rounded transition" title="Trả lời khiếu nại">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">' +
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />' +
+                        '</svg>Trả lời khiếu nại</a>' +
+                        '</div>';
+                        
+                    // Add row to table
+                    table.row.add([
+                        item.maKhieuNai,
+                        loaiBadge,
+                        item.tenCongDan || 'N/A',
+                        item.ngayKhieuNai,
+                        bienBanLink,
+                        statusBadge,
+                        actions
+                    ]);
+                });
+                
+                // Redraw the table
+                table.draw();
+            }
+
+            // Filter button click event
+            $('#btnFilter').click(function() {
+                filterKhieuNai();
+            });
+
+            // Reset filters
+            $('#resetFilter').click(function () {
+                $('#loai').val('TatCa');
+                $('#trangThai').val('TatCa');
+                $('#tuNgay').val('');
+                $('#denNgay').val('');
+                filterKhieuNai();
+            });
+            
+            // Enter key in date fields should trigger filter
+            $('#tuNgay, #denNgay').keypress(function(e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    filterKhieuNai();
+                }
+            });
+        });
+    </script>
+} 

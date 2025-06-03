@@ -1,0 +1,43 @@
+@model IEnumerable<NHOM10_DACS_QLVIPHAM.Models.YeuCauCapLaiThe>
+
+@{
+    ViewData["Title"] = "Quản lý yêu cầu cấp lại thẻ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-2xl font-bold mb-4">Quản lý yêu cầu cấp lại thẻ</h1>
+
+@if (Model != null && Model.Any())
+{
+    <table class="min-w-full bg-white border border-gray-200">
+        <thead>
+            <tr>
+                <th class="px-4 py-2 border">Mã yêu cầu</th>
+                <th class="px-4 py-2 border">Tên công dân</th>
+                <th class="px-4 py-2 border">Lý do</th>
+                <th class="px-4 py-2 border">Ngày yêu cầu</th>
+                <th class="px-4 py-2 border">Trạng thái</th>
+                <th class="px-4 py-2 border">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="px-4 py-2 border">@item.MaYeuCauCapLai</td>
+                <td class="px-4 py-2 border">@item.CongDan?.TenCongDan</td>
+                <td class="px-4 py-2 border">@item.LyDo</td>
+                <td class="px-4 py-2 border">@item.NgayYeuCau.ToString("dd/MM/yyyy")</td>
+                <td class="px-4 py-2 border">@item.TrangThai</td>
+                <td class="px-4 py-2 border">
+                    <a asp-action="XemYeuCauCapLaiThe" asp-route-id="@item.MaYeuCauCapLai" class="text-blue-600 hover:underline">Xem</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="text-gray-500">Không có yêu cầu nào.</div>
+} 

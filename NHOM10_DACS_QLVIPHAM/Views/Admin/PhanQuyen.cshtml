@@ -1,0 +1,67 @@
+@model NHOM10_DACS_QLVIPHAM.Controllers.PhanQuyenViewModel
+
+@{
+    ViewData["Title"] = "Phân quyền người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-blue-600 px-6 py-4">
+            <h1 class="text-xl font-bold text-white text-center">Phân quyền người dùng</h1>
+        </div>
+        
+        <div class="p-6">
+            <form asp-controller="Admin" asp-action="PhanQuyen" method="post">
+                <input type="hidden" asp-for="UserId" />
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Tên đăng nhập</label>
+                    <div class="bg-gray-100 p-2 rounded-md">@Model.UserName</div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2">Chọn vai trò (chỉ chọn một)</label>
+                    
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input type="radio" asp-for="SelectedRole" id="roleAdmin" value="Admin" class="w-4 h-4 text-blue-600 focus:ring-blue-500" />
+                            <label for="roleAdmin" class="ml-2 text-gray-700">Quản trị viên (Admin)</label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="radio" asp-for="SelectedRole" id="roleCanBo" value="CanBo" class="w-4 h-4 text-blue-600 focus:ring-blue-500" />
+                            <label for="roleCanBo" class="ml-2 text-gray-700">Cán bộ (CanBo)</label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="radio" asp-for="SelectedRole" id="roleCongDan" value="CongDan" class="w-4 h-4 text-blue-600 focus:ring-blue-500" />
+                            <label for="roleCongDan" class="ml-2 text-gray-700">Công dân (CongDan)</label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="radio" asp-for="SelectedRole" id="roleUser" value="User" class="w-4 h-4 text-blue-600 focus:ring-blue-500" />
+                            <label for="roleUser" class="ml-2 text-gray-700">Người dùng (User)</label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="radio" asp-for="SelectedRole" id="roleNone" value="" class="w-4 h-4 text-blue-600 focus:ring-blue-500" />
+                            <label for="roleNone" class="ml-2 text-gray-700">Không có vai trò</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <a asp-controller="Admin" asp-action="QuanLyNguoiDung" 
+                       class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                        Quay lại
+                    </a>
+                    <button type="submit" 
+                            class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

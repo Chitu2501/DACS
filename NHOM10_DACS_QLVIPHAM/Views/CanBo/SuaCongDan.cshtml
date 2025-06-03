@@ -1,0 +1,212 @@
+@model NHOM10_DACS_QLVIPHAM.Models.CongDan
+
+@{
+    ViewData["Title"] = "Cập nhật thông tin công dân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Back button and header -->
+    <div class="mb-6 flex items-center space-x-4">
+        <a href="@Url.Action("ChiTietCongDan", "CanBo", new { id = Model.MaCongDan })" class="flex items-center text-blue-600 hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-1"></i> Quay lại
+        </a>
+        <h1 class="text-3xl font-bold text-gray-900">Cập nhật thông tin công dân</h1>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">Thông tin công dân</h2>
+        </div>
+
+        <form asp-action="SuaCongDan" method="post" enctype="multipart/form-data" class="p-6">
+            <div asp-validation-summary="ModelOnly" class="mb-4 text-sm text-red-600 p-4 bg-red-50 rounded-md"></div>
+            <input type="hidden" asp-for="MaCongDan" />
+            <input type="hidden" asp-for="MaNguoiDung" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Cột 1 -->
+                <div class="space-y-6">
+                    <div>
+                        <label asp-for="TenCongDan" class="block text-sm font-medium text-gray-700 mb-1">Họ và tên</label>
+                        <input asp-for="TenCongDan" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="TenCongDan" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="MaTheCC" class="block text-sm font-medium text-gray-700 mb-1">Số CCCD</label>
+                        <input asp-for="MaTheCC" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="MaTheCC" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="NgaySinh" class="block text-sm font-medium text-gray-700 mb-1">Ngày sinh</label>
+                        <input asp-for="NgaySinh" type="date" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="NgaySinh" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="GIOTTING" class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
+                        <select asp-for="GIOTTING" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">-- Chọn giới tính --</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                        <span asp-validation-for="GIOTTING" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="SDT" class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại</label>
+                        <input asp-for="SDT" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="SDT" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="GMAIL" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input asp-for="GMAIL" type="email" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="GMAIL" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="CONGVIEC" class="block text-sm font-medium text-gray-700 mb-1">Nghề nghiệp</label>
+                        <input asp-for="CONGVIEC" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="CONGVIEC" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="DiaChi" class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ</label>
+                        <input asp-for="DiaChi" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="DiaChi" class="text-xs text-red-600"></span>
+                    </div>
+                </div>
+
+                <!-- Cột 2 -->
+                <div class="space-y-6">
+                    <div>
+                        <label asp-for="NoiThuongTru" class="block text-sm font-medium text-gray-700 mb-1">Nơi thường trú</label>
+                        <input asp-for="NoiThuongTru" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="NoiThuongTru" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="QueQuan" class="block text-sm font-medium text-gray-700 mb-1">Quê quán</label>
+                        <input asp-for="QueQuan" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="QueQuan" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="QuocTich" class="block text-sm font-medium text-gray-700 mb-1">Quốc tịch</label>
+                        <input asp-for="QuocTich" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="QuocTich" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="DanToc" class="block text-sm font-medium text-gray-700 mb-1">Dân tộc</label>
+                        <input asp-for="DanToc" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="DanToc" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="TonGiao" class="block text-sm font-medium text-gray-700 mb-1">Tôn giáo</label>
+                        <input asp-for="TonGiao" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="TonGiao" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="DacDiemNhanDang" class="block text-sm font-medium text-gray-700 mb-1">Đặc điểm nhận dạng</label>
+                        <textarea asp-for="DacDiemNhanDang" rows="3" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        <span asp-validation-for="DacDiemNhanDang" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="GiayKhac" class="block text-sm font-medium text-gray-700 mb-1">Giấy tờ khác</label>
+                        <input asp-for="GiayKhac" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                        <span asp-validation-for="GiayKhac" class="text-xs text-red-600"></span>
+                    </div>
+
+                    <div>
+                        <label for="ImageFile" class="block text-sm font-medium text-gray-700 mb-1">Ảnh chân dung</label>
+                        <div class="flex flex-col space-y-2">
+                            @if (!string.IsNullOrEmpty(Model.AnhChanDung))
+                            {
+                                <div class="w-32 h-32 border rounded-md overflow-hidden mb-2">
+                                    <img src="data:image/jpeg;base64,@Model.AnhChanDung" alt="Ảnh chân dung" class="w-full h-full object-cover" id="imagePreview" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="w-32 h-32 border rounded-md overflow-hidden mb-2 flex items-center justify-center bg-gray-100">
+                                    <i class="fas fa-user text-gray-400 text-4xl"></i>
+                                </div>
+                            }
+                            <input type="file" name="ImageFile" id="ImageFile" accept="image/*" class="block w-full text-sm text-gray-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-md file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-blue-50 file:text-blue-700
+                                hover:file:bg-blue-100" onchange="previewImage()" />
+                            <input asp-for="AnhChanDung" type="hidden" />
+                            <span asp-validation-for="AnhChanDung" class="text-xs text-red-600"></span>
+                            <p class="text-xs text-gray-500 mt-1">Tải lên ảnh chân dung (jpg, png, tối đa 5MB).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-3">
+                <a href="@Url.Action("ChiTietCongDan", "CanBo", new { id = Model.MaCongDan })" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Hủy
+                </a>
+                <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Lưu thông tin
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function previewImage() {
+            const input = document.getElementById('ImageFile');
+            const preview = document.getElementById('imagePreview');
+            const previewContainer = preview ? preview.parentElement : null;
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    if (!preview) {
+                        // Create preview if it doesn't exist
+                        const newPreviewContainer = document.createElement('div');
+                        newPreviewContainer.className = 'w-32 h-32 border rounded-md overflow-hidden mb-2';
+                        
+                        const newPreview = document.createElement('img');
+                        newPreview.id = 'imagePreview';
+                        newPreview.className = 'w-full h-full object-cover';
+                        newPreview.alt = 'Ảnh chân dung';
+                        newPreview.src = e.target.result;
+                        
+                        newPreviewContainer.appendChild(newPreview);
+                        input.parentElement.insertBefore(newPreviewContainer, input);
+                    } else {
+                        // Update existing preview
+                        preview.src = e.target.result;
+                        
+                        // If there was a placeholder, replace it with the actual preview
+                        if (!previewContainer) {
+                            const placeholderContainer = document.querySelector('.w-32.h-32.border.flex');
+                            if (placeholderContainer) {
+                                placeholderContainer.parentElement.removeChild(placeholderContainer);
+                            }
+                        }
+                    }
+                };
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+} 

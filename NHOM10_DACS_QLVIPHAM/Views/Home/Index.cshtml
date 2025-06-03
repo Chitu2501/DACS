@@ -1,0 +1,478 @@
+﻿@model List<NHOM10_DACS_QLVIPHAM.Models.BienBanVPham>
+
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<div class="bg-gray-50">
+    <!-- Hero Section with Video Background -->
+    <div class="relative overflow-hidden">
+        <!-- Dark overlay for better text visibility -->
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-indigo-900/80 z-10"></div>
+        
+        <!-- Video or Image Background -->
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1465447142348-e9952c393450?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" 
+                 alt="Background" 
+                 class="w-full h-full object-cover">
+        </div>
+        
+        <!-- Hero Content -->
+        <div class="relative z-20 py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="text-center lg:text-left">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                    <span class="block">Hệ thống Quản lý</span>
+                    <span class="block mt-2 text-blue-200">Vi phạm Giao thông</span>
+                </h1>
+                <p class="mt-5 text-xl text-blue-100 max-w-xl mx-auto lg:mx-0">
+                    Nền tảng hiện đại giúp theo dõi, quản lý và xử lý các vi phạm giao thông một cách minh bạch, hiệu quả
+                </p>
+                <div class="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                    <a href="@Url.Action("TraCuuViPham", "ViPham")" 
+                       class="px-8 py-4 rounded-lg bg-white text-blue-700 font-medium shadow-lg hover:bg-blue-50 transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-search mr-2"></i> Tra cứu vi phạm
+                    </a>
+                    <a href="@Url.Action("LuatPhap", "Home")" 
+                       class="px-8 py-4 rounded-lg bg-blue-700 text-white font-medium shadow-lg hover:bg-blue-600 transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-gavel mr-2"></i> Luật giao thông
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        @if (ViewBag.IsCanBo == true)
+        {
+            <!-- Admin Dashboard -->
+            <div class="space-y-10">
+                <!-- Welcome Card -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-l-4 border-blue-500">
+                    <div class="p-6 flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div class="mb-4 md:mb-0">
+                            <h2 class="text-2xl font-bold text-gray-800">Xin chào, @ViewBag.UserName!</h2>
+                            <p class="mt-1 text-gray-600">Chào mừng đến với Bảng điều khiển Quản lý Vi phạm</p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            @if (User.Identity != null && User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("ThemViPham", "CanBo")" 
+                                   class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg shadow-sm font-medium hover:bg-gray-200 transition duration-300">
+                                    <i class="fas fa-plus mr-2"></i> Thêm vi phạm
+                                </a>
+                                <a href="@Url.Action("ThemBienBanViPham", "CanBo")" 
+                                   class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg shadow-sm font-medium hover:bg-blue-700 transition duration-300">
+                                    <i class="fas fa-file-signature mr-2"></i> Lập biên bản
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Tổng quan hệ thống</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Card 1: Vi phạm -->
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]">
+                            <div class="p-6 flex items-center">
+                                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-blue-500/20 text-blue-600">
+                                    <i class="fas fa-exclamation-triangle text-2xl"></i>
+                                </div>
+                                <div class="ml-5">
+                                    <p class="text-sm font-medium text-blue-700">Tổng vi phạm</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">@ViewBag.TongViPham</h3>
+                                </div>
+                            </div>
+                            <div class="px-6 pb-4">
+                                <a href="@Url.Action("QuanLyViPham", "CanBo")" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center group">
+                                    <span>Xem chi tiết</span>
+                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 2: Loại vi phạm -->
+                        <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]">
+                            <div class="p-6 flex items-center">
+                                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-amber-500/20 text-amber-600">
+                                    <i class="fas fa-tags text-2xl"></i>
+                                </div>
+                                <div class="ml-5">
+                                    <p class="text-sm font-medium text-amber-700">Loại vi phạm</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">@ViewBag.TongLoaiViPham</h3>
+                                </div>
+                            </div>
+                            <div class="px-6 pb-4">
+                                <a href="@Url.Action("QuanLyLoaiViPham", "CanBo")" class="text-amber-600 hover:text-amber-800 text-sm font-medium flex items-center group">
+                                    <span>Xem chi tiết</span>
+                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 3: Biên bản -->
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]">
+                            <div class="p-6 flex items-center">
+                                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-green-500/20 text-green-600">
+                                    <i class="fas fa-file-alt text-2xl"></i>
+                                </div>
+                                <div class="ml-5">
+                                    <p class="text-sm font-medium text-green-700">Biên bản vi phạm</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">@ViewBag.TongBienBan</h3>
+                                </div>
+                            </div>
+                            <div class="px-6 pb-4">
+                                <a href="@Url.Action("QuanLyBienBanViPham", "CanBo")" class="text-green-600 hover:text-green-800 text-sm font-medium flex items-center group">
+                                    <span>Xem chi tiết</span>
+                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 4: Công dân -->
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]">
+                            <div class="p-6 flex items-center">
+                                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-purple-500/20 text-purple-600">
+                                    <i class="fas fa-users text-2xl"></i>
+                                </div>
+                                <div class="ml-5">
+                                    <p class="text-sm font-medium text-purple-700">Công dân</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">@ViewBag.TongCongDan</h3>
+                                </div>
+                            </div>
+                            <div class="px-6 pb-4">
+                                <a href="@Url.Action("TraCuuCongDan", "CanBo")" class="text-purple-600 hover:text-purple-800 text-sm font-medium flex items-center group">
+                                    <span>Xem chi tiết</span>
+                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Violations and Quick Access -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Recent Violations - Takes up 2 columns on large screens -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                            <div class="px-6 py-5 border-b border-gray-100 flex justify-between items-center">
+                                <h3 class="text-xl font-bold text-gray-800">Biên bản vi phạm gần đây</h3>
+                                <span class="text-sm text-gray-500">@DateTime.Now.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã biên bản</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Người vi phạm</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vi phạm</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày lập</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        @foreach (var bienBan in Model)
+                                        {
+                                            <tr class="hover:bg-gray-50 transition duration-150">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <a href="@Url.Action("ChiTietBienBan", "CanBo", new { id = bienBan.MaBienBan })" 
+                                                       class="text-blue-600 hover:text-blue-900 font-medium">
+                                                       BB-@bienBan.MaBienBan
+                                                    </a>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                                                            <i class="fas fa-user"></i>
+                                                        </div>
+                                                        <span class="ml-2 text-sm text-gray-900">@bienBan.CongDan?.TenCongDan</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@bienBan.ViPham?.TenViPham</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@bienBan.NgayLapBienBan.ToString("dd/MM/yyyy")</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    @if (bienBan.KetQuaXuLy == "Đã thanh toán")
+                                                    {
+                                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                            <i class="fas fa-check mr-1"></i> Đã thanh toán
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                            <i class="fas fa-clock mr-1"></i> Chưa thanh toán
+                                                        </span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bg-gray-50 px-6 py-4 border-t border-gray-100">
+                                <a href="@Url.Action("QuanLyBienBanViPham", "CanBo")" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center group w-max">
+                                    Xem tất cả biên bản 
+                                    <i class="fas fa-arrow-right ml-1 transform group-hover:translate-x-1 transition duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Access Card -->
+                    @if (User.Identity != null && User.Identity.IsAuthenticated && !User.IsInRole("Admin") && ViewBag.IsCanBo == true)
+                    {
+                        <div>
+                            <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full">
+                                <div class="px-6 py-5 border-b border-gray-100">
+                                    <h3 class="text-xl font-bold text-gray-800">Truy cập nhanh</h3>
+                                </div>
+                                <div class="p-6">
+                                    <nav class="space-y-3">
+                                        <a href="@Url.Action("ThemBienBanViPham", "CanBo")" 
+                                           class="flex items-center p-3 text-gray-700 bg-blue-50 rounded-xl hover:bg-blue-100 hover:text-blue-700 transition-colors">
+                                            <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-blue-100 text-blue-600 mr-3">
+                                                <i class="fas fa-file-signature"></i>
+                                            </span>
+                                            <span class="font-medium">Lập biên bản vi phạm</span>
+                                        </a>
+                                        <a href="@Url.Action("ThongKeThanhToan", "CanBo")" 
+                                           class="flex items-center p-3 text-gray-700 bg-green-50 rounded-xl hover:bg-green-100 hover:text-green-700 transition-colors">
+                                            <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-green-100 text-green-600 mr-3">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </span>
+                                            <span class="font-medium">Thống kê thanh toán</span>
+                                        </a>
+                                        <a href="@Url.Action("QuanLyBienBanThanhToan", "CanBo")" 
+                                           class="flex items-center p-3 text-gray-700 bg-yellow-50 rounded-xl hover:bg-yellow-100 hover:text-yellow-700 transition-colors">
+                                            <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-yellow-100 text-yellow-600 mr-3">
+                                                <i class="fas fa-money-bill-wave"></i>
+                                            </span>
+                                            <span class="font-medium">Quản lý thanh toán</span>
+                                        </a>
+                                        <a href="@Url.Action("QuanLyKhieuNai", "CanBo")" 
+                                           class="flex items-center p-3 text-gray-700 bg-red-50 rounded-xl hover:bg-red-100 hover:text-red-700 transition-colors">
+                                            <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-red-100 text-red-600 mr-3">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                            </span>
+                                            <span class="font-medium">Quản lý khiếu nại</span>
+                                        </a>
+                                        <a href="@Url.Action("TraCuuCongDan", "CanBo")" 
+                                           class="flex items-center p-3 text-gray-700 bg-purple-50 rounded-xl hover:bg-purple-100 hover:text-purple-700 transition-colors">
+                                            <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-purple-100 text-purple-600 mr-3">
+                                                <i class="fas fa-search"></i>
+                                            </span>
+                                            <span class="font-medium">Tra cứu công dân</span>
+                                        </a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <!-- Public View -->
+            <div class="space-y-20">
+                <!-- Features Section with Cards -->
+                <section>
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900">Dịch vụ của chúng tôi</h2>
+                        <p class="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
+                            Hệ thống quản lý vi phạm giao thông hiện đại, minh bạch và hiệu quả
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Feature 1: Tra cứu vi phạm -->
+                        <div class="bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:translate-y-[-8px]">
+                            <div class="h-3 bg-blue-600"></div>
+                            <div class="p-8">
+                                <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-blue-100 mb-6">
+                                    <i class="fas fa-search text-blue-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">Tra cứu vi phạm</h3>
+                                <p class="text-gray-600 mb-6 leading-relaxed">
+                                    Nhanh chóng, dễ dàng tra cứu thông tin vi phạm giao thông 
+                                    với số căn cước công dân. Hệ thống hiển thị đầy đủ các thông 
+                                    tin liên quan đến vi phạm và hướng dẫn thanh toán.
+                                </p>
+                                <a href="@Url.Action("TraCuuViPham", "ViPham")" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium group">
+                                    Tra cứu ngay 
+                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Feature 2: Thanh toán trực tuyến -->
+                        <div class="bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:translate-y-[-8px]">
+                            <div class="h-3 bg-green-600"></div>
+                            <div class="p-8">
+                                <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-green-100 mb-6">
+                                    <i class="fas fa-credit-card text-green-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">Thanh toán trực tuyến</h3>
+                                <p class="text-gray-600 mb-6 leading-relaxed">
+                                    Thanh toán tiền phạt vi phạm một cách nhanh chóng và an toàn với nhiều 
+                                    phương thức thanh toán khác nhau. Hệ thống xác nhận thanh toán tức thời.
+                                </p>
+                                <a href="@Url.Action("TraCuuViPham", "ViPham")" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium group">
+                                    Thanh toán ngay 
+                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Feature 3: Luật giao thông -->
+                        <div class="bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:translate-y-[-8px]">
+                            <div class="h-3 bg-amber-600"></div>
+                            <div class="p-8">
+                                <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-amber-100 mb-6">
+                                    <i class="fas fa-gavel text-amber-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">Luật giao thông</h3>
+                                <p class="text-gray-600 mb-6 leading-relaxed">
+                                    Tra cứu đầy đủ các quy định, luật giao thông và mức phạt cho các vi phạm 
+                                    giao thông hiện hành. Cập nhật thường xuyên các thay đổi về luật lệ.
+                                </p>
+                                <a href="@Url.Action("LuatPhap", "Home")" class="inline-flex items-center text-amber-600 hover:text-amber-800 font-medium group">
+                                    Tìm hiểu thêm 
+                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Process Section with Icons -->
+                <section>
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900">Quy trình xử lý vi phạm</h2>
+                        <p class="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
+                            Hệ thống xử lý vi phạm giao thông minh bạch và hiệu quả
+                        </p>
+                    </div>
+                    
+                    <div class="relative">
+                        <!-- Step Connector Line (hidden on mobile) -->
+                        <div class="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gray-200 -translate-y-1/2 z-0"></div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                            <!-- Step 1 -->
+                            <div class="relative z-10 flex flex-col items-center">
+                                <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">
+                                    1
+                                </div>
+                                <div class="bg-white rounded-2xl shadow-md p-6 text-center h-full w-full">
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2">Ghi nhận vi phạm</h3>
+                                    <p class="text-gray-600">Cán bộ ghi nhận thông tin vi phạm và người vi phạm vào hệ thống.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2 -->
+                            <div class="relative z-10 flex flex-col items-center">
+                                <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">
+                                    2
+                                </div>
+                                <div class="bg-white rounded-2xl shadow-md p-6 text-center h-full w-full">
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2">Lập biên bản</h3>
+                                    <p class="text-gray-600">Hệ thống tạo biên bản vi phạm với thông tin chi tiết và mức phạt.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3 -->
+                            <div class="relative z-10 flex flex-col items-center">
+                                <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">
+                                    3
+                                </div>
+                                <div class="bg-white rounded-2xl shadow-md p-6 text-center h-full w-full">
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2">Thanh toán tiền phạt</h3>
+                                    <p class="text-gray-600">Người vi phạm có thể thanh toán tiền phạt trực tuyến hoặc tại cơ quan chức năng.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 4 -->
+                            <div class="relative z-10 flex flex-col items-center">
+                                <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">
+                                    4
+                                </div>
+                                <div class="bg-white rounded-2xl shadow-md p-6 text-center h-full w-full">
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2">Xác nhận và lưu hồ sơ</h3>
+                                    <p class="text-gray-600">Cán bộ xác nhận thanh toán và cập nhật trạng thái vi phạm trong hệ thống.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Testimonials or Stats Section -->
+                <section>
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl shadow-xl overflow-hidden">
+                        <div class="max-w-5xl mx-auto px-6 py-16 text-center">
+                            <h2 class="text-3xl font-bold text-white mb-8">Hệ thống hiện đại, hiệu quả</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-white">
+                                <div class="flex flex-col items-center">
+                                    <div class="text-4xl font-bold mb-2">8,500+</div>
+                                    <p class="text-blue-100">Vi phạm đã xử lý</p>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="text-4xl font-bold mb-2">5,200+</div>
+                                    <p class="text-blue-100">Thanh toán trực tuyến</p>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="text-4xl font-bold mb-2">97%</div>
+                                    <p class="text-blue-100">Mức độ hài lòng</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Add Chatbot -->
+@await Html.PartialAsync("_ChatbotPartial")
+
+@section Scripts {
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobileSidebarToggle');
+            const mobileMenu = document.getElementById('mobileSidebar');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // Add animations
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            if (animateElements.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-fade-in');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                animateElements.forEach(element => {
+                    observer.observe(element);
+                });
+            }
+        });
+
+        // Add class for scroll animations
+        document.querySelectorAll('.grid > div').forEach(element => {
+            element.classList.add('animate-on-scroll');
+        });
+    </script>
+}

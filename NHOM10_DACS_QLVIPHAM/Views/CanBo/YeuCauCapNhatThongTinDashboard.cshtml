@@ -1,0 +1,334 @@
+@{
+    ViewData["Title"] = "Quản lý yêu cầu cập nhật thông tin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-800 px-6 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center">
+                    <i class="fas fa-user-edit text-white text-2xl mr-3"></i>
+                    <h1 class="text-xl font-bold text-white">Quản lý yêu cầu cập nhật thông tin</h1>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <a href="@Url.Action("Dashboard", "CanBo")" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400">
+                        <i class="fas fa-home mr-2"></i>
+                        Quay lại Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overview Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <!-- Tổng số yêu cầu -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="px-6 py-5 flex items-center">
+                <div class="p-3 rounded-full bg-blue-100 mr-4">
+                    <i class="fas fa-clipboard-list text-blue-500 text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Tổng số yêu cầu</p>
+                    <p class="text-2xl font-bold text-gray-900">@ViewBag.TongYeuCau</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yêu cầu chờ xử lý -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="px-6 py-5 flex items-center">
+                <div class="p-3 rounded-full bg-yellow-100 mr-4">
+                    <i class="fas fa-clock text-yellow-500 text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Đang chờ xử lý</p>
+                    <p class="text-2xl font-bold text-gray-900">@ViewBag.YeuCauChoXuLy</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Yêu cầu đã xử lý -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="px-6 py-5 flex items-center">
+                <div class="p-3 rounded-full bg-green-100 mr-4">
+                    <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Đã xử lý</p>
+                    <p class="text-2xl font-bold text-gray-900">@ViewBag.YeuCauDaXuLy</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions & Filters -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900">Lọc và tìm kiếm</h2>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Search -->
+                <div class="col-span-2">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                        <input id="searchInput" type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Tìm kiếm yêu cầu...">
+                    </div>
+                </div>
+                
+                <!-- Status Filter -->
+                <div>
+                    <select id="statusFilter" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option value="all">Tất cả trạng thái</option>
+                        <option value="waiting">Chờ xét duyệt</option>
+                        <option value="approved">Đã duyệt</option>
+                        <option value="rejected">Đã từ chối</option>
+                    </select>
+                </div>
+                
+                <!-- Date Filter -->
+                <div>
+                    <select id="dateFilter" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option value="all">Tất cả thời gian</option>
+                        <option value="today">Hôm nay</option>
+                        <option value="week">Tuần này</option>
+                        <option value="month">Tháng này</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Tabs -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="bg-gray-50 border-b border-gray-200">
+            <div class="px-1">
+                <nav class="-mb-px flex" aria-label="Tabs">
+                    <button id="tabAll" class="tab-button border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm">
+                        Tất cả yêu cầu
+                    </button>
+                    <button id="tabWaiting" class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm">
+                        Chờ xét duyệt
+                    </button>
+                    <button id="tabApproved" class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm">
+                        Đã duyệt
+                    </button>
+                    <button id="tabRejected" class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm">
+                        Đã từ chối
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Mã yêu cầu
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Người yêu cầu
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Ngày yêu cầu
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Nội dung cập nhật
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Trạng thái
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="requestTableBody" class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-gray-50 request-row" data-status="@item.TrangThai.ToLower().Replace(" ", "-")">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                #@item.MaYeuCau
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                @(item.User?.HoTen ?? item.CongDan?.TenCongDan ?? "Không có tên")
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @item.NgayYeuCau.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 request-content">
+                                @(item.NoiDungCapNhat.Length > 50 ? item.NoiDungCapNhat.Substring(0, 47) + "..." : item.NoiDungCapNhat)
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if (item.TrangThai == "Chờ xét duyệt")
+                                {
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        @item.TrangThai
+                                    </span>
+                                }
+                                else if (item.TrangThai == "Đã duyệt")
+                                {
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        @item.TrangThai
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        @item.TrangThai
+                                    </span>
+                                }
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div class="flex items-center justify-end space-x-3">
+                                    <a href="@Url.Action("XemYeuCauCapNhatThongTin", "CanBo", new { id = item.MaYeuCau })" class="text-blue-600 hover:text-blue-900" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    @if (item.TrangThai == "Chờ xét duyệt")
+                                    {
+                                        <a href="@Url.Action("XetDuyetCapNhatThongTin", "CanBo", new { id = item.MaYeuCau })" class="text-indigo-600 hover:text-indigo-900" title="Xét duyệt">
+                                            <i class="fas fa-check-circle"></i>
+                                        </a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden">
+            <div class="text-center py-12">
+                <i class="fas fa-clipboard-list text-gray-400 text-4xl mb-3"></i>
+                <p class="text-gray-500 text-lg">Không tìm thấy yêu cầu nào phù hợp</p>
+                <p class="text-gray-400">Hãy thử thay đổi bộ lọc tìm kiếm của bạn</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const requestRows = document.querySelectorAll('.request-row');
+            const emptyState = document.getElementById('emptyState');
+            
+            function updateEmptyState() {
+                // Check if any rows are visible
+                const visibleRows = document.querySelectorAll('.request-row:not(.hidden)');
+                if (visibleRows.length === 0) {
+                    emptyState.classList.remove('hidden');
+                    document.querySelector('table').classList.add('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
+                    document.querySelector('table').classList.remove('hidden');
+                }
+            }
+            
+            function filterRows() {
+                const searchText = document.getElementById('searchInput').value.toLowerCase();
+                const statusFilter = document.getElementById('statusFilter').value;
+                const dateFilter = document.getElementById('dateFilter').value;
+                
+                requestRows.forEach(row => {
+                    const content = row.querySelector('.request-content').textContent.toLowerCase();
+                    const status = row.dataset.status;
+                    const date = new Date(row.children[2].textContent.trim());
+                    
+                    let showBySearch = content.includes(searchText) || row.textContent.toLowerCase().includes(searchText);
+                    let showByStatus = statusFilter === 'all' || 
+                                      (statusFilter === 'waiting' && status === 'chờ-xét-duyệt') ||
+                                      (statusFilter === 'approved' && status === 'đã-duyệt') ||
+                                      (statusFilter === 'rejected' && status === 'đã-từ-chối');
+                    
+                    // Date filtering logic
+                    let showByDate = true;
+                    if (dateFilter !== 'all') {
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        
+                        if (dateFilter === 'today') {
+                            const tomorrow = new Date(today);
+                            tomorrow.setDate(tomorrow.getDate() + 1);
+                            showByDate = date >= today && date < tomorrow;
+                        } else if (dateFilter === 'week') {
+                            const weekStart = new Date(today);
+                            weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+                            const weekEnd = new Date(weekStart);
+                            weekEnd.setDate(weekEnd.getDate() + 7);
+                            showByDate = date >= weekStart && date < weekEnd;
+                        } else if (dateFilter === 'month') {
+                            const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+                            const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                            showByDate = date >= monthStart && date <= monthEnd;
+                        }
+                    }
+                    
+                    if (showBySearch && showByStatus && showByDate) {
+                        row.classList.remove('hidden');
+                    } else {
+                        row.classList.add('hidden');
+                    }
+                });
+                
+                updateEmptyState();
+            }
+            
+            // Tab click event
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('border-indigo-500', 'text-indigo-600');
+                        btn.classList.add('border-transparent', 'text-gray-500');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.remove('border-transparent', 'text-gray-500');
+                    this.classList.add('border-indigo-500', 'text-indigo-600');
+                    
+                    // Filter rows based on tab
+                    const tabId = this.id;
+                    requestRows.forEach(row => {
+                        const status = row.dataset.status;
+                        
+                        if (tabId === 'tabAll') {
+                            row.classList.remove('hidden');
+                        } else if (tabId === 'tabWaiting' && status === 'chờ-xét-duyệt') {
+                            row.classList.remove('hidden');
+                        } else if (tabId === 'tabApproved' && status === 'đã-duyệt') {
+                            row.classList.remove('hidden');
+                        } else if (tabId === 'tabRejected' && status === 'đã-từ-chối') {
+                            row.classList.remove('hidden');
+                        } else {
+                            row.classList.add('hidden');
+                        }
+                    });
+                    
+                    // Update empty state
+                    updateEmptyState();
+                });
+            });
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('keyup', filterRows);
+            
+            // Status filter
+            document.getElementById('statusFilter').addEventListener('change', filterRows);
+            
+            // Date filter
+            document.getElementById('dateFilter').addEventListener('change', filterRows);
+        });
+    </script>
+} 

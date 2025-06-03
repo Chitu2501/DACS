@@ -1,0 +1,175 @@
+@{
+    var isOpen = false;
+}
+
+<!-- Chat Button -->
+<button id="chat-button" class="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300 z-50">
+    <i class="fas fa-comments text-2xl"></i>
+</button>
+
+<!-- Chat Window -->
+<div id="chat-window" class="fixed bottom-24 right-6 w-96 bg-white rounded-lg shadow-xl hidden z-50">
+    <!-- Chat Header -->
+    <div class="bg-blue-600 text-white px-4 py-3 rounded-t-lg flex justify-between items-center">
+        <h3 class="font-semibold">Trợ lý vi phạm giao thông</h3>
+        <button id="close-chat" class="text-white hover:text-gray-200">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Chat Messages -->
+    <div id="chat-messages" class="h-96 overflow-y-auto p-4 space-y-4">
+        <!-- Welcome Message -->
+        <div class="flex items-start space-x-2">
+            <div class="flex-shrink-0">
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                    <i class="fas fa-robot text-blue-600"></i>
+                </div>
+            </div>
+            <div class="flex-1 bg-gray-100 rounded-lg p-3">
+                <p class="text-sm text-gray-800">
+                    Xin chào! Tôi là trợ lý ảo của hệ thống quản lý vi phạm. Tôi có thể giúp bạn:
+                </p>
+                <ul class="text-sm text-gray-600 mt-2 list-disc list-inside">
+                    <li>Tra cứu vi phạm giao thông</li>
+                    <li>Tra cứu thông tin thẻ căn cước</li>
+                    <li>Hướng dẫn đăng nhập hệ thống</li>
+                    <li>Hướng dẫn yêu cầu cấp lại thẻ căn cước</li>
+                    <li>Xem thông tin về các loại vi phạm</li>
+                    <li>Xem mức phạt cho các vi phạm</li>
+                </ul>
+                <p class="text-sm text-gray-600 mt-2">
+                    Bạn có thể hỏi tôi bất kỳ câu hỏi nào về các chức năng trên.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="border-t p-4">
+        <form id="chat-form" class="flex space-x-2">
+            <input type="text" id="message-input" 
+                   class="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Nhập câu hỏi của bạn...">
+            <button type="submit" 
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatButton = document.getElementById('chat-button');
+        const chatWindow = document.getElementById('chat-window');
+        const closeChat = document.getElementById('close-chat');
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const chatMessages = document.getElementById('chat-messages');
+        let isOpen = false;
+
+        // Toggle chat window
+        function toggleChat() {
+            isOpen = !isOpen;
+            chatWindow.classList.toggle('hidden');
+            if (isOpen) {
+                messageInput.focus();
+            }
+        }
+
+        chatButton.addEventListener('click', toggleChat);
+        closeChat.addEventListener('click', toggleChat);
+
+        // Add message to chat
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start space-x-2';
+            
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'flex-shrink-0';
+            
+            const icon = document.createElement('div');
+            icon.className = isUser ? 
+                'w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center' :
+                'w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center';
+            
+            const iconElement = document.createElement('i');
+            iconElement.className = isUser ? 'fas fa-user text-gray-600' : 'fas fa-robot text-blue-600';
+            
+            icon.appendChild(iconElement);
+            iconDiv.appendChild(icon);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'flex-1 bg-gray-100 rounded-lg p-3';
+            
+            const messageText = document.createElement('p');
+            messageText.className = 'text-sm text-gray-800';
+            messageText.textContent = message;
+            
+            contentDiv.appendChild(messageText);
+            messageDiv.appendChild(iconDiv);
+            messageDiv.appendChild(contentDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Handle form submission
+        chatForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, true);
+            messageInput.value = '';
+
+            // Show loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'flex items-start space-x-2';
+            loadingDiv.innerHTML = `
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                        <i class="fas fa-robot text-blue-600"></i>
+                    </div>
+                </div>
+                <div class="flex-1 bg-gray-100 rounded-lg p-3">
+                    <div class="flex space-x-2">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/Chatbot/SendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `message=${encodeURIComponent(message)}`
+                });
+
+                const data = await response.json();
+                
+                // Remove loading indicator
+                chatMessages.removeChild(loadingDiv);
+
+                if (data.success) {
+                    addMessage(data.message);
+                } else {
+                    addMessage('Xin lỗi, đã xảy ra lỗi khi xử lý yêu cầu của bạn.');
+                }
+            } catch (error) {
+                // Remove loading indicator
+                chatMessages.removeChild(loadingDiv);
+                addMessage('Xin lỗi, không thể kết nối đến máy chủ.');
+            }
+        });
+    });
+</script> 

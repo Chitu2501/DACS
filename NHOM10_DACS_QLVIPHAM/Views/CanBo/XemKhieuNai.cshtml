@@ -1,0 +1,117 @@
+@model NHOM10_DACS_QLVIPHAM.Models.KhieuNaiVPham
+
+@{
+    ViewData["Title"] = Model.LoaiKhieuNai == "ThanhToan" ? "Chi tiết khiếu nại thanh toán" : "Chi tiết yêu cầu bằng chứng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-3xl mx-auto py-8">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="flex items-center mb-6">
+            <a href="@Url.Action("QuanLyKhieuNai", "CanBo")" class="text-blue-600 hover:text-blue-800 flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i> Quay lại danh sách
+            </a>
+            <h1 class="text-2xl font-bold text-gray-900 ml-6">@(Model.LoaiKhieuNai == "ThanhToan" ? "Chi tiết khiếu nại thanh toán" : "Chi tiết yêu cầu bằng chứng")</h1>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <div class="text-sm text-gray-500">Mã khiếu nại:</div>
+                <div class="font-semibold">@Model.MaKhieuNai</div>
+                <div class="text-sm text-gray-500 mt-2">Loại yêu cầu:</div>
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold @(Model.LoaiKhieuNai == "ThanhToan" ? "bg-red-100 text-red-800" : "bg-cyan-100 text-cyan-800")">
+                    @(Model.LoaiKhieuNai == "ThanhToan" ? "Khiếu nại thanh toán" : "Yêu cầu bằng chứng")
+                </span>
+                <div class="text-sm text-gray-500 mt-2">Trạng thái:</div>
+                @switch (Model.TrangThai)
+                {
+                    case "Đang xử lý":
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">Đang xử lý</span>;
+                        break;
+                    case "Đã xử lý":
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">Đã xử lý</span>;
+                        break;
+                    case "Từ chối":
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">Từ chối</span>;
+                        break;
+                    default:
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">@Model.TrangThai</span>;
+                        break;
+                }
+            </div>
+            <div>
+                <div class="text-sm text-gray-500">Ngày gửi:</div>
+                <div class="font-semibold">@Model.NgayKhieuNai.ToString("dd/MM/yyyy HH:mm")</div>
+                <div class="text-sm text-gray-500 mt-2">Công dân:</div>
+                <div class="font-semibold">@(Model.CongDan?.TenCongDan ?? "N/A")</div>
+                @if (Model.BienBanVPham != null)
+                {
+                    <div class="text-sm text-gray-500 mt-2">Biên bản liên quan:</div>
+                    <div class="font-semibold">@Model.BienBanVPham.TenBienBan</div>
+                }
+            </div>
+        </div>
+
+        @if (Model.LoaiKhieuNai == "ThanhToan")
+        {
+            <div class="mb-6 bg-gray-50 rounded-lg p-4">
+                <div class="font-semibold mb-2 text-gray-700">Nội dung khiếu nại</div>
+                <div class="text-gray-900">@Model.NoiDungKhieuNai</div>
+            </div>
+        }
+        else
+        {
+            <div class="mb-6 bg-gray-50 rounded-lg p-4">
+                <div class="font-semibold mb-2 text-gray-700">Lý do yêu cầu bằng chứng</div>
+                <div class="text-gray-900">@Model.LyDoYeuCau</div>
+                @if (!string.IsNullOrEmpty(Model.NoiDungKhieuNai))
+                {
+                    <div class="mt-4 pt-4 border-t">
+                        <div class="font-semibold mb-2 text-gray-700">Thông tin bổ sung</div>
+                        <div class="text-gray-900">@Model.NoiDungKhieuNai</div>
+                    </div>
+                }
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.KetQuaXuLy))
+        {
+            <div class="mb-6 bg-green-50 rounded-lg p-4">
+                <div class="font-semibold mb-2 text-green-700">Kết quả xử lý</div>
+                <div class="text-gray-900">@Model.KetQuaXuLy</div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @if (Model.LoaiKhieuNai == "BangChung" && !string.IsNullOrEmpty(Model.DuongDanBangChung))
+    {
+        <script>
+            $(document).ready(function() {
+                // Base64 evidence data
+                var evidenceData = '@Model.DuongDanBangChung';
+                var imageUrl = 'data:image/jpeg;base64,' + evidenceData;
+                
+                // Lazy load the image
+                var img = new Image();
+                img.onload = function() {
+                    // Hide loading spinner and show image when loaded
+                    $('#imageLoading').addClass('d-none');
+                    $('#evidenceImage').attr('src', imageUrl).removeClass('d-none');
+                    
+                    // Set download link
+                    $('#btnDownload').attr('href', imageUrl);
+                };
+                img.src = imageUrl;
+                
+                // View full size
+                $('#btnViewFullSize').click(function() {
+                    // Open image in new window or use lightbox
+                    var newWindow = window.open();
+                    newWindow.document.write('<html><head><title>Bằng chứng #@Model.MaKhieuNai</title></head><body style="margin:0;display:flex;justify-content:center;align-items:center;background:#000;height:100vh;"><img src="' + imageUrl + '" style="max-width:100%;max-height:100%;" /></body></html>');
+                });
+            });
+        </script>
+    }
+} 

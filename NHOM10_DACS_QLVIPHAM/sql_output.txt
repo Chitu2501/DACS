@@ -1,0 +1,2 @@
+Msg 911, Level 16, State 1, Server Sweether, Line 2
+Database 'NHOM10_DACS_QLVIPHAM' does not exist. Make sure that the name is entered correctly.

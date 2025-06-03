@@ -1,0 +1,168 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.TraLoiKhieuNaiViewModel
+
+@{
+    ViewData["Title"] = "Trả lời khiếu nại";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-xl mx-auto py-10">
+    <div class="bg-white shadow-xl rounded-2xl p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-orange-600">Trả lời khiếu nại</h2>
+            <a href="@Url.Action("QuanLyKhieuNai", "CanBo")" class="text-gray-600 hover:text-gray-800">
+                <i class="fas fa-arrow-left mr-2"></i>Quay lại
+            </a>
+        </div>
+
+        <form asp-action="TraLoiKhieuNai" method="post" enctype="multipart/form-data" id="responseForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="MaKhieuNai" />
+            
+            <!-- Complaint Details -->
+            <div class="mb-6 bg-gray-50 rounded-lg p-4">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">Thông tin khiếu nại</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm text-gray-600">Mã khiếu nại:</label>
+                        <div class="font-medium">@Model.MaKhieuNai</div>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600">Người gửi:</label>
+                        <div class="font-medium">@Model.TenCongDan</div>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600">Ngày gửi:</label>
+                        <div class="font-medium">@Model.NgayKhieuNai.ToString("dd/MM/yyyy HH:mm")</div>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600">Loại khiếu nại:</label>
+                        <div class="font-medium">
+                            @(Model.LoaiKhieuNai == "ThanhToan" ? "Khiếu nại thanh toán" : "Yêu cầu bằng chứng")
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complaint Content -->
+            <div class="mb-6">
+                <label class="block text-gray-700 font-medium mb-2">Nội dung khiếu nại</label>
+                <div class="bg-gray-100 rounded-lg p-4 text-gray-800 whitespace-pre-wrap">@Model.NoiDungKhieuNai</div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.LyDoYeuCau))
+            {
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2">Lý do yêu cầu bằng chứng</label>
+                    <div class="bg-gray-100 rounded-lg p-4 text-gray-800 whitespace-pre-wrap">@Model.LyDoYeuCau</div>
+                </div>
+            }
+
+            <!-- Response Form -->
+            <div class="space-y-6">
+                <div>
+                    <label asp-for="NoiDungTraLoi" class="block text-gray-700 font-medium mb-2">Nội dung trả lời</label>
+                    <textarea asp-for="NoiDungTraLoi" rows="4" 
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        placeholder="Nhập nội dung trả lời..."></textarea>
+                    <span asp-validation-for="NoiDungTraLoi" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label asp-for="KetQuaXuLy" class="block text-gray-700 font-medium mb-2">Kết quả xử lý</label>
+                    <textarea asp-for="KetQuaXuLy" rows="3"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        placeholder="Nhập kết quả xử lý..."></textarea>
+                    <span asp-validation-for="KetQuaXuLy" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label asp-for="TrangThai" class="block text-gray-700 font-medium mb-2">Trạng thái xử lý</label>
+                    <select asp-for="TrangThai" 
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <option value="Đã xử lý">Đã xử lý</option>
+                        <option value="Từ chối">Từ chối</option>
+                    </select>
+                    <span asp-validation-for="TrangThai" class="text-red-500 text-sm"></span>
+                </div>
+
+                @if (Model.LoaiKhieuNai == "BangChung")
+                {
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">File bằng chứng (nếu có)</label>
+                        <div class="flex items-center space-x-4">
+                            <input type="file" name="bangChungFile" 
+                                class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                            <div class="text-sm text-gray-500">
+                                Hỗ trợ: PDF, DOC, DOCX, JPG, PNG
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Preview Section -->
+            <div class="mt-8 p-4 bg-gray-50 rounded-lg">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">Xem trước phản hồi</h3>
+                <div id="previewContent" class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-gray-600">Nội dung trả lời:</label>
+                        <div id="previewNoiDung" class="mt-1 p-3 bg-white rounded border"></div>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600">Kết quả xử lý:</label>
+                        <div id="previewKetQua" class="mt-1 p-3 bg-white rounded border"></div>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600">Trạng thái:</label>
+                        <div id="previewTrangThai" class="mt-1 p-3 bg-white rounded border"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-8 flex justify-end space-x-4">
+                <button type="button" onclick="updatePreview()" 
+                    class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                    Xem trước
+                </button>
+                <button type="submit" 
+                    class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition">
+                    Gửi trả lời
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function updatePreview() {
+            const noiDung = document.getElementById('NoiDungTraLoi').value;
+            const ketQua = document.getElementById('KetQuaXuLy').value;
+            const trangThai = document.getElementById('TrangThai').value;
+
+            document.getElementById('previewNoiDung').textContent = noiDung || 'Chưa có nội dung';
+            document.getElementById('previewKetQua').textContent = ketQua || 'Chưa có kết quả';
+            document.getElementById('previewTrangThai').textContent = trangThai;
+
+            // Add status-specific styling
+            const statusElement = document.getElementById('previewTrangThai');
+            statusElement.className = 'mt-1 p-3 bg-white rounded border';
+            if (trangThai === 'Đã xử lý') {
+                statusElement.classList.add('text-green-600');
+            } else if (trangThai === 'Từ chối') {
+                statusElement.classList.add('text-red-600');
+            }
+        }
+
+        // Update preview on form changes
+        document.getElementById('NoiDungTraLoi').addEventListener('input', updatePreview);
+        document.getElementById('KetQuaXuLy').addEventListener('input', updatePreview);
+        document.getElementById('TrangThai').addEventListener('change', updatePreview);
+
+        // Initial preview update
+        updatePreview();
+    </script>
+} 

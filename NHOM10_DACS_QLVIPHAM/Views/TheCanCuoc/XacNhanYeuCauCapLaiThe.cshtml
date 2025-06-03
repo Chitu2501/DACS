@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Xác nhận xử lý yêu cầu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="max-w-lg mx-auto py-16">
+    <div class="bg-white shadow-xl rounded-2xl p-8 text-center">
+        <div class="flex justify-center mb-4">
+            <div class="bg-blue-100 rounded-full p-4">
+                <i class="fas fa-id-card text-4xl text-blue-500"></i>
+            </div>
+        </div>
+        <h2 class="text-2xl font-bold text-blue-700 mb-2">Xác nhận xử lý thành công</h2>
+        <p class="text-gray-700 mb-4">
+            Bạn đã xác nhận <b>yêu cầu cấp lại thẻ</b> hoặc <b>trả lời khiếu nại</b> của công dân.<br>
+            Vui lòng tiếp tục các bước xử lý tiếp theo nếu cần thiết.
+        </p>
+        <a href="@Url.Action("QuanLyTheCanCuoc", "CanBo")" class="inline-block mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+            Quản lý thẻ căn cước
+        </a>
+        <a href="@Url.Action("DanhSachKhieuNai", "CanBo")" class="inline-block mt-4 ml-2 px-6 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition">
+            Quản lý khiếu nại
+        </a>
+    </div>
+</div> 

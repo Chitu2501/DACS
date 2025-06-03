@@ -1,0 +1,265 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.XetDuyetCapNhatThongTinViewModel
+
+@{
+    ViewData["Title"] = "Xem yêu cầu cập nhật thông tin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    dynamic thongTinCapNhat = ViewBag.ThongTinCapNhat;
+    dynamic thongTinHienTai = ViewBag.ThongTinHienTai;
+}
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="mb-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="@Url.Action("QuanLyYeuCauCapNhatThongTin", "CanBo")" class="mr-4 text-indigo-600 hover:text-indigo-800 flex items-center">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    <span>Quay lại</span>
+                </a>
+                <h1 class="text-2xl font-bold text-gray-900">Chi tiết yêu cầu cập nhật thông tin #@Model.MaYeuCau</h1>
+            </div>
+            <div class="flex space-x-3">
+                <a href="@Url.Action("XetDuyetCapNhatThongTin", "CanBo", new { id = Model.MaYeuCau })" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Xét duyệt
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Information -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+        <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-info-circle mr-2"></i>
+                Thông tin yêu cầu
+            </h2>
+        </div>
+        <div class="border-t border-gray-200">
+            <dl>
+                <div class="bg-gray-50 px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Người yêu cầu</dt>
+                        <dd class="mt-1 text-base font-medium text-gray-900">@Model.TenNguoiDung</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Email</dt>
+                        <dd class="mt-1 text-base text-gray-900">@Model.Email</dd>
+                    </div>
+                </div>
+                <div class="bg-white px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Ngày yêu cầu</dt>
+                        <dd class="mt-1 text-base text-gray-900">@Model.NgayYeuCau.ToString("dd/MM/yyyy HH:mm")</dd>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-6 py-5">
+                    <dt class="text-sm font-medium text-gray-500">Lý do cập nhật</dt>
+                    <dd class="mt-2 text-base text-gray-900 whitespace-pre-line">@Model.NoiDungCapNhat</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Information Comparison -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+        <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-exchange-alt mr-2"></i>
+                So sánh thông tin
+            </h2>
+        </div>
+        <div class="border-t border-gray-200">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Trường thông tin
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Thông tin hiện tại
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Thông tin mới
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            Họ và tên
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            @(thongTinHienTai?.HoTen ?? "Không có")
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            @if (thongTinCapNhat?.HoTen != null)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    @thongTinCapNhat.HoTen
+                                </span>
+                            }
+                            else
+                            {
+                                <span>Không thay đổi</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            Email
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            @(thongTinHienTai?.Email ?? "Không có")
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            @if (thongTinCapNhat?.Email != null)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    @thongTinCapNhat.Email
+                                </span>
+                            }
+                            else
+                            {
+                                <span>Không thay đổi</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            Số điện thoại
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            @(thongTinHienTai?.SDT ?? "Không có")
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            @if (thongTinCapNhat?.SDT != null)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    @thongTinCapNhat.SDT
+                                </span>
+                            }
+                            else
+                            {
+                                <span>Không thay đổi</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            Số thẻ căn cước
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            @(thongTinHienTai?.MaTheCC ?? "Không có")
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            @if (thongTinCapNhat?.MaTheCC != null)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    @thongTinCapNhat.MaTheCC
+                                </span>
+                            }
+                            else
+                            {
+                                <span>Không thay đổi</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            Ngày sinh
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            @(thongTinHienTai?.NgaySinh != null ? ((DateTime)thongTinHienTai.NgaySinh).ToString("dd/MM/yyyy") : "Không có")
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            @if (thongTinCapNhat?.NgaySinh != null)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    @DateTime.Parse(thongTinCapNhat.NgaySinh.ToString()).ToString("dd/MM/yyyy")
+                                </span>
+                            }
+                            else
+                            {
+                                <span>Không thay đổi</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            Giới tính
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            @(thongTinHienTai?.GioiTinh ?? "Không có")
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            @if (thongTinCapNhat?.GioiTinh != null)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    @thongTinCapNhat.GioiTinh
+                                </span>
+                            }
+                            else
+                            {
+                                <span>Không thay đổi</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            Địa chỉ
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            @(thongTinHienTai?.DiaChi ?? "Không có")
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900">
+                            @if (thongTinCapNhat?.DiaChi != null)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    @thongTinCapNhat.DiaChi
+                                </span>
+                            }
+                            else
+                            {
+                                <span>Không thay đổi</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            Nghề nghiệp
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            @(thongTinHienTai?.CongViec ?? "Không có")
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900">
+                            @if (thongTinCapNhat?.CongViec != null)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    @thongTinCapNhat.CongViec
+                                </span>
+                            }
+                            else
+                            {
+                                <span>Không thay đổi</span>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-end space-x-3">
+        <a href="@Url.Action("QuanLyYeuCauCapNhatThongTin", "CanBo")" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Quay lại
+        </a>
+        <a href="@Url.Action("XetDuyetCapNhatThongTin", "CanBo", new { id = Model.MaYeuCau })" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <i class="fas fa-check-circle mr-2"></i>
+            Xét duyệt
+        </a>
+    </div>
+</div> 

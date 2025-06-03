@@ -1,0 +1,115 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="flex flex-col md:flex-row gap-8 justify-center">
+        <div class="w-full md:w-1/2 max-w-md">
+            <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+                <div class="bg-blue-600 px-6 py-4">
+                    <h2 class="text-xl font-bold text-white text-center">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập hệ thống
+                    </h2>
+                    <p class="text-sm text-blue-100 text-center mt-1">Đăng nhập để tra cứu và quản lý vi phạm</p>
+                </div>
+                
+                <div class="p-6">
+                    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="space-y-6">
+                        <div asp-validation-summary="All" class="text-red-500 text-sm"></div>
+                        
+                        <div>
+                            <label asp-for="UserName" class="block text-sm font-medium text-gray-700 mb-1">Tên đăng nhập</label>
+                            <input asp-for="UserName" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                            <span asp-validation-for="UserName" class="mt-1 text-sm text-red-600"></span>
+                        </div>
+                        
+                        <div>
+                            <label asp-for="Password" class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+                            <input asp-for="Password" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                            <span asp-validation-for="Password" class="mt-1 text-sm text-red-600"></span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input asp-for="RememberMe" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" id="remember-me">
+                            <label asp-for="RememberMe" for="remember-me" class="ml-2 block text-sm text-gray-700">
+                                Ghi nhớ đăng nhập
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <button type="submit" class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
+                                <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập
+                            </button>
+                        </div>
+                        
+                        <div class="text-center">
+                            <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-500">Quên mật khẩu?</a>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="bg-gray-50 px-6 py-4 text-center">
+                    <p class="text-sm text-gray-600">
+                        Chưa có tài khoản? 
+                        @* <a asp-action="Register" class="font-medium text-blue-600 hover:text-blue-500">
+                            Đăng ký ngay
+                        </a> *@
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="w-full md:w-1/2 max-w-md">
+            <div class="grid grid-cols-1 gap-6">
+                <div class="bg-gray-50 rounded-xl shadow p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-500 p-2 rounded-full text-white mr-3">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900">Tra cứu vi phạm</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">
+                        Đăng nhập để tra cứu thông tin vi phạm cá nhân và thanh toán trực tuyến nhanh chóng.
+                    </p>
+                    <ul class="mt-4 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span class="text-sm text-gray-600">Xem tất cả các vi phạm của bạn</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span class="text-sm text-gray-600">Thanh toán trực tuyến nhanh chóng</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl shadow p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-500 p-2 rounded-full text-white mr-3">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900">Bảo mật cao</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">
+                        Thông tin tài khoản và dữ liệu cá nhân được bảo mật theo tiêu chuẩn an ninh cao nhất.
+                    </p>
+                    <div class="mt-4 flex items-center">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <i class="fas fa-lock mr-1"></i> Mã hóa SSL
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-2">
+                            <i class="fas fa-shield-alt mr-1"></i> Xác thực 2 lớp
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

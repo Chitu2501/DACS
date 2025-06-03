@@ -1,0 +1,227 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.XetDuyetCapNhatThongTinViewModel
+
+@{
+    ViewData["Title"] = "Xét duyệt yêu cầu cập nhật thông tin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    dynamic thongTinCapNhat = null;
+    dynamic thongTinHienTai = null;
+    
+    try 
+    {
+        if (ViewBag.ThongTinCapNhat != null)
+        {
+            thongTinCapNhat = ViewBag.ThongTinCapNhat;
+        }
+        
+        if (ViewBag.ThongTinHienTai != null)
+        {
+            thongTinHienTai = ViewBag.ThongTinHienTai;
+        }
+    }
+    catch (Exception)
+    {
+        // Log error or handle exception
+    }
+
+    // Parse date safely
+    string GetDateValue()
+    {
+        try
+        {
+            DateTime parsedDate;
+            
+            if (thongTinCapNhat?.NgaySinh != null)
+            {
+                if (DateTime.TryParse(thongTinCapNhat.NgaySinh.ToString(), out parsedDate))
+                    return parsedDate.ToString("yyyy-MM-dd");
+            }
+            
+            if (thongTinHienTai?.NgaySinh != null)
+            {
+                return ((DateTime)thongTinHienTai.NgaySinh).ToString("yyyy-MM-dd");
+            }
+        }
+        catch
+        {
+            // Ignore errors
+        }
+        
+        return "";
+    }
+}
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="mb-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="@Url.Action("QuanLyYeuCauCapNhatThongTin", "CanBo")" class="mr-4 text-indigo-600 hover:text-indigo-800 flex items-center">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    <span>Quay lại</span>
+                </a>
+                <h1 class="text-2xl font-bold text-gray-900">Xét duyệt yêu cầu cập nhật thông tin #@Model.MaYeuCau</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Information -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+        <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-info-circle mr-2"></i>
+                Thông tin yêu cầu
+            </h2>
+        </div>
+        <div class="border-t border-gray-200">
+            <dl>
+                <div class="bg-gray-50 px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Người yêu cầu</dt>
+                        <dd class="mt-1 text-base font-medium text-gray-900">@Model.TenNguoiDung</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Email</dt>
+                        <dd class="mt-1 text-base text-gray-900">@Model.Email</dd>
+                    </div>
+                </div>
+                <div class="bg-white px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Ngày yêu cầu</dt>
+                        <dd class="mt-1 text-base text-gray-900">@Model.NgayYeuCau.ToString("dd/MM/yyyy HH:mm")</dd>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-6 py-5">
+                    <dt class="text-sm font-medium text-gray-500">Lý do cập nhật</dt>
+                    <dd class="mt-2 text-base text-gray-900 whitespace-pre-line">@Model.NoiDungCapNhat</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Approval Form -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+        <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-user-edit mr-2"></i>
+                Chỉnh sửa thông tin người dùng
+            </h2>
+        </div>
+        <div class="p-6">
+            <form asp-action="XetDuyetCapNhatThongTin" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+                <input type="hidden" asp-for="MaYeuCau" />
+                <input type="hidden" asp-for="NoiDungCapNhat" />
+                <input type="hidden" asp-for="ThongTinCapNhat" />
+                <input type="hidden" asp-for="NgayYeuCau" />
+                <input type="hidden" asp-for="TenNguoiDung" />
+                <input type="hidden" asp-for="Email" />
+                
+                <!-- Thông tin cá nhân -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Thông tin người dùng</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Họ và tên -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Họ và tên</label>
+                            <input type="text" name="HoTen" value="@(thongTinCapNhat?.HoTen ?? thongTinHienTai?.HoTen ?? "")" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" name="UserEmail" value="@(thongTinCapNhat?.Email ?? thongTinHienTai?.Email ?? "")" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Số điện thoại -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Số điện thoại</label>
+                            <input type="text" name="SDT" value="@(thongTinCapNhat?.SDT ?? thongTinHienTai?.SDT ?? "")" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        
+                        <!-- Số thẻ căn cước -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Số thẻ căn cước</label>
+                            <input type="text" name="MaTheCC" value="@(thongTinCapNhat?.MaTheCC ?? thongTinHienTai?.MaTheCC ?? "")" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Ngày sinh -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Ngày sinh</label>
+                            <input type="date" name="NgaySinh" value="@GetDateValue()" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        
+                        <!-- Giới tính -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Giới tính</label>
+                            <select name="GioiTinh" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                @{
+                                    var currentGender = thongTinCapNhat?.GioiTinh ?? thongTinHienTai?.GioiTinh;
+                                }
+                                <option value="Nam" selected="@(currentGender == "Nam")">Nam</option>
+                                <option value="Nữ" selected="@(currentGender == "Nữ")">Nữ</option>
+                                <option value="Khác" selected="@(currentGender == "Khác")">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Địa chỉ -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Địa chỉ</label>
+                            <textarea name="DiaChi" rows="2" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">@(thongTinCapNhat?.DiaChi ?? thongTinHienTai?.DiaChi ?? "")</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Nghề nghiệp -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nghề nghiệp</label>
+                            <input type="text" name="CongViec" value="@(thongTinCapNhat?.CongViec ?? thongTinHienTai?.CongViec ?? "")" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-200 pt-6">
+                    <div class="mb-6">
+                        <label asp-for="TrangThai" class="block text-sm font-medium text-gray-700 mb-2">Trạng thái xét duyệt</label>
+                        <div class="mt-1">
+                            <select asp-for="TrangThai" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option value="Đã duyệt">Đồng ý cập nhật</option>
+                                <option value="Đã từ chối">Từ chối cập nhật</option>
+                            </select>
+                        </div>
+                        <span asp-validation-for="TrangThai" class="text-red-500 text-sm"></span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label asp-for="GhiChu" class="block text-sm font-medium text-gray-700 mb-2">Ghi chú</label>
+                        <div class="mt-1">
+                            <textarea asp-for="GhiChu" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Nhập ghi chú về việc xét duyệt"></textarea>
+                        </div>
+                        <span asp-validation-for="GhiChu" class="text-red-500 text-sm"></span>
+                    </div>
+                </div>
+                
+                <div class="pt-5 flex justify-end space-x-3">
+                    <a href="@Url.Action("QuanLyYeuCauCapNhatThongTin", "CanBo")" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Hủy bỏ
+                    </a>
+                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-save mr-2"></i>
+                        Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

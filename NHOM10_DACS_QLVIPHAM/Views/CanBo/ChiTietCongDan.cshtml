@@ -1,0 +1,575 @@
+@model NHOM10_DACS_QLVIPHAM.Models.CongDan
+
+@{
+    ViewData["Title"] = "Chi tiết công dân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var bienBanViPhams = ViewBag.BienBanViPhams as List<NHOM10_DACS_QLVIPHAM.Models.BienBanVPham> ?? new List<NHOM10_DACS_QLVIPHAM.Models.BienBanVPham>();
+    var khieuNais = ViewBag.KhieuNais as List<NHOM10_DACS_QLVIPHAM.Models.KhieuNaiVPham> ?? new List<NHOM10_DACS_QLVIPHAM.Models.KhieuNaiVPham>();
+    var yeuCauCapNhats = ViewBag.YeuCauCapNhats as List<NHOM10_DACS_QLVIPHAM.Models.YeuCauCapNhatThongTin> ?? new List<NHOM10_DACS_QLVIPHAM.Models.YeuCauCapNhatThongTin>();
+    
+    var tongViPham = ViewBag.TongViPham ?? 0;
+    var tongKhieuNai = ViewBag.TongKhieuNai ?? 0;
+    var tongYeuCau = ViewBag.TongYeuCau ?? 0;
+}
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">
+            Chi tiết công dân
+        </h1>
+        <p class="text-gray-600">Thông tin chi tiết của công dân @Model.TenCongDan</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+        <div class="bg-blue-600 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">
+                <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+            </h2>
+        </div>
+        
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="flex flex-col items-center">
+                    <div class="mb-4">
+                        @if (!string.IsNullOrEmpty(Model.AnhChanDung))
+                        {
+                            <div class="h-48 w-48 rounded-full overflow-hidden border-4 border-blue-100 shadow-md mb-3">
+                                <img src="data:image/jpeg;base64,@Model.AnhChanDung" alt="Ảnh chân dung" class="h-full w-full object-cover" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="h-48 w-48 rounded-full overflow-hidden bg-gray-100 border-4 border-blue-100 shadow-md flex items-center justify-center mb-3">
+                                <i class="fas fa-user text-gray-400 text-6xl"></i>
+                            </div>
+                        }
+                        <a href="@Url.Action("ChinhSuaCongDan", "CanBo", new { id = Model.MaCongDan })" class="mt-2 inline-flex items-center text-sm text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-camera mr-1"></i> Cập nhật ảnh
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mã công dân</label>
+                        <div class="text-gray-900 font-semibold">@Model.MaCongDan</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Họ tên</label>
+                        <div class="text-gray-900 font-semibold">@Model.TenCongDan</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
+                        <div class="text-gray-900">@Model.GIOTTING</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ngày sinh</label>
+                        <div class="text-gray-900">@Model.NgaySinh.ToString("dd/MM/yyyy")</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Dân tộc</label>
+                        <div class="text-gray-900">@(string.IsNullOrEmpty(Model.DanToc) ? "Chưa cập nhật" : Model.DanToc)</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tôn giáo</label>
+                        <div class="text-gray-900">@(string.IsNullOrEmpty(Model.TonGiao) ? "Chưa cập nhật" : Model.TonGiao)</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Quốc tịch</label>
+                        <div class="text-gray-900">@(string.IsNullOrEmpty(Model.QuocTich) ? "Chưa cập nhật" : Model.QuocTich)</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Quê quán</label>
+                        <div class="text-gray-900">@(string.IsNullOrEmpty(Model.QueQuan) ? "Chưa cập nhật" : Model.QueQuan)</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ</label>
+                        <div class="text-gray-900">@(string.IsNullOrEmpty(Model.DiaChi) ? "Chưa cập nhật" : Model.DiaChi)</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nơi thường trú</label>
+                        <div class="text-gray-900">@(string.IsNullOrEmpty(Model.NoiThuongTru) ? "Chưa cập nhật" : Model.NoiThuongTru)</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Công việc</label>
+                        <div class="text-gray-900">@(string.IsNullOrEmpty(Model.CONGVIEC) ? "Chưa cập nhật" : Model.CONGVIEC)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+        <div class="bg-blue-600 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">
+                <i class="fas fa-address-card mr-2"></i>Thông tin liên hệ
+            </h2>
+        </div>
+        
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <div class="text-gray-900">@(string.IsNullOrEmpty(Model.GMAIL) ? "Chưa cập nhật" : Model.GMAIL)</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại</label>
+                        <div class="text-gray-900">@(string.IsNullOrEmpty(Model.SDT) ? "Chưa cập nhật" : Model.SDT)</div>
+                    </div>
+                </div>
+                
+                <div>
+                    @if (ViewBag.UserName != null)
+                    {
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tên tài khoản</label>
+                            <div class="text-gray-900">@ViewBag.UserName</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Violations Card -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-red-100">
+                        <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm text-gray-500 font-medium">Vi phạm</p>
+                        <h3 class="text-2xl font-bold text-gray-800">@tongViPham</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 border-t border-gray-100 px-5 py-3">
+                <a href="#violations" class="flex justify-between items-center text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    <span>Xem chi tiết</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Complaints Card -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-yellow-100">
+                        <i class="fas fa-exclamation-circle text-yellow-600 text-xl"></i>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm text-gray-500 font-medium">Khiếu nại</p>
+                        <h3 class="text-2xl font-bold text-gray-800">@tongKhieuNai</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 border-t border-gray-100 px-5 py-3">
+                <a href="#complaints" class="flex justify-between items-center text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    <span>Xem chi tiết</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Update Requests Card -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-100">
+                        <i class="fas fa-edit text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm text-gray-500 font-medium">Yêu cầu cập nhật</p>
+                        <h3 class="text-2xl font-bold text-gray-800">@tongYeuCau</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 border-t border-gray-100 px-5 py-3">
+                <a href="#updates" class="flex justify-between items-center text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    <span>Xem chi tiết</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Violations Section -->
+    <div id="violations" class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+        <div class="bg-gradient-to-r from-red-600 to-red-800 px-6 py-4">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold text-white">Biên bản vi phạm</h2>
+                <div>
+                    <a href="@Url.Action("ThemBienBanViPham", "CanBo", new { maCongDan = Model.MaCongDan })" class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50">
+                        <i class="fas fa-plus mr-1"></i> Lập biên bản
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        @if (bienBanViPhams.Any())
+        {
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Mã biên bản
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Tên biên bản
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Vi phạm
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Ngày lập
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Số tiền phạt
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Trạng thái
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Thao tác
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var item in bienBanViPhams)
+                        {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    @item.MaBienBan
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    @item.TenBienBan
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    @item.ViPham?.TenViPham
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    @item.NgayLapBienBan.ToString("dd/MM/yyyy")
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-medium">
+                                    @item.SoTienPhat.ToString("N0") VNĐ
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if (item.KetQuaXuLy == "Đã thanh toán")
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Đã thanh toán
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Chưa thanh toán
+                                        </span>
+                                    }
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <a href="@Url.Action("ChiTietBienBan", "CanBo", new { id = item.MaBienBan })" class="text-blue-600 hover:text-blue-900">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("SuaBienBan", "CanBo", new { id = item.MaBienBan })" class="text-indigo-600 hover:text-indigo-900">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="p-6 text-center">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-100 text-red-600 mb-4">
+                    <i class="fas fa-file-alt text-xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-1">Không có biên bản vi phạm</h3>
+                <p class="text-gray-500">Công dân này chưa có biên bản vi phạm nào được ghi nhận.</p>
+            </div>
+        }
+    </div>
+    
+    <!-- Complaints Section -->
+    <div id="complaints" class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+        <div class="bg-gradient-to-r from-yellow-600 to-yellow-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">Khiếu nại</h2>
+        </div>
+
+        @if (khieuNais.Any())
+        {
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Mã khiếu nại
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Ngày khiếu nại
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nội dung
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Trạng thái
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Thao tác
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var item in khieuNais)
+                        {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    @item.MaKhieuNai
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    @item.NgayKhieuNai.ToString("dd/MM/yyyy")
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                                    @(item.NoiDungKhieuNai?.Length > 100 ? item.NoiDungKhieuNai.Substring(0, 100) + "..." : item.NoiDungKhieuNai)
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if (item.TrangThai == "Đã xử lý")
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Đã xử lý
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Đang xử lý
+                                        </span>
+                                    }
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <a href="@Url.Action("XemKhieuNai", "CanBo", new { id = item.MaKhieuNai })" class="text-blue-600 hover:text-blue-900">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        @if (item.TrangThai != "Đã xử lý")
+                                        {
+                                            <a href="@Url.Action("TraLoiKhieuNai", "CanBo", new { id = item.MaKhieuNai })" class="text-yellow-600 hover:text-yellow-900">
+                                                <i class="fas fa-reply"></i>
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="p-6 text-center">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-yellow-100 text-yellow-600 mb-4">
+                    <i class="fas fa-exclamation-circle text-xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-1">Không có khiếu nại</h3>
+                <p class="text-gray-500">Công dân này chưa có khiếu nại nào được ghi nhận.</p>
+            </div>
+        }
+    </div>
+    
+    <!-- Update Requests Section -->
+    <div id="updates" class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">Yêu cầu cập nhật thông tin</h2>
+        </div>
+
+        @if (yeuCauCapNhats.Any())
+        {
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Mã yêu cầu
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Ngày yêu cầu
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nội dung
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Trạng thái
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Thao tác
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var item in yeuCauCapNhats)
+                        {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    @item.MaYeuCau
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    @item.NgayYeuCau.ToString("dd/MM/yyyy")
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                                    @(item.NoiDungCapNhat?.Length > 100 ? item.NoiDungCapNhat.Substring(0, 100) + "..." : item.NoiDungCapNhat)
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if (item.TrangThai == "Đã duyệt")
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Đã duyệt
+                                        </span>
+                                    }
+                                    else if (item.TrangThai == "Từ chối")
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            Từ chối
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Chờ xét duyệt
+                                        </span>
+                                    }
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <a href="@Url.Action("XemYeuCauCapNhatThongTin", "CanBo", new { id = item.MaYeuCau })" class="text-blue-600 hover:text-blue-900">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        @if (item.TrangThai == "Chờ xét duyệt")
+                                        {
+                                            <a href="@Url.Action("XetDuyetCapNhatThongTin", "CanBo", new { id = item.MaYeuCau })" class="text-indigo-600 hover:text-indigo-900">
+                                                <i class="fas fa-check-circle"></i>
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="p-6 text-center">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4">
+                    <i class="fas fa-edit text-xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-1">Không có yêu cầu cập nhật</h3>
+                <p class="text-gray-500">Công dân này chưa có yêu cầu cập nhật thông tin nào được ghi nhận.</p>
+            </div>
+        }
+    </div>
+    
+    <div class="mt-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-id-card text-blue-600 text-2xl mr-3"></i>
+                <h4 class="text-lg font-bold text-gray-800">Thông tin căn cước công dân</h4>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.MaTheCC))
+            {
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                    <div class="flex items-center space-x-2 mb-2 md:mb-0">
+                        <a href="@Url.Action("TraCuuTheCanCuocById", "TheCanCuoc", new { maTheCC = Model.MaTheCC })"
+                           class="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition">
+                            <i class="fas fa-address-card mr-2"></i> Xem chi tiết thẻ
+                        </a>
+                        <a asp-action="ChinhSuaTheCanCuoc" asp-route-maTheCC="@Model.MaTheCC"
+                           class="inline-flex items-center px-4 py-2 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-lg hover:bg-yellow-100 transition">
+                            <i class="fas fa-edit mr-2"></i> Chỉnh sửa thẻ
+                        </a>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <div class="mb-2 text-gray-600 font-medium">Số thẻ CCCD:</div>
+                        <div class="text-xl font-bold text-gray-900">@Model.MaTheCC</div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="flex flex-col items-center justify-center py-8">
+                    <div class="flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-3">
+                        <i class="fas fa-id-card text-blue-500 text-2xl"></i>
+                    </div>
+                    <div class="text-gray-700 mb-2">Công dân này chưa có thông tin thẻ căn cước công dân.</div>
+                    <a asp-action="TaoTheCanCuoc" asp-route-maCongDan="@Model.MaCongDan"
+                       class="mt-2 px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold shadow hover:bg-blue-700 transition flex items-center">
+                        <i class="fas fa-plus-circle mr-2"></i> Cấp thẻ căn cước
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <div class="flex justify-between mt-8">
+        <a href="@Url.Action("TraCuuCongDan", "CanBo")" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>Quay lại
+        </a>
+        
+        <a href="@Url.Action("ChinhSuaCongDan", "CanBo", new { id = Model.MaCongDan })" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+            <i class="fas fa-edit mr-2"></i>Chỉnh sửa
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Scroll to sections when clicking on the statistics cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('[href^="#"]');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+} 

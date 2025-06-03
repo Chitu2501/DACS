@@ -1,0 +1,231 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <div class="max-w-xl mx-auto mt-12 p-8 bg-yellow-50 border-l-4 border-yellow-400 rounded-xl shadow text-yellow-800 text-center">
+        <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
+        <h3 class="text-lg font-bold mb-2">Bạn đã đăng nhập!</h3>
+        <p>Bạn không thể đăng ký tài khoản mới khi đã đăng nhập.<br />Vui lòng đăng xuất trước khi đăng ký tài khoản khác.</p>
+        <a asp-action="Logout" class="inline-block mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">Đăng xuất</a>
+    </div>
+}
+else
+{
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <div class="flex justify-center">
+            <div class="w-full max-w-4xl">
+                <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+                    <div class="bg-blue-600 px-6 py-4">
+                        <h2 class="text-xl font-bold text-white text-center">
+                            <i class="fas fa-user-plus mr-2"></i>Đăng ký tài khoản
+                        </h2>
+                        <p class="text-sm text-blue-100 text-center mt-1">Vui lòng điền đầy đủ thông tin để tạo tài khoản mới</p>
+                    </div>
+                    
+                    <div class="p-6 md:p-8">
+                        <form asp-controller="Account" asp-action="Register" method="post" class="space-y-6">
+                            <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm mb-4"></div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label asp-for="UserName" class="block text-sm font-medium text-gray-700 mb-1">Tên đăng nhập</label>
+                                    <input asp-for="UserName" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                                    <span asp-validation-for="UserName" class="mt-1 text-sm text-red-600"></span>
+                                </div>
+                                <div>
+                                    <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input asp-for="Email" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                                    <span asp-validation-for="Email" class="mt-1 text-sm text-red-600"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label asp-for="Password" class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+                                    <input asp-for="Password" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                                    <span asp-validation-for="Password" class="mt-1 text-sm text-red-600"></span>
+                                </div>
+                                <div>
+                                    <label asp-for="ConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Nhập lại mật khẩu</label>
+                                    <input asp-for="ConfirmPassword" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                                    <span asp-validation-for="ConfirmPassword" class="mt-1 text-sm text-red-600"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="border-t border-gray-200 pt-6 mt-6">
+                                <h5 class="text-lg font-medium text-gray-900 mb-4">
+                                    <i class="fas fa-address-card mr-2 text-blue-500"></i>Thông tin cá nhân
+                                </h5>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label asp-for="HoTen" class="block text-sm font-medium text-gray-700 mb-1">Họ và tên</label>
+                                        <input asp-for="HoTen" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                                        <span asp-validation-for="HoTen" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="SelectedRole" class="block text-sm font-medium text-gray-700 mb-1">Vai trò</label>
+                                        <select asp-for="SelectedRole" asp-items="Model.AvailableRoles" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="SelectedRole" required>
+                                            <option value="">-- Chọn vai trò --</option>
+                                        </select>
+                                        <span asp-validation-for="SelectedRole" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                    <div>
+                                        <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại</label>
+                                        <input asp-for="PhoneNumber" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                                        <span asp-validation-for="PhoneNumber" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="NgaySinh" class="block text-sm font-medium text-gray-700 mb-1">Ngày sinh</label>
+                                        <input asp-for="NgaySinh" type="date" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                                        <span asp-validation-for="NgaySinh" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <label asp-for="DiaChi" class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ</label>
+                                    <input asp-for="DiaChi" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                                    <span asp-validation-for="DiaChi" class="mt-1 text-sm text-red-600"></span>
+                                </div>
+                            </div>
+                            
+                            <div id="congDanInfo" class="hidden">
+                                <div class="bg-blue-50 rounded-md p-4 border-l-4 border-blue-400 mb-6">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-info-circle text-blue-400"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm text-blue-700">Vui lòng điền thêm thông tin khi đăng ký tài khoản Công dân</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label asp-for="GioiTinh" class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
+                                        <select asp-for="GioiTinh" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">-- Chọn giới tính --</option>
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
+                                            <option value="Khác">Khác</option>
+                                        </select>
+                                        <span asp-validation-for="GioiTinh" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="QuocTich" class="block text-sm font-medium text-gray-700 mb-1">Quốc tịch</label>
+                                        <input asp-for="QuocTich" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ví dụ: Việt Nam" />
+                                        <span asp-validation-for="QuocTich" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                    <div>
+                                        <label asp-for="DanToc" class="block text-sm font-medium text-gray-700 mb-1">Dân tộc</label>
+                                        <input asp-for="DanToc" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ví dụ: Kinh" />
+                                        <span asp-validation-for="DanToc" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="TonGiao" class="block text-sm font-medium text-gray-700 mb-1">Tôn giáo</label>
+                                        <input asp-for="TonGiao" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ví dụ: Không" />
+                                        <span asp-validation-for="TonGiao" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                    <div>
+                                        <label asp-for="QueQuan" class="block text-sm font-medium text-gray-700 mb-1">Quê quán</label>
+                                        <input asp-for="QueQuan" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                                        <span asp-validation-for="QueQuan" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="NoiThuongTru" class="block text-sm font-medium text-gray-700 mb-1">Nơi thường trú</label>
+                                        <input asp-for="NoiThuongTru" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                                        <span asp-validation-for="NoiThuongTru" class="mt-1 text-sm text-red-600"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <label asp-for="CONGVIEC" class="block text-sm font-medium text-gray-700 mb-1">Công việc/Nghề nghiệp</label>
+                                    <input asp-for="CONGVIEC" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                                    <span asp-validation-for="CONGVIEC" class="mt-1 text-sm text-red-600"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mt-6">
+                                <div class="flex items-center h-5">
+                                    <input id="termsCheck" name="termsCheck" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" required>
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label for="termsCheck" class="font-medium text-gray-700">
+                                        Tôi đồng ý với <a href="#" class="text-blue-600 hover:text-blue-500">Điều khoản sử dụng</a> và <a href="#" class="text-blue-600 hover:text-blue-500">Chính sách bảo mật</a>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <button type="submit" class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
+                                    <i class="fas fa-user-plus mr-2"></i>Đăng ký tài khoản
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="bg-gray-50 px-6 py-4 text-center">
+                        <p class="text-sm text-gray-600">
+                            Đã có tài khoản? 
+                            <a asp-action="Login" class="font-medium text-blue-600 hover:text-blue-500">
+                                Đăng nhập ngay
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 mt-6 rounded-xl shadow p-6">
+                    <h5 class="text-lg font-medium text-gray-900 mb-3 flex items-center">
+                        <i class="fas fa-shield-alt mr-2 text-blue-500"></i>Chính sách bảo mật
+                    </h5>
+                    <p class="text-gray-600 text-sm">
+                        Thông tin cá nhân của bạn sẽ được bảo mật và chỉ sử dụng cho mục đích quản lý vi phạm. 
+                        Chúng tôi cam kết không chia sẻ thông tin với bên thứ ba khi chưa được sự đồng ý của bạn.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Toggle Công dân info based on selected role
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleSelect = document.getElementById('SelectedRole');
+            const congDanInfo = document.getElementById('congDanInfo');
+            
+            // Function to toggle visibility of CongDan info
+            function toggleCongDanInfo() {
+                if (roleSelect.value === 'CongDan') {
+                    congDanInfo.classList.remove('hidden');
+                } else {
+                    congDanInfo.classList.add('hidden');
+                }
+            }
+            
+            // Initial check
+            toggleCongDanInfo();
+            
+            // Add event listener
+            roleSelect.addEventListener('change', toggleCongDanInfo);
+        });
+    </script>
+} 

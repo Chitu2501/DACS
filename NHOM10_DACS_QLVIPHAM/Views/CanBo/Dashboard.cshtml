@@ -1,0 +1,409 @@
+@model IEnumerable<NHOM10_DACS_QLVIPHAM.Models.BienBanVPham>
+@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewData["Title"] = "Bảng điều khiển cán bộ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen pt-6 pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 flex items-center">
+                <i class="fas fa-tachometer-alt text-blue-600 mr-3"></i>
+                Bảng điều khiển quản lý
+            </h1>
+            <p class="text-gray-500 mt-1">Tổng quan hoạt động và quản lý vi phạm</p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- Left Sidebar -->
+            <div class="w-full lg:w-1/4 space-y-5">
+                <!-- User Profile Card -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-800 rounded-xl shadow-xl overflow-hidden">
+                    <div class="px-6 py-5">
+                        <div class="flex items-center mb-4">
+                            <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-md">
+                                <i class="fas fa-user-tie text-xl text-blue-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-white">@ViewBag.UserName</h3>
+                                <p class="text-blue-100 text-sm">Cán bộ quản lý</p>
+                                <a href="@Url.Action("CapNhatThongTinCanBo", "CanBo")" class="mt-2 inline-block bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-4 py-1.5 rounded transition text-sm shadow">
+                                    <i class="fas fa-user-cog mr-1"></i> Cập nhật thông tin cán bộ
+                                </a>
+                            </div>
+                        </div>
+                        <div class="text-blue-100 text-sm border-t border-blue-400 border-opacity-30 pt-3">
+                            <p>Chào mừng trở lại hệ thống quản lý vi phạm</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Menu -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                        <h3 class="font-semibold text-gray-700">Danh mục quản lý</h3>
+                    </div>
+                    <nav class="divide-y divide-gray-100">
+                        <a href="@Url.Action("Dashboard", "CanBo")" class="flex items-center px-4 py-3.5 text-blue-600 bg-blue-50 border-l-4 border-blue-600">
+                            <i class="fas fa-tachometer-alt w-5 mr-3"></i>
+                            <span>Bảng điều khiển</span>
+                        </a>
+                        <a href="@Url.Action("QuanLyBienBanViPham", "CanBo")" class="flex items-center px-4 py-3.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-l-4 hover:border-blue-600 transition-all duration-150">
+                            <i class="fas fa-clipboard-list w-5 mr-3"></i>
+                            <span>Quản lý biên bản</span>
+                        </a>
+                        <a href="@Url.Action("QuanLyViPham", "CanBo")" class="flex items-center px-4 py-3.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-l-4 hover:border-blue-600 transition-all duration-150">
+                            <i class="fas fa-exclamation-triangle w-5 mr-3"></i>
+                            <span>Quản lý vi phạm</span>
+                        </a>
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("QuanLyLuatViPham", "CanBo")" class="flex items-center px-4 py-3.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-l-4 hover:border-blue-600 transition-all duration-150">
+                                <i class="fas fa-gavel w-5 mr-3"></i>
+                                <span>Quản lý luật vi phạm</span>
+                            </a>
+                            <a href="@Url.Action("QuanLyLoaiViPham", "CanBo")" class="flex items-center px-4 py-3.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-l-4 hover:border-blue-600 transition-all duration-150">
+                                <i class="fas fa-list-alt w-5 mr-3"></i>
+                                <span>Quản lý loại vi phạm</span>
+                            </a>
+                        }
+                        <a href="@Url.Action("QuanLyBienBanThanhToan", "CanBo")" class="flex items-center px-4 py-3.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-l-4 hover:border-blue-600 transition-all duration-150">
+                            <i class="fas fa-money-bill-wave w-5 mr-3 text-green-600"></i>
+                            <span>Quản lý thanh toán</span>
+                        </a>
+                        <a href="@Url.Action("ThongKeThanhToan", "CanBo")" class="flex items-center px-4 py-3.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-l-4 hover:border-blue-600 transition-all duration-150">
+                            <i class="fas fa-chart-bar w-5 mr-3 text-indigo-600"></i>
+                            <span>Thống kê thanh toán</span>
+                        </a>
+                        <a href="@Url.Action("QuanLyKhieuNai", "CanBo")" class="flex items-center px-4 py-3.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-l-4 hover:border-blue-600 transition-all duration-150">
+                            <i class="fas fa-comment-dots w-5 mr-3 text-yellow-600"></i>
+                            <span>Quản lý khiếu nại</span>
+                        </a>
+                        <a href="@Url.Action("QuanLyYeuCauCapNhatThongTin", "CanBo")" class="flex items-center px-4 py-3.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-l-4 hover:border-blue-600 transition-all duration-150">
+                            <i class="fas fa-user-edit w-5 mr-3"></i>
+                            <span>Quản lý yêu cầu cập nhật</span>
+                        </a>
+                        <a href="@Url.Action("CongDanKhongCoTheCC", "CanBo")" class="flex items-center px-4 py-3.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-l-4 hover:border-blue-600 transition-all duration-150">
+                            <i class="fas fa-id-card w-5 mr-3"></i>
+                            <span>Quản lý thẻ căn cước</span>
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Quick Links -->
+                @if (!User.IsInRole("Admin"))
+                {
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="px-4 py-3 bg-indigo-50 border-b border-indigo-100">
+                            <h3 class="font-semibold text-indigo-800">Truy cập nhanh</h3>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <a href="@Url.Action("ThemBienBanViPham", "CanBo")" class="flex items-center px-3 py-2 text-sm bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 transition-colors">
+                                <i class="fas fa-plus-circle mr-2"></i> Tạo biên bản mới
+                            </a>
+                            <a href="@Url.Action("TraCuuCongDan", "CanBo")" class="flex items-center px-3 py-2 text-sm bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
+                                <i class="fas fa-search mr-2"></i> Tra cứu công dân
+                            </a>
+                            <a href="@Url.Action("TaoCongDan", "CanBo")" class="flex items-center px-3 py-2 text-sm bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
+                                <i class="fas fa-user-plus mr-2"></i> Tạo tài khoản công dân
+                            </a>
+                            <a href="@Url.Action("BaoCaoYeuCauCapNhatThongTin", "CanBo")" class="flex items-center px-3 py-2 text-sm bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
+                                <i class="fas fa-file-alt mr-2"></i> Xem báo cáo
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+            <!-- Main Content -->
+            <div class="w-full lg:w-3/4 space-y-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <!-- Vi phạm Stats -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                        <div class="px-5 py-5">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    Tổng vi phạm
+                                </div>
+                                <div class="rounded-full bg-red-100 p-2.5 text-red-500">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-3xl font-extrabold text-gray-900">@ViewBag.TongViPham</div>
+                                <a href="@Url.Action("QuanLyViPham", "CanBo")" class="inline-flex items-center text-xs text-blue-600 hover:text-blue-800">
+                                    Chi tiết
+                                    <i class="fas fa-chevron-right ml-1.5 text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-red-500 to-red-600 h-1.5"></div>
+                    </div>
+
+                    <!-- Loại vi phạm Stats -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                        <div class="px-5 py-5">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    Tổng loại vi phạm
+                                </div>
+                                <div class="rounded-full bg-green-100 p-2.5 text-green-500">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-3xl font-extrabold text-gray-900">@ViewBag.TongLoaiViPham</div>
+                                <a href="@Url.Action("QuanLyLuatViPham", "CanBo")" class="inline-flex items-center text-xs text-blue-600 hover:text-blue-800">
+                                    Chi tiết
+                                    <i class="fas fa-chevron-right ml-1.5 text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-green-500 to-green-600 h-1.5"></div>
+                    </div>
+
+                    <!-- Biên bản Stats -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                        <div class="px-5 py-5">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    Tổng biên bản
+                                </div>
+                                <div class="rounded-full bg-blue-100 p-2.5 text-blue-500">
+                                    <i class="fas fa-clipboard"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-3xl font-extrabold text-gray-900">@ViewBag.TongBienBan</div>
+                                <a href="@Url.Action("QuanLyBienBanViPham", "CanBo")" class="inline-flex items-center text-xs text-blue-600 hover:text-blue-800">
+                                    Chi tiết
+                                    <i class="fas fa-chevron-right ml-1.5 text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-1.5"></div>
+                    </div>
+
+                    <!-- Công dân Stats -->
+                    <a href="@Url.Action("QuanLyCongDan", "CanBo")" style="display:block">
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                            <div class="px-5 py-5">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        Tổng công dân
+                                    </div>
+                                    <div class="rounded-full bg-amber-100 p-2.5 text-amber-500">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-3xl font-extrabold text-gray-900">@ViewBag.TongCongDan</div>
+                                    <span class="text-xs text-gray-500">Trong hệ thống</span>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-r from-amber-500 to-amber-600 h-1.5"></div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-white to-blue-50 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <i class="fas fa-bolt text-amber-500 mr-2"></i> Thao tác nhanh
+                        </h3>
+                        <div class="text-sm text-gray-500">Các công cụ thường xuyên sử dụng</div>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <a href="@Url.Action("ThemBienBanViPham", "CanBo")" class="group flex flex-col items-center p-5 bg-white border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 hover:shadow-md transition-all duration-200">
+                            <div class="h-14 w-14 rounded-full bg-blue-100 flex items-center justify-center mb-3 group-hover:bg-blue-200 transition-colors duration-200">
+                                <i class="fas fa-plus text-xl text-blue-600"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800 group-hover:text-blue-600">Thêm biên bản</h4>
+                            <p class="text-xs text-gray-500 text-center mt-1">Tạo biên bản vi phạm mới</p>
+                        </a>
+                        
+                        <a href="@Url.Action("QuanLyBienBanThanhToan", "CanBo")" class="group flex flex-col items-center p-5 bg-white border border-gray-200 rounded-xl hover:bg-green-50 hover:border-green-200 hover:shadow-md transition-all duration-200">
+                            <div class="h-14 w-14 rounded-full bg-green-100 flex items-center justify-center mb-3 group-hover:bg-green-200 transition-colors duration-200">
+                                <i class="fas fa-money-bill-wave text-xl text-green-600"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800 group-hover:text-green-600">Quản lý thanh toán</h4>
+                            <p class="text-xs text-gray-500 text-center mt-1">Kiểm tra và cập nhật thanh toán</p>
+                        </a>
+                        
+                        <a href="@Url.Action("ThongKeThanhToan", "CanBo")" class="group flex flex-col items-center p-5 bg-white border border-gray-200 rounded-xl hover:bg-indigo-50 hover:border-indigo-200 hover:shadow-md transition-all duration-200">
+                            <div class="h-14 w-14 rounded-full bg-indigo-100 flex items-center justify-center mb-3 group-hover:bg-indigo-200 transition-colors duration-200">
+                                <i class="fas fa-chart-bar text-xl text-indigo-600"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800 group-hover:text-indigo-600">Báo cáo thống kê</h4>
+                            <p class="text-xs text-gray-500 text-center mt-1">Xem thống kê và báo cáo</p>
+                        </a>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <a href="@Url.Action("DanhSachYeuCau", "BangChung")" class="group flex items-center justify-center p-3 bg-amber-50 border border-amber-200 rounded-xl hover:bg-amber-100 hover:border-amber-300 hover:shadow-md transition-all duration-200">
+                            <div class="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center mr-3 group-hover:bg-amber-200 transition-colors duration-200">
+                                <i class="fas fa-file-image text-amber-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-800 group-hover:text-amber-700">Yêu cầu bằng chứng vi phạm</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">Xử lý yêu cầu cung cấp bằng chứng từ công dân</p>
+                            </div>
+                            <div class="ml-3">
+                                <i class="fas fa-arrow-right text-amber-500 group-hover:translate-x-1 transition-transform duration-200"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Pending Tasks & Notifications -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-white to-purple-50">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <i class="fas fa-tasks text-purple-500 mr-2"></i> Công việc cần xử lý
+                        </h3>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <a href="@Url.Action("QuanLyKhieuNai", "CanBo")" class="group flex items-center p-4 bg-white border border-gray-200 rounded-xl hover:bg-purple-50 hover:border-purple-200 hover:shadow-md transition-all duration-200">
+                            <div class="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center mr-4 group-hover:bg-purple-200 transition-colors duration-200">
+                                <i class="fas fa-comment-dots text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 group-hover:text-purple-600">Khiếu nại mới</h4>
+                                <p class="text-sm text-gray-500">@ViewBag.SoKhieuNaiMoi yêu cầu xử lý</p>
+                            </div>
+                        </a>
+
+                        <a href="@Url.Action("QuanLyYeuCauCapNhatThongTin", "CanBo")" class="group flex items-center p-4 bg-white border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 hover:shadow-md transition-all duration-200">
+                            <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4 group-hover:bg-blue-200 transition-colors duration-200">
+                                <i class="fas fa-user-edit text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 group-hover:text-blue-600">Yêu cầu cập nhật</h4>
+                                <p class="text-sm text-gray-500">@ViewBag.SoYeuCauCapNhat yêu cầu chờ duyệt</p>
+                            </div>
+                        </a>
+
+                        <a href="@Url.Action("CongDanKhongCoTheCC", "CanBo")" class="group flex items-center p-4 bg-white border border-gray-200 rounded-xl hover:bg-green-50 hover:border-green-200 hover:shadow-md transition-all duration-200">
+                            <div class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center mr-4 group-hover:bg-green-200 transition-colors duration-200">
+                                <i class="fas fa-id-card text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 group-hover:text-green-600">Cấp CCCD mới</h4>
+                                <p class="text-sm text-gray-500">@ViewBag.SoYeuCauCapCCCD yêu cầu cấp mới</p>
+                            </div>
+                        </a>
+
+                        <a href="@Url.Action("QuanLyBienBanThanhToan", "CanBo")" class="group flex items-center p-4 bg-white border border-gray-200 rounded-xl hover:bg-amber-50 hover:border-amber-200 hover:shadow-md transition-all duration-200">
+                            <div class="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center mr-4 group-hover:bg-amber-200 transition-colors duration-200">
+                                <i class="fas fa-money-bill-wave text-amber-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 group-hover:text-amber-600">Thanh toán chờ xử lý</h4>
+                                <p class="text-sm text-gray-500">@ViewBag.SoThanhToanChoXuLy giao dịch mới</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-white to-indigo-50">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <i class="fas fa-history text-indigo-500 mr-2"></i> Hoạt động gần đây
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var bienBan in Model.Take(5))
+                                {
+                                    <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg hover:bg-indigo-50 transition-colors duration-200">
+                                        <div class="flex-shrink-0">
+                                            <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                                <i class="fas fa-clipboard text-indigo-600"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-gray-900">
+                                                Biên bản vi phạm mới: @bienBan.TenBienBan
+                                            </p>
+                                            <p class="text-sm text-gray-500">
+                                                Ngày lập: @bienBan.NgayLapBienBan.ToString("dd/MM/yyyy HH:mm")
+                                            </p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <a href="@Url.Action("ChiTietBienBan", "CanBo", new { id = bienBan.MaBienBan })" 
+                                               class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                Xem chi tiết
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="text-center py-4 text-gray-500">
+                                    <i class="fas fa-info-circle text-gray-400 text-2xl mb-2"></i>
+                                    <p>Chưa có hoạt động nào gần đây</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CCCD Management Quick Access -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-white to-emerald-50">
+                        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                            <i class="fas fa-id-card text-emerald-500 mr-2"></i> Quản lý CCCD
+                        </h3>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <a href="@Url.Action("TaoTheCanCuoc", "CanBo")" class="group flex items-center p-4 bg-white border border-gray-200 rounded-xl hover:bg-emerald-50 hover:border-emerald-200 hover:shadow-md transition-all duration-200">
+                            <div class="h-12 w-12 rounded-full bg-emerald-100 flex items-center justify-center mr-4 group-hover:bg-emerald-200 transition-colors duration-200">
+                                <i class="fas fa-plus text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 group-hover:text-emerald-600">Tạo CCCD mới</h4>
+                                <p class="text-sm text-gray-500">Cấp thẻ căn cước công dân mới</p>
+                            </div>
+                        </a>
+
+                        <a href="@Url.Action("QuanLyYeuCauCapLaiThe", "CanBo")" class="group flex items-center p-4 bg-white border border-gray-200 rounded-xl hover:bg-emerald-50 hover:border-emerald-200 hover:shadow-md transition-all duration-200">
+                            <div class="h-12 w-12 rounded-full bg-emerald-100 flex items-center justify-center mr-4 group-hover:bg-emerald-200 transition-colors duration-200">
+                                <i class="fas fa-sync text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 group-hover:text-emerald-600">Cấp lại CCCD</h4>
+                                <p class="text-sm text-gray-500">Xử lý yêu cầu cấp lại thẻ căn cước</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Animation for cards on load
+            $('.transform').each(function(index) {
+                $(this).css('opacity', '0');
+                $(this).css('transform', 'translateY(20px)');
+                
+                setTimeout(() => {
+                    $(this).css('opacity', '1');
+                    $(this).css('transform', 'translateY(0)');
+                    $(this).css('transition', 'all 0.3s ease-out');
+                }, index * 100);
+            });
+        });
+    </script>
+} 

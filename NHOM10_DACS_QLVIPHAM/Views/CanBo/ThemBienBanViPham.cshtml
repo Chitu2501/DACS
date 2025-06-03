@@ -1,0 +1,230 @@
+@model NHOM10_DACS_QLVIPHAM.Models.BienBanVPham
+
+@{
+    ViewData["Title"] = "Thêm biên bản vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Thêm biên bản vi phạm mới</h1>
+
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <!-- Tìm kiếm công dân -->
+        <div class="mb-6 border-b pb-6">
+            <h2 class="text-lg font-semibold mb-4">Bước 1: Tìm kiếm công dân vi phạm</h2>
+            <div class="flex space-x-4">
+                <div class="flex-grow">
+                    <label for="searchCCCD" class="block text-sm font-medium text-gray-700 mb-1">Nhập số CCCD</label>
+                    <input id="searchCCCD" type="text" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Nhập số CCCD để tìm kiếm công dân" />
+                </div>
+                <div class="flex items-end">
+                    <button id="btnSearchCCCD" type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Kết quả tìm kiếm -->
+            <div id="searchResults" class="mt-4 hidden">
+                <h3 class="text-md font-medium mb-2">Kết quả tìm kiếm:</h3>
+                <div id="citizenList" class="border rounded-md overflow-hidden bg-gray-50">
+                    <!-- Citizens will be listed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Form lập biên bản -->
+        <div id="violationForm" class="hidden">
+            <h2 class="text-lg font-semibold mb-4">Bước 2: Lập biên bản vi phạm</h2>
+            
+            <div id="selectedCitizenInfo" class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
+                <h3 class="font-medium text-blue-800 mb-2">Thông tin công dân</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <p id="infoCitizenName" class="text-sm"><strong>Họ tên:</strong> <span></span></p>
+                    <p id="infoCitizenDOB" class="text-sm"><strong>Ngày sinh:</strong> <span></span></p>
+                    <p id="infoCitizenGender" class="text-sm"><strong>Giới tính:</strong> <span></span></p>
+                    <p id="infoCitizenAddress" class="text-sm"><strong>Địa chỉ:</strong> <span></span></p>
+                    <p id="infoCitizenCCCD" class="text-sm"><strong>Số CCCD:</strong> <span></span></p>
+                </div>
+            </div>
+            
+            <form asp-action="ThemBienBanViPham" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+                
+                <!-- Hidden fields -->
+                <input asp-for="MaTheCC" type="hidden" />
+                <input asp-for="MaCongDan" type="hidden" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="mb-4">
+                            <label asp-for="TenBienBan" class="block text-sm font-medium text-gray-700 mb-1">Tên biên bản</label>
+                            <input asp-for="TenBienBan" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                            <span asp-validation-for="TenBienBan" class="text-red-500 text-sm"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="MaViPham" class="block text-sm font-medium text-gray-700 mb-1">Loại vi phạm</label>
+                            <select asp-for="MaViPham" asp-items="ViewBag.ViPhams" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                                <option value="">-- Chọn loại vi phạm --</option>
+                            </select>
+                            <span asp-validation-for="MaViPham" class="text-red-500 text-sm"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="DiaChi" class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ vi phạm</label>
+                            <input asp-for="DiaChi" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="DiaChi" class="text-red-500 text-sm"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="mb-4">
+                            <label asp-for="ThoiGianVPham" class="block text-sm font-medium text-gray-700 mb-1">Thời gian vi phạm</label>
+                            <input asp-for="ThoiGianVPham" type="datetime-local" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required />
+                            <span asp-validation-for="ThoiGianVPham" class="text-red-500 text-sm"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="SoTienPhat" class="block text-sm font-medium text-gray-700 mb-1">Số tiền phạt</label>
+                            <input asp-for="SoTienPhat" type="number" min="0" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                            <span asp-validation-for="SoTienPhat" class="text-red-500 text-sm"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="NoiDungVPham" class="block text-sm font-medium text-gray-700 mb-1">Nội dung vi phạm</label>
+                            <textarea asp-for="NoiDungVPham" rows="4" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                            <span asp-validation-for="NoiDungVPham" class="text-red-500 text-sm"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex items-center justify-end space-x-3">
+                    <button type="button" id="btnBackToSearch" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Quay lại tìm kiếm
+                    </button>
+                    <a asp-action="QuanLyBienBanViPham" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Hủy
+                    </a>
+                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Tạo biên bản
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Tìm kiếm công dân khi nhấn nút tìm kiếm
+            $("#btnSearchCCCD").on("click", function() {
+                searchCitizen();
+            });
+            
+            // Tìm kiếm công dân khi nhấn Enter
+            $("#searchCCCD").on("keypress", function(e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    searchCitizen();
+                }
+            });
+            
+            // Quay lại tìm kiếm khi nhấn nút "Quay lại tìm kiếm"
+            $("#btnBackToSearch").on("click", function() {
+                $("#violationForm").addClass("hidden");
+                $("#searchResults").removeClass("hidden");
+            });
+            
+            // Hàm tìm kiếm công dân
+            function searchCitizen() {
+                var maTheCC = $("#searchCCCD").val();
+                if (!maTheCC) {
+                    alert("Vui lòng nhập số CCCD để tìm kiếm");
+                    return;
+                }
+                
+                $.ajax({
+                    url: '@Url.Action("TraCuuCongDanByCC", "CanBo")',
+                    type: 'GET',
+                    data: { maTheCC: maTheCC },
+                    success: function(data) {
+                        if (data.error) {
+                            alert(data.error);
+                            $("#searchResults").addClass("hidden");
+                        } else if (data.congDan) {
+                            // Hiển thị kết quả tìm kiếm
+                            displaySearchResults(data.congDan);
+                        }
+                    },
+                    error: function() {
+                        alert("Có lỗi xảy ra khi tra cứu thông tin công dân");
+                        $("#searchResults").addClass("hidden");
+                    }
+                });
+            }
+            
+            // Hiển thị kết quả tìm kiếm
+            function displaySearchResults(citizen) {
+                // Format ngày sinh
+                var ngaySinh = new Date(citizen.ngaySinh);
+                var ngaySinhFormatted = ngaySinh.getDate() + '/' + (ngaySinh.getMonth() + 1) + '/' + ngaySinh.getFullYear();
+                
+                // Tạo HTML cho kết quả tìm kiếm
+                var html = `
+                    <div class="p-4 border-b border-gray-200 cursor-pointer hover:bg-blue-50 citizen-item" 
+                         data-id="${citizen.maCongDan}" 
+                         data-name="${citizen.tenCongDan}" 
+                         data-cccd="${citizen.maTheCC}" 
+                         data-dob="${ngaySinhFormatted}" 
+                         data-gender="${citizen.gioiTinh}" 
+                         data-address="${citizen.diaChi}">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-medium">${citizen.tenCongDan}</p>
+                                <p class="text-sm text-gray-500">CCCD: ${citizen.maTheCC}</p>
+                            </div>
+                            <button class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-sm">Chọn</button>
+                        </div>
+                    </div>
+                `;
+                
+                $("#citizenList").html(html);
+                $("#searchResults").removeClass("hidden");
+                
+                // Xử lý sự kiện khi chọn công dân
+                $(".citizen-item").on("click", function() {
+                    selectCitizen($(this));
+                });
+            }
+            
+            // Chọn công dân
+            function selectCitizen(element) {
+                // Lấy thông tin công dân từ data attributes
+                var citizenId = element.data("id");
+                var citizenName = element.data("name");
+                var citizenCCCD = element.data("cccd");
+                var citizenDOB = element.data("dob");
+                var citizenGender = element.data("gender");
+                var citizenAddress = element.data("address");
+                
+                // Điền thông tin vào form
+                $("#MaCongDan").val(citizenId);
+                $("#MaTheCC").val(citizenCCCD);
+                
+                // Hiển thị thông tin công dân đã chọn
+                $("#infoCitizenName span").text(citizenName);
+                $("#infoCitizenDOB span").text(citizenDOB);
+                $("#infoCitizenGender span").text(citizenGender);
+                $("#infoCitizenAddress span").text(citizenAddress);
+                $("#infoCitizenCCCD span").text(citizenCCCD);
+                
+                // Ẩn kết quả tìm kiếm, hiện form lập biên bản
+                $("#searchResults").addClass("hidden");
+                $("#violationForm").removeClass("hidden");
+            }
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

@@ -1,0 +1,229 @@
+@model List<NHOM10_DACS_QLVIPHAM.Models.BienBanVPham>
+
+@{
+    ViewData["Title"] = "Trang chủ Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bg-gray-50">
+    <!-- Hero Section with Video Background -->
+    <div class="relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-indigo-900/80 z-10"></div>
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1465447142348-e9952c393450?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" 
+                 alt="Background" 
+                 class="w-full h-full object-cover">
+        </div>
+        <div class="relative z-20 py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="text-center lg:text-left">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                    <span class="block">Hệ thống Quản trị</span>
+                    <span class="block mt-2 text-blue-200">Vi phạm Giao thông</span>
+                </h1>
+                <p class="mt-5 text-xl text-blue-100 max-w-xl mx-auto lg:mx-0">
+                    Nền tảng hiện đại giúp quản trị, theo dõi, quản lý và xử lý các vi phạm giao thông một cách minh bạch, hiệu quả
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="space-y-10">
+            <!-- Welcome Card -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-l-4 border-blue-500">
+                <div class="p-6 flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div class="mb-4 md:mb-0">
+                        <h2 class="text-2xl font-bold text-gray-800">Xin chào, Admin!</h2>
+                        <p class="mt-1 text-gray-600">Chào mừng đến với Bảng điều khiển Quản trị hệ thống</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Tổng quan hệ thống</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Card 1: Người dùng -->
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]">
+                        <div class="p-6 flex items-center">
+                            <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-blue-500/20 text-blue-600">
+                                <i class="fas fa-users text-2xl"></i>
+                            </div>
+                            <div class="ml-5">
+                                <p class="text-sm font-medium text-blue-700">Tổng người dùng</p>
+                                <h3 class="text-3xl font-bold text-gray-800">@ViewBag.TongNguoiDung</h3>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <a href="@Url.Action("QuanLyNguoiDung", "Admin")" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center group">
+                                <span>Xem chi tiết</span>
+                                <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Card 2: Vi phạm mới -->
+                    <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]">
+                        <div class="p-6 flex items-center">
+                            <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-amber-500/20 text-amber-600">
+                                <i class="fas fa-exclamation-triangle text-2xl"></i>
+                            </div>
+                            <div class="ml-5">
+                                <p class="text-sm font-medium text-amber-700">Vi phạm mới</p>
+                                <h3 class="text-3xl font-bold text-gray-800">@ViewBag.TongViPham</h3>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <a href="@Url.Action("QuanLyViPham", "CanBo")" class="text-amber-600 hover:text-amber-800 text-sm font-medium flex items-center group">
+                                <span>Xem chi tiết</span>
+                                <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Card 3: Đã thanh toán -->
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]">
+                        <div class="p-6 flex items-center">
+                            <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-green-500/20 text-green-600">
+                                <i class="fas fa-money-bill-wave text-2xl"></i>
+                            </div>
+                            <div class="ml-5">
+                                <p class="text-sm font-medium text-green-700">Đã thanh toán</p>
+                                <h3 class="text-3xl font-bold text-gray-800">@ViewBag.TongThanhToan</h3>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <a href="@Url.Action("QuanLyBienBanThanhToan", "CanBo")" class="text-green-600 hover:text-green-800 text-sm font-medium flex items-center group">
+                                <span>Xem chi tiết</span>
+                                <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Card 4: Báo cáo -->
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px]">
+                        <div class="p-6 flex items-center">
+                            <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-purple-500/20 text-purple-600">
+                                <i class="fas fa-file-alt text-2xl"></i>
+                            </div>
+                            <div class="ml-5">
+                                <p class="text-sm font-medium text-purple-700">Báo cáo cần xử lý</p>
+                                <h3 class="text-3xl font-bold text-gray-800">@ViewBag.TongBaoCao</h3>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <a href="@Url.Action("PhanQuyen", "Admin")" class="text-purple-600 hover:text-purple-800 text-sm font-medium flex items-center group">
+                                <span>Xem chi tiết</span>
+                                <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition duration-300"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Activity -->
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Hoạt động hệ thống</h2>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">Hoạt động gần đây</h3>
+                            <a href="#" class="text-blue-600 hover:text-blue-800">Xem tất cả</a>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4 p-3 hover:bg-gray-50 rounded-lg transition">
+                                <div class="rounded-full bg-blue-100 p-2 flex-shrink-0">
+                                    <i class="fas fa-user-plus text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-800">Người dùng mới đã đăng ký</p>
+                                    <p class="text-sm text-gray-500">2 giờ trước</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4 p-3 hover:bg-gray-50 rounded-lg transition">
+                                <div class="rounded-full bg-red-100 p-2 flex-shrink-0">
+                                    <i class="fas fa-exclamation-circle text-red-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-800">Vi phạm mới được báo cáo</p>
+                                    <p class="text-sm text-gray-500">5 giờ trước</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4 p-3 hover:bg-gray-50 rounded-lg transition">
+                                <div class="rounded-full bg-green-100 p-2 flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-800">Thanh toán vi phạm thành công</p>
+                                    <p class="text-sm text-gray-500">1 ngày trước</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Management Functions -->
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Quản lý hệ thống</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Quản lý người dùng -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <div class="h-2 bg-blue-600"></div>
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="rounded-full bg-blue-100 p-3 mr-3">
+                                    <i class="fas fa-user-cog text-blue-600"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Quản lý người dùng</h3>
+                            </div>
+                            <p class="text-gray-600 mb-6">Quản lý tài khoản và phân quyền cho người dùng trong hệ thống.</p>
+                            <a asp-controller="AdminUser" asp-action="Create" 
+                               class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                                Tạo tài khoản
+                            </a>
+                            <a asp-controller="AdminUser" asp-action="Index" 
+                               class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 ml-2">
+                                Danh sách người dùng
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Tạo phòng ban -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <div class="h-2 bg-green-600"></div>
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="rounded-full bg-green-100 p-3 mr-3">
+                                    <i class="fas fa-building text-green-600"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Tạo phòng ban</h3>
+                            </div>
+                            <p class="text-gray-600 mb-6">Tạo mới và quản lý các phòng ban trong hệ thống để phân chia công việc hiệu quả.</p>
+                            <a asp-controller="Admin" asp-action="TaoPhongBan" 
+                               class="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                                Tạo phòng ban
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Tạo admin user -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <div class="h-2 bg-red-600"></div>
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="rounded-full bg-red-100 p-3 mr-3">
+                                    <i class="fas fa-user-shield text-red-600"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800">Tạo tài khoản Admin</h3>
+                            </div>
+                            <p class="text-gray-600 mb-6">Tạo tài khoản Admin mặc định cho hệ thống.</p>
+                            <a asp-controller="Admin" asp-action="CreateAdminUser" 
+                               class="inline-block bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                                Tạo Admin
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

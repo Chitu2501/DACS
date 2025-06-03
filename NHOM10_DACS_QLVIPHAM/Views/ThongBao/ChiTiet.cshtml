@@ -1,0 +1,52 @@
+@model NHOM10_DACS_QLVIPHAM.Models.ThongBao
+
+@{
+    ViewData["Title"] = "Chi tiết thông báo";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+            <div class="bg-blue-600 px-6 py-4 text-white">
+                <h5 class="text-lg font-medium flex items-center">
+                    @if (Model.LoaiThongBao == "THANH_TOAN")
+                    {
+                        <i class="fas fa-money-bill-wave mr-2"></i>
+                    }
+                    else if (Model.LoaiThongBao == "XAC_NHAN")
+                    {
+                        <i class="fas fa-check-circle mr-2"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-bell mr-2"></i>
+                    }
+                    Chi tiết thông báo
+                </h5>
+            </div>
+            <div class="p-6">
+                <div class="mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">@Model.TieuDe</h2>
+                    <p class="text-sm text-gray-500 mb-4">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</p>
+                    
+                    <div class="border-t border-gray-200 pt-4">
+                        <p class="text-gray-700">@Model.NoiDung</p>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between border-t border-gray-200 pt-4">
+                    <a href="@Url.Action("Index", "ThongBao")" class="text-blue-600 hover:text-blue-800 flex items-center">
+                        <i class="fas fa-arrow-left mr-1"></i> Quay lại danh sách thông báo
+                    </a>
+                    
+                    @if (!string.IsNullOrEmpty(Model.LinkChiTiet))
+                    {
+                        <a href="@Model.LinkChiTiet" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                            <i class="fas fa-eye mr-1"></i> Xem chi tiết
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

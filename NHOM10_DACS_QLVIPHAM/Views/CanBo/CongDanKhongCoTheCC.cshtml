@@ -1,0 +1,146 @@
+@model List<NHOM10_DACS_QLVIPHAM.Models.CongDan>
+@{
+    ViewData["Title"] = "Công dân chưa có thẻ CCCD";
+}
+
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Tiêu đề -->
+        <div class="mb-8 flex items-center space-x-4">
+            <div class="bg-blue-600 text-white rounded-full p-3 shadow">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Danh sách công dân chưa có thẻ CCCD</h1>
+                <p class="text-gray-500 text-sm">Quản lý và cấp thẻ CCCD cho công dân</p>
+            </div>
+        </div>
+
+        <!-- Thanh tìm kiếm -->
+        <div class="mb-6">
+            <form method="get" class="flex flex-col md:flex-row md:items-center gap-4">
+                <div class="relative w-full md:w-1/3">
+                    <input type="text" name="tenCongDan" value="@ViewBag.TenCongDan" placeholder="Tìm kiếm theo tên công dân..." class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700 shadow transition" />
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow transition flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    Tìm kiếm
+                </button>
+            </form>
+        </div>
+
+        <!-- Bảng danh sách -->
+        <div class="bg-white rounded-xl shadow-lg overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-blue-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Mã công dân</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Họ tên</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Ngày sinh</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Địa chỉ</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Số điện thoại</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Email</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-100">
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var congDan in Model)
+                        {
+                            <tr class="hover:bg-blue-50 transition">
+                                <td class="px-6 py-4 text-sm text-gray-800 font-medium">@congDan.MaCongDan</td>
+                                <td class="px-6 py-4 text-sm text-gray-800">@congDan.TenCongDan</td>
+                                <td class="px-6 py-4 text-sm text-gray-800">@congDan.NgaySinh.ToString("dd/MM/yyyy")</td>
+                                <td class="px-6 py-4 text-sm text-gray-800">@congDan.DiaChi</td>
+                                <td class="px-6 py-4 text-sm text-gray-800">@congDan.SDT</td>
+                                <td class="px-6 py-4 text-sm text-gray-800">@congDan.GMAIL</td>
+                                <td class="px-6 py-4 text-center">
+                                    <a href="@Url.Action("TaoTheCanCuoc", "CanBo", new { maCongDan = congDan.MaCongDan })"
+                                       class="inline-flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow transition">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                        </svg>
+                                        Tạo thẻ CCCD
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <p class="text-sm mb-0">Không tìm thấy công dân chưa có thẻ CCCD</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Phân trang -->
+        @if (ViewBag.TotalPages > 1)
+        {
+            <div class="flex justify-center mt-6">
+                <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    @if (ViewBag.CurrentPage > 1)
+                    {
+                        <a href="@Url.Action("CongDanKhongCoTheCC", new { tenCongDan = ViewBag.TenCongDan, page = ViewBag.CurrentPage - 1 })"
+                           class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span>&laquo;</span>
+                        </a>
+                    }
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <a href="@Url.Action("CongDanKhongCoTheCC", new { tenCongDan = ViewBag.TenCongDan, page = i })"
+                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium @(i == ViewBag.CurrentPage ? "bg-blue-50 border-blue-500 text-blue-600" : "bg-white text-gray-500 hover:bg-gray-50")">
+                            @i
+                        </a>
+                    }
+                    @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                    {
+                        <a href="@Url.Action("CongDanKhongCoTheCC", new { tenCongDan = ViewBag.TenCongDan, page = ViewBag.CurrentPage + 1 })"
+                           class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span>&raquo;</span>
+                        </a>
+                    }
+                </nav>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('.input-group.input-group-outline input').each(function() {
+                if ($(this).val() !== "") {
+                    $(this).parent().addClass('is-filled');
+                }
+                
+                $(this).on('focus', function() {
+                    $(this).parent().addClass('focused is-focused');
+                });
+                
+                $(this).on('blur', function() {
+                    $(this).parent().removeClass('focused is-focused');
+                    if ($(this).val() !== "") {
+                        $(this).parent().addClass('is-filled');
+                    } else {
+                        $(this).parent().removeClass('is-filled');
+                    }
+                });
+            });
+        });
+    </script>
+} 

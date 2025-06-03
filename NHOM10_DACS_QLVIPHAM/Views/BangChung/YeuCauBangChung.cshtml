@@ -1,0 +1,78 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.YeuCauBangChungViewModel
+
+@{
+    ViewData["Title"] = "Yêu cầu cung cấp bằng chứng vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-6">
+        <a href="@Url.Action("ChiTietViPham", "CongDan", new { id = Model.MaBienBan })" class="flex items-center text-blue-600 hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-2"></i> Quay lại biên bản vi phạm
+        </a>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">Yêu cầu cung cấp bằng chứng vi phạm</h2>
+        </div>
+
+        <div class="p-6">
+            <div class="mb-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-info-circle text-blue-500"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-blue-700">
+                            Bạn có quyền yêu cầu cán bộ cung cấp bằng chứng về vi phạm. Vui lòng cung cấp lý do yêu cầu bằng chứng.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <form asp-action="YeuCauBangChung" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+                <input type="hidden" asp-for="MaBienBan" />
+                <input type="hidden" asp-for="TenBienBan" />
+                <input type="hidden" asp-for="NgayYeuCau" />
+
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Thông tin biên bản</h3>
+                    <div class="bg-gray-50 p-4 rounded-md">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Mã biên bản</label>
+                                <div class="mt-1 text-gray-900 font-semibold">#@Model.MaBienBan</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Tên biên bản</label>
+                                <div class="mt-1 text-gray-900 font-semibold">@Model.TenBienBan</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label asp-for="LyDoYeuCau" class="block text-sm font-medium text-gray-700 mb-1">Lý do yêu cầu cung cấp bằng chứng</label>
+                    <textarea asp-for="LyDoYeuCau" rows="4" class="w-full rounded-md shadow-sm border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" placeholder="Vui lòng ghi rõ lý do yêu cầu cung cấp bằng chứng..."></textarea>
+                    <span asp-validation-for="LyDoYeuCau" class="text-sm text-red-600"></span>
+                    <p class="mt-1 text-sm text-gray-500">Vui lòng cung cấp lý do chi tiết để cán bộ xem xét yêu cầu của bạn.</p>
+                </div>
+
+                <div class="flex items-center justify-end space-x-3">
+                    <a href="@Url.Action("ChiTietViPham", "CongDan", new { id = Model.MaBienBan })" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Hủy
+                    </a>
+                    <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Gửi yêu cầu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

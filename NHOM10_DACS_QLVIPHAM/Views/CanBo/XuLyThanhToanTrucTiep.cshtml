@@ -1,0 +1,162 @@
+@model NHOM10_DACS_QLVIPHAM.Models.BienBanVPham
+
+@{
+    ViewData["Title"] = "Xử lý thanh toán trực tiếp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+            <h1 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-money-bill-wave mr-3"></i>
+                Xử lý thanh toán trực tiếp
+            </h1>
+        </div>
+
+        <div class="p-6">
+            <!-- Thông tin biên bản -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-file-alt text-blue-600 mr-2"></i>
+                    Thông tin biên bản vi phạm
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg">
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Mã biên bản</p>
+                        <p class="font-medium">@Model.MaBienBan</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Ngày lập</p>
+                        <p class="font-medium">@Model.NgayLapBienBan.ToString("dd/MM/yyyy HH:mm")</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Tên biên bản</p>
+                        <p class="font-medium">@Model.TenBienBan</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Loại vi phạm</p>
+                        <p class="font-medium">@Model.ViPham?.TenViPham</p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <p class="text-sm text-gray-500 mb-1">Nội dung vi phạm</p>
+                        <p class="font-medium">@Model.NoiDungVPham</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Thời gian vi phạm</p>
+                        <p class="font-medium">@Model.ThoiGianVPham.ToString("dd/MM/yyyy HH:mm")</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Người lập biên bản</p>
+                        <p class="font-medium">@Model.NguoiLap</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thông tin công dân -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-user text-blue-600 mr-2"></i>
+                    Thông tin người vi phạm
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg">
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Họ tên công dân</p>
+                        <p class="font-medium">@Model.CongDan?.TenCongDan</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Mã công dân</p>
+                        <p class="font-medium">@Model.MaCongDan</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Mã thẻ căn cước</p>
+                        <p class="font-medium">@Model.MaTheCC</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Email</p>
+                        <p class="font-medium">@Model.CongDan?.GMAIL</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thông tin thanh toán -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-coins text-blue-600 mr-2"></i>
+                    Thông tin thanh toán
+                </h2>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-500 mb-1">Số tiền phạt</p>
+                        <p class="text-2xl font-bold text-red-600">@Model.SoTienPhat.ToString("N0") VNĐ</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Trạng thái hiện tại</p>
+                        <div class="flex items-center">
+                            @if (Model.KetQuaXuLy == "Đã thanh toán")
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle mr-1"></i> Đã thanh toán
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                    <i class="fas fa-times-circle mr-1"></i> Chưa thanh toán
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form xác nhận thanh toán -->
+            @if (Model.KetQuaXuLy != "Đã thanh toán")
+            {
+                <form asp-action="XuLyThanhToanTrucTiep" method="post" class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                    <input type="hidden" name="id" value="@Model.MaBienBan" />
+                    
+                    <div class="mb-4">
+                        <label for="ghiChu" class="block text-sm font-medium text-gray-700 mb-1">Ghi chú thanh toán (tùy chọn)</label>
+                        <textarea name="ghiChu" id="ghiChu" rows="3" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Nhập ghi chú về việc thanh toán nếu cần..."></textarea>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3 items-center">
+                        <button type="submit" class="w-full md:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            Xác nhận đã thanh toán trực tiếp
+                        </button>
+                        
+                        <a href="@Url.Action("QuanLyBienBanThanhToan", "CanBo")" class="w-full md:w-auto inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Quay lại
+                        </a>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-check-circle text-3xl text-green-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-medium text-green-800">Biên bản đã được thanh toán</h3>
+                            <p class="text-sm text-green-700">Biên bản này đã được thanh toán và không cần xử lý thêm.</p>
+                        </div>
+                    </div>
+                    
+                    <a href="@Url.Action("QuanLyBienBanThanhToan", "CanBo")" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Quay lại danh sách
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div> 

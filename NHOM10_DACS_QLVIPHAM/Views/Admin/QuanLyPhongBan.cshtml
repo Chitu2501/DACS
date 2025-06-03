@@ -1,0 +1,32 @@
+@model IEnumerable<NHOM10_DACS_QLVIPHAM.Models.PhongBan>
+@{
+    ViewData["Title"] = "Quản lý phòng ban";
+    Layout = "_Layout";
+}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-2xl font-bold text-gray-800">Quản lý phòng ban</h1>
+        <a href="@Url.Action("TaoPhongBan", "Admin")" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">+ Tạo phòng ban mới</a>
+    </div>
+    <div class="bg-white rounded-xl shadow p-6">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mã phòng ban</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tên phòng ban</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Chức vụ</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach (var pb in Model)
+                {
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">@pb.MaPhongBan</td>
+                        <td class="px-6 py-4 whitespace-nowrap">@pb.TenPhongBan</td>
+                        <td class="px-6 py-4 whitespace-nowrap">@pb.ChucVu</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> 

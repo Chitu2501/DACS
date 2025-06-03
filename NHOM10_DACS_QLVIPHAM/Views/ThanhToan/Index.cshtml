@@ -1,0 +1,99 @@
+@{
+    ViewData["Title"] = "Thanh toán vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Model = ViewBag.BienBan;
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-4 bg-blue-600 text-white">
+            <h2 class="text-2xl font-bold">Thanh toán vi phạm</h2>
+        </div>
+        
+        <div class="p-6">
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Thông tin biên bản</h3>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-600 mb-1">Mã biên bản:</p>
+                            <p class="font-medium">@Model.MaBienBan</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 mb-1">Tên biên bản:</p>
+                            <p class="font-medium">@Model.TenBienBan</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 mb-1">Nội dung vi phạm:</p>
+                            <p class="font-medium">@Model.NoiDungVPham</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 mb-1">Thời gian vi phạm:</p>
+                            <p class="font-medium">@Model.ThoiGianVPham.ToString("dd/MM/yyyy")</p>
+                        </div>
+                        <div class="md:col-span-2">
+                            <p class="text-gray-600 mb-1">Số tiền phạt:</p>
+                            <p class="text-2xl font-bold text-red-600">@Model.SoTienPhat.ToString("#,##0") VNĐ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Chọn phương thức thanh toán</h3>
+            
+            <div class="space-y-4">
+                <div class="border rounded-lg p-4 hover:bg-gray-50">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="PayPal" class="h-8 mr-3">
+                            <div>
+                                <h4 class="font-medium">PayPal</h4>
+                                <p class="text-sm text-gray-500">Thanh toán an toàn qua PayPal</p>
+                            </div>
+                        </div>
+                        <a href="@Url.Action("ThanhToanPayPal", "ThanhToan", new { maBienBan = Model.MaBienBan })" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors inline-flex items-center">
+                            <i class="fas fa-credit-card mr-2"></i> Thanh toán
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="border rounded-lg p-4 bg-gray-50">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i class="fas fa-building text-gray-700 text-2xl mr-3"></i>
+                            <div>
+                                <h4 class="font-medium">Thanh toán tại cơ quan Nhà nước</h4>
+                                <p class="text-sm text-gray-500">Đến trực tiếp cơ quan có thẩm quyền để thanh toán</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-md">
+                            <i class="fas fa-info-circle mr-1"></i> Yêu cầu trực tiếp
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 p-4 text-blue-700">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h4 class="font-medium">Lưu ý về thanh toán</h4>
+                        <ul class="list-disc ml-5 mt-1 text-sm">
+                            <li>Thanh toán qua PayPal sẽ chuyển đổi từ VND sang USD (tỷ giá 1 USD = 23,000 VND)</li>
+                            <li>Sau khi thanh toán thành công, bạn sẽ nhận được biên lai điện tử qua email</li>
+                            <li>Trạng thái vi phạm sẽ được cập nhật tự động sau khi thanh toán thành công</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <a href="@Url.Action("TraCuuViPham", "ViPham")" class="text-blue-600 hover:text-blue-800">
+                    <i class="fas fa-arrow-left mr-1"></i> Quay lại trang tra cứu
+                </a>
+            </div>
+        </div>
+    </div>
+</div> 

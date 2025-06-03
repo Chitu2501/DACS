@@ -1,0 +1,129 @@
+@model NHOM10_DACS_QLVIPHAM.Models.TheCanCuoc
+
+@{
+    ViewData["Title"] = "Tạo thẻ căn cước";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var congDan = ViewBag.CongDan as NHOM10_DACS_QLVIPHAM.Models.CongDan;
+}
+
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center py-10">
+    <div class="w-full max-w-xl bg-white rounded-2xl shadow-xl p-8">
+        <div class="mb-8 text-center">
+            <div class="flex justify-center mb-3">
+                <div class="bg-blue-600 rounded-full p-3 shadow">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                </div>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800 mb-1">Tạo thẻ căn cước cho công dân</h1>
+            <p class="text-gray-500 text-sm">Điền thông tin để cấp thẻ CCCD</p>
+        </div>
+
+        <div class="mb-6 bg-slate-50 rounded-lg p-4">
+            <h2 class="text-lg font-semibold text-blue-700 mb-2">Thông tin công dân</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 text-sm">
+                <div>
+                    <span class="font-medium">Họ và tên:</span> @congDan?.TenCongDan
+                </div>
+                <div>
+                    <span class="font-medium">Ngày sinh:</span> @congDan?.NgaySinh.ToString("dd/MM/yyyy")
+                </div>
+                <div>
+                    <span class="font-medium">Địa chỉ:</span> @congDan?.DiaChi
+                </div>
+                <div>
+                    <span class="font-medium">Giới tính:</span> @congDan?.GioiTinh
+                </div>
+                <div>
+                    <span class="font-medium">Số điện thoại:</span> @congDan?.SDT
+                </div>
+                <div>
+                    <span class="font-medium">Email:</span> @congDan?.GMAIL
+                </div>
+            </div>
+        </div>
+
+        <form asp-action="TaoTheCanCuoc" asp-route-maCongDan="@congDan?.MaCongDan" method="post" enctype="multipart/form-data" class="space-y-5">
+            <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm"></div>
+            <h2 class="text-lg font-semibold text-blue-700 mb-2">Thông tin thẻ căn cước</h2>
+            <div>
+                <label asp-for="MaTheCC" class="block text-sm font-medium text-gray-700 mb-1">Mã thẻ căn cước</label>
+                <input asp-for="MaTheCC" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700" required />
+                <span asp-validation-for="MaTheCC" class="text-red-500 text-xs"></span>
+            </div>
+            <div>
+                <label asp-for="TenCC" class="block text-sm font-medium text-gray-700 mb-1">Tên loại thẻ</label>
+                <input asp-for="TenCC" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700" value="Căn cước công dân" required />
+                <span asp-validation-for="TenCC" class="text-red-500 text-xs"></span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label asp-for="NgayCap" class="block text-sm font-medium text-gray-700 mb-1">Ngày cấp</label>
+                    <input asp-for="NgayCap" type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+                    <span asp-validation-for="NgayCap" class="text-red-500 text-xs"></span>
+                </div>
+                <div>
+                    <label asp-for="NgayHetHan" class="block text-sm font-medium text-gray-700 mb-1">Ngày hết hạn</label>
+                    <input asp-for="NgayHetHan" type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700" value="@DateTime.Now.AddYears(10).ToString("yyyy-MM-dd")" required />
+                    <span asp-validation-for="NgayHetHan" class="text-red-500 text-xs"></span>
+                </div>
+            </div>
+            <div>
+                <label asp-for="NoiCap" class="block text-sm font-medium text-gray-700 mb-1">Nơi cấp</label>
+                <input asp-for="NoiCap" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700" value="Cục Cảnh sát quản lý hành chính về trật tự xã hội" required />
+                <span asp-validation-for="NoiCap" class="text-red-500 text-xs"></span>
+            </div>
+            <div>
+                <label asp-for="QuocTich" class="block text-sm font-medium text-gray-700 mb-1">Quốc tịch</label>
+                <input asp-for="QuocTich" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700" value="Việt Nam" required />
+                <span asp-validation-for="QuocTich" class="text-red-500 text-xs"></span>
+            </div>
+            <div>
+                <label asp-for="TrangThai" class="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
+                <select asp-for="TrangThai" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700">
+                    <option value="Đang sử dụng">Đang sử dụng</option>
+                    <option value="Đã hết hạn">Đã hết hạn</option>
+                    <option value="Đã thu hồi">Đã thu hồi</option>
+                    <option value="Bị mất">Bị mất</option>
+                </select>
+                <span asp-validation-for="TrangThai" class="text-red-500 text-xs"></span>
+            </div>
+            <div>
+                <label asp-for="GhiChu" class="block text-sm font-medium text-gray-700 mb-1">Ghi chú</label>
+                <input asp-for="GhiChu" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700" />
+                <span asp-validation-for="GhiChu" class="text-red-500 text-xs"></span>
+            </div>
+            
+            <!-- Thêm trường upload ảnh -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Ảnh mặt trước</label>
+                    <input type="file" name="anhMatTruoc" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700" required />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Ảnh mặt sau</label>
+                    <input type="file" name="anhMatSau" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none text-gray-700" required />
+                </div>
+            </div>
+
+            <div class="flex justify-between pt-4">
+                <a asp-action="ChiTietCongDan" asp-route-id="@congDan.MaCongDan"
+                   class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-semibold transition">
+                    ← Quay lại
+                </a>
+                <button type="submit"
+                        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Lưu thẻ căn cước
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

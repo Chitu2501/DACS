@@ -1,0 +1,356 @@
+@model string
+
+@{
+    ViewData["Title"] = "Tra cứu vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Tra cứu vi phạm trực tuyến</h1>
+            <p class="text-xl opacity-90 max-w-3xl mx-auto">Tra cứu và thanh toán vi phạm một cách nhanh chóng, an toàn, tiện lợi mọi lúc, mọi nơi.</p>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10">
+    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="p-6 md:p-8">
+            <div class="flex border-b border-gray-200" x-data="{ activeTab: 'search' }">
+                <button x-on:click="activeTab = 'search'" :class="{'border-b-2 border-blue-600 text-blue-600 font-medium': activeTab === 'search', 'text-gray-500 hover:text-gray-800': activeTab !== 'search'}" class="flex items-center pb-4 px-4 text-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    Tra cứu vi phạm
+                </button>
+                <button x-on:click="activeTab = 'payment'" :class="{'border-b-2 border-blue-600 text-blue-600 font-medium': activeTab === 'payment', 'text-gray-500 hover:text-gray-800': activeTab !== 'payment'}" class="flex items-center pb-4 px-4 text-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                    Thanh toán vi phạm
+                </button>
+            </div>
+            
+            <div class="pt-8">
+                <div x-show="activeTab === 'search'">
+                    <div class="max-w-3xl mx-auto">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Tra cứu theo số CCCD</h2>
+                        
+                        <form id="searchForm" class="searchForm space-y-6">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                                    </svg>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    id="maTheCC" 
+                                    name="maTheCC" 
+                                    class="block w-full pl-12 pr-12 py-4 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900"
+                                    placeholder="Nhập số CCCD (12 chữ số)" 
+                                    maxlength="12"
+                                    required>
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <button id="clearSearch" type="button" class="text-gray-400 hover:text-gray-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 text-white py-3 px-4 rounded-lg font-medium text-lg transition duration-150 ease-in-out flex justify-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                Tra cứu ngay
+                            </button>
+                        </form>
+                        
+                        <div class="flex items-start space-x-3 mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div class="flex-shrink-0 pt-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-blue-800"><span class="font-medium">Lưu ý:</span> Nhập đầy đủ 12 số trên thẻ CCCD của bạn để tra cứu chính xác. Đảm bảo thông tin bảo mật và chỉ được sử dụng cho mục đích tra cứu vi phạm.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div x-show="activeTab === 'payment'" x-cloak>
+                    <div class="max-w-3xl mx-auto">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Thanh toán vi phạm</h2>
+                        
+                        <div class="bg-white p-5 border border-gray-200 rounded-lg mb-6 shadow-sm">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0 bg-blue-100 rounded-lg p-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900 mb-1">Hướng dẫn thanh toán</h3>
+                                    <p class="text-gray-600">Để thanh toán vi phạm, vui lòng tra cứu mã CCCD trước, sau đó chọn biên bản cần thanh toán và click vào nút "Thanh toán".</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+                            <div class="bg-gray-50 px-5 py-4 border-b border-gray-200">
+                                <h3 class="font-medium text-gray-800">Các phương thức thanh toán được hỗ trợ</h3>
+                            </div>
+                            <div class="divide-y divide-gray-200">
+                                <div class="p-5 hover:bg-gray-50 transition duration-150">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 mr-4">
+                                            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="PayPal" class="h-8">
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-gray-900">PayPal</h4>
+                                            <p class="text-sm text-gray-600">Thanh toán an toàn và bảo mật qua PayPal</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-5 hover:bg-gray-50 transition duration-150">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 mr-4 bg-blue-100 p-2 rounded-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-gray-900">Thanh toán tại cơ quan Nhà nước</h4>
+                                            <p class="text-sm text-gray-600">Đến trực tiếp cơ quan có thẩm quyền để thanh toán</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="searchResults" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 hidden">
+    <div class="space-y-8">
+        <!-- Thông tin công dân -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-blue-50 px-6 py-4 border-b border-blue-100">
+                <h2 class="flex items-center text-lg font-semibold text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    Thông tin công dân
+                </h2>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <div class="flex">
+                            <div class="w-1/3 text-gray-500">Họ và tên:</div>
+                            <div class="w-2/3 font-medium text-gray-900" id="tenCongDan"></div>
+                        </div>
+                        <div class="flex">
+                            <div class="w-1/3 text-gray-500">Số CCCD:</div>
+                            <div class="w-2/3 font-medium text-gray-900" id="maCCCD"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex">
+                            <div class="w-1/3 text-gray-500">Ngày sinh:</div>
+                            <div class="w-2/3 font-medium text-gray-900" id="ngaySinh"></div>
+                        </div>
+                        <div class="flex">
+                            <div class="w-1/3 text-gray-500">Địa chỉ:</div>
+                            <div class="w-2/3 font-medium text-gray-900" id="diaChi"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danh sách vi phạm -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-blue-50 px-6 py-4 border-b border-blue-100">
+                <h2 class="flex items-center text-lg font-semibold text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    Danh sách vi phạm
+                </h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã biên bản</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên biên bản</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vi phạm</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Loại vi phạm</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày vi phạm</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Số tiền phạt</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="viPhamsTable" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Không có kết quả -->
+        <div id="noResults" class="hidden">
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded-md">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-yellow-700">Không tìm thấy vi phạm nào với mã CCCD này.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle form submission
+            const searchForm = document.getElementById("searchForm");
+            const maTheCCInput = document.getElementById("maTheCC");
+            const clearSearchBtn = document.getElementById("clearSearch");
+            
+            // Clear search input
+            clearSearchBtn.addEventListener("click", function() {
+                maTheCCInput.value = "";
+                maTheCCInput.focus();
+            });
+            
+            // Format CCCD number as user types
+            maTheCCInput.addEventListener("input", function(e) {
+                // Allow only numbers
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            
+            searchForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                const maTheCC = maTheCCInput.value.trim();
+                
+                if (maTheCC.length !== 12) {
+                    // Show validation error using toast or alert
+                    alert("Vui lòng nhập đầy đủ 12 số trên thẻ CCCD");
+                    return;
+                }
+                
+                // Show loading indicator
+                const searchButton = searchForm.querySelector("button[type='submit']");
+                const originalButtonContent = searchButton.innerHTML;
+                searchButton.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg> 
+                    Đang tìm kiếm...
+                `;
+                searchButton.disabled = true;
+                
+                // Call API to search
+                fetch('/ViPham/TraCuuViPhamTheoTheCC?maTheCC=' + maTheCC)
+                    .then(response => response.json())
+                    .then(response => {
+                        // Reset button
+                        searchButton.innerHTML = originalButtonContent;
+                        searchButton.disabled = false;
+                        
+                        if (response.success) {
+                            // Display citizen info
+                            document.getElementById("tenCongDan").textContent = response.congDan.tenCongDan;
+                            document.getElementById("maCCCD").textContent = response.congDan.maTheCC;
+                            document.getElementById("ngaySinh").textContent = response.congDan.ngaySinh;
+                            document.getElementById("diaChi").textContent = response.congDan.diaChi;
+                            
+                            // Display violations
+                            const viPhamsTable = document.getElementById("viPhamsTable");
+                            viPhamsTable.innerHTML = '';
+                            
+                            if (response.data && response.data.length > 0) {
+                                response.data.forEach(function(viPham) {
+                                    const statusClass = viPham.trangThai === 'Đã thanh toán' 
+                                        ? 'bg-green-100 text-green-800' 
+                                        : 'bg-yellow-100 text-yellow-800';
+                                    
+                                    const row = document.createElement('tr');
+                                    row.className = 'hover:bg-gray-50 transition-colors';
+                                    row.innerHTML = `
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${viPham.maBienBan}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${viPham.tenBienBan}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${viPham.tenViPham}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${viPham.loaiViPham}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${viPham.ngayVP}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${viPham.soTienPhat.toLocaleString('vi-VN')} VNĐ</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+                                                ${viPham.trangThai}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <div class="flex space-x-2 justify-end">
+                                                <a href="/ViPham/ChiTietViPham/${viPham.maBienBan}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-md inline-flex items-center transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                    </svg>
+                                                    Chi tiết
+                                                </a>
+                                                ${viPham.trangThai !== 'Đã thanh toán' ? 
+                                                `<a href="/ThanhToan/Index?maBienBan=${viPham.maBienBan}" class="text-green-600 hover:text-green-900 bg-green-50 hover:bg-green-100 px-3 py-1 rounded-md inline-flex items-center transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                                    </svg>
+                                                    Thanh toán
+                                                </a>` : ''}
+                                            </div>
+                                        </td>
+                                    `;
+                                    viPhamsTable.appendChild(row);
+                                });
+                                document.getElementById("noResults").classList.add('hidden');
+                            } else {
+                                document.getElementById("noResults").classList.remove('hidden');
+                            }
+                            
+                            // Show results section
+                            document.getElementById("searchResults").classList.remove('hidden');
+                            
+                            // Scroll to results
+                            setTimeout(function() {
+                                document.getElementById("searchResults").scrollIntoView({ 
+                                    behavior: 'smooth', 
+                                    block: 'start'
+                                });
+                            }, 100);
+                        } else {
+                            alert(response.message || "Không tìm thấy thông tin. Vui lòng kiểm tra lại mã CCCD.");
+                        }
+                    })
+                    .catch(error => {
+                        searchButton.innerHTML = originalButtonContent;
+                        searchButton.disabled = false;
+                        alert("Đã xảy ra lỗi khi tìm kiếm. Vui lòng thử lại sau.");
+                        console.error(error);
+                    });
+            });
+        });
+    </script>
+} 

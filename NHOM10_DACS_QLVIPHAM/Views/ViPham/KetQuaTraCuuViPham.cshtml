@@ -1,0 +1,132 @@
+@model List<NHOM10_DACS_QLVIPHAM.Models.BienBanVPham>
+
+@{
+    ViewData["Title"] = "Kết quả tra cứu vi phạm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="bg-blue-600 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">Kết quả tra cứu vi phạm</h2>
+        </div>
+        <div class="p-6">
+            <div class="mb-6 bg-blue-50 p-4 rounded-md">
+                <h4 class="text-md font-medium text-blue-800 mb-3">Thông tin cá nhân</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-gray-500">Họ và tên:</p>
+                        <p class="font-medium">@ViewBag.CongDan.TenCongDan</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Số CCCD:</p>
+                        <p class="font-medium">@ViewBag.CongDan.MaTheCC</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Địa chỉ:</p>
+                        <p class="font-medium">@ViewBag.CongDan.DiaChi</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Ngày sinh:</p>
+                        <p class="font-medium">@ViewBag.CongDan.NgaySinh.ToString("dd/MM/yyyy")</p>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.Count > 0)
+            {
+                <div class="overflow-x-auto rounded-md border">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STT</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Biên bản</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vi phạm</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày vi phạm</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Số tiền</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @{ int i = 1; }
+                            @foreach (var item in Model)
+                            {
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@i</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">@item.TenBienBan</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">@item.ViPham?.TenViPham</div>
+                                        <div class="text-xs text-gray-500">@item.ViPham?.LoaiViPham?.TenLoaiVPham</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        @(item.ThoiGianVPham.ToString("dd/MM/yyyy"))
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        @item.SoTienPhat.ToString("N0") VNĐ
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if (item.KetQuaXuLy == "Đã thanh toán" || item.KetQuaXuLy == "Đã xử lý")
+                                        {
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                @item.KetQuaXuLy
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                @item.KetQuaXuLy
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="@Url.Action("ChiTietViPham", "ViPham", new { id = item.MaBienBan })" class="text-blue-600 hover:text-blue-900 transition-colors duration-200">
+                                            <i class="fas fa-eye"></i> Chi tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-6 flex justify-between">
+                    <a href="@Url.Action("TraCuuViPham", "ViPham")" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+                        <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                    </a>
+                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a href="@Url.Action("Index", "Home")" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                            <i class="fas fa-home mr-2"></i> Trang chủ
+                        </a>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="bg-green-50 border-l-4 border-green-400 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-green-700">
+                                Công dân <strong>@ViewBag.CongDan.TenCongDan</strong> không có vi phạm nào được ghi nhận.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <a href="@Url.Action("TraCuuViPham", "ViPham")" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
+                        <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div> 

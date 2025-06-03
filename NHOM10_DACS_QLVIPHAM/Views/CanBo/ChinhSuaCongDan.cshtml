@@ -1,0 +1,507 @@
+@model NHOM10_DACS_QLVIPHAM.ViewModels.ChinhSuaCongDanViewModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa thông tin công dân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">
+            Chỉnh sửa thông tin công dân
+        </h1>
+        <p class="text-gray-600">Cập nhật thông tin cho công dân: @Model.TenCongDan</p>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-check-circle text-green-400"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-green-700">
+                        @TempData["SuccessMessage"]
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-circle text-red-400"></i>
+                </div>
+                <div class="ml-3">
+                    <div asp-validation-summary="ModelOnly" class="text-sm text-red-700"></div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <form asp-action="ChinhSuaCongDan" method="post" enctype="multipart/form-data" class="space-y-6">
+        <input type="hidden" asp-for="MaCongDan" />
+        <input type="hidden" asp-for="AnhChanDung" />
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="bg-blue-600 px-6 py-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+                </h2>
+            </div>
+            
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Profile Picture Section -->
+                    <div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ảnh chân dung</label>
+                            <div class="mt-1 flex items-center flex-col">
+                                @if (!string.IsNullOrEmpty(Model.AnhChanDung))
+                                {
+                                    <div class="mb-3">
+                                        <img src="data:image/jpeg;base64,@Model.AnhChanDung" alt="Ảnh chân dung" class="h-32 w-32 object-cover rounded-full border-2 border-blue-300" id="imagePreview" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mb-3 flex items-center justify-center h-32 w-32 rounded-full bg-gray-100 border-2 border-blue-300" id="imagePreviewPlaceholder">
+                                        <i class="fas fa-user text-gray-400 text-4xl"></i>
+                                    </div>
+                                }
+                                <div class="flex flex-col items-center">
+                                    <label for="profilePicture" class="cursor-pointer px-3 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors">
+                                        <i class="fas fa-camera mr-1"></i> Chọn ảnh
+                                    </label>
+                                    <input id="profilePicture" name="profilePicture" type="file" accept="image/*" class="hidden" onchange="previewSelectedImage()" />
+                                    <div class="text-xs text-gray-500 mt-2" id="fileSelected">Chưa chọn file</div>
+                                    <span class="text-xs text-gray-500 mt-1">JPEG, PNG tối đa 5MB</span>
+                                    <div class="mt-2">
+                                        <button type="button" onclick="uploadImageAjax()" class="px-3 py-2 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition-colors">
+                                            <i class="fas fa-upload mr-1"></i> Tải ảnh lên
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="mb-4">
+                            <label asp-for="TenCongDan" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="TenCongDan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="TenCongDan" class="text-xs text-red-600"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="GIOTTING" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <select asp-for="GIOTTING" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option value="">-- Chọn giới tính --</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                            <span asp-validation-for="GIOTTING" class="text-xs text-red-600"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="NgaySinh" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="NgaySinh" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="NgaySinh" class="text-xs text-red-600"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="DanToc" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="DanToc" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="DanToc" class="text-xs text-red-600"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="TonGiao" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="TonGiao" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="TonGiao" class="text-xs text-red-600"></span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="mb-4">
+                            <label asp-for="QuocTich" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="QuocTich" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="QuocTich" class="text-xs text-red-600"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="QueQuan" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="QueQuan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="QueQuan" class="text-xs text-red-600"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="DiaChi" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="DiaChi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="DiaChi" class="text-xs text-red-600"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="NoiThuongTru" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="NoiThuongTru" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="NoiThuongTru" class="text-xs text-red-600"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="MaTheCC" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="MaTheCC" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="MaTheCC" class="text-xs text-red-600"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="mb-4">
+                        <label asp-for="CONGVIEC" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                        <input asp-for="CONGVIEC" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                        <span asp-validation-for="CONGVIEC" class="text-xs text-red-600"></span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label asp-for="DacDiemNhanDang" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                        <textarea asp-for="DacDiemNhanDang" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" 
+                            rows="2" maxlength="500" id="dacDiemNhanDang" onkeyup="countChars()" 
+                            placeholder="Nhập đặc điểm nhận dạng (tối đa 500 ký tự)"></textarea>
+                        <div class="flex justify-between">
+                            <span asp-validation-for="DacDiemNhanDang" class="text-xs text-red-600"></span>
+                            <span class="text-xs text-gray-500" id="charCount">0/500 ký tự</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Chỉ nhập chữ và số, tránh ký tự đặc biệt để đảm bảo lưu thành công.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="bg-blue-600 px-6 py-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-address-card mr-2"></i>Thông tin liên hệ và tài khoản
+                </h2>
+            </div>
+            
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="mb-4">
+                            <label asp-for="GMAIL" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="GMAIL" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="GMAIL" class="text-xs text-red-600"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="SDT" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                            <input asp-for="SDT" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            <span asp-validation-for="SDT" class="text-xs text-red-600"></span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        @if (!string.IsNullOrEmpty(Model.UserName))
+                        {
+                            <div class="mb-4">
+                                <label asp-for="UserName" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                                <input asp-for="UserName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                                <span asp-validation-for="UserName" class="text-xs text-red-600"></span>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                                <input asp-for="Email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                                <span asp-validation-for="Email" class="text-xs text-red-600"></span>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                                <input asp-for="PhoneNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                                <span asp-validation-for="PhoneNumber" class="text-xs text-red-600"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="p-4 bg-yellow-50 rounded-lg">
+                                <p class="text-sm text-yellow-700">
+                                    <i class="fas fa-info-circle mr-2"></i>Công dân chưa có tài khoản. <a href="@Url.Action("TaoCongDan", "CanBo")" class="font-medium text-blue-600 hover:text-blue-800">Tạo tài khoản</a>
+                                </p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-between mt-8">
+            <a href="@Url.Action("ChiTietCongDan", "CanBo", new { id = Model.MaCongDan })" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>Quay lại
+            </a>
+            
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                <i class="fas fa-save mr-2"></i>Lưu thay đổi
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Show selected file name when a file is chosen
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('profilePicture');
+            const fileSelectedDisplay = document.getElementById('fileSelected');
+            
+            if (fileInput && fileSelectedDisplay) {
+                fileInput.addEventListener('change', function() {
+                    if (fileInput.files.length > 0) {
+                        const fileName = fileInput.files[0].name;
+                        const fileSize = (fileInput.files[0].size / 1024).toFixed(2);
+                        fileSelectedDisplay.textContent = `${fileName} (${fileSize} KB)`;
+                        fileSelectedDisplay.classList.add('text-blue-600');
+                    } else {
+                        fileSelectedDisplay.textContent = 'Chưa chọn file';
+                        fileSelectedDisplay.classList.remove('text-blue-600');
+                    }
+                });
+            }
+            
+            // Initialize character counter for DacDiemNhanDang field
+            countChars();
+            
+            // Add form submission handler to sanitize input
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    // Sanitize DacDiemNhanDang field before submission
+                    const dacDiemInput = document.getElementById('dacDiemNhanDang');
+                    if (dacDiemInput && dacDiemInput.value) {
+                        // Trim whitespace and remove problematic characters
+                        let sanitized = dacDiemInput.value
+                            .trim()
+                            .replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, '') // Keep only letters, numbers, punctuation and spaces
+                            .substring(0, 500); // Ensure max length
+                            
+                        dacDiemInput.value = sanitized;
+                    }
+                });
+            }
+        });
+        
+        // Character counter function
+        function countChars() {
+            const textarea = document.getElementById('dacDiemNhanDang');
+            const charCountSpan = document.getElementById('charCount');
+            if (textarea && charCountSpan) {
+                const remaining = textarea.value.length;
+                charCountSpan.textContent = `${remaining}/500 ký tự`;
+                
+                // Change color when approaching limit
+                if (remaining > 450) {
+                    charCountSpan.classList.remove('text-gray-500');
+                    charCountSpan.classList.add('text-amber-600');
+                    
+                    if (remaining > 490) {
+                        charCountSpan.classList.remove('text-amber-600');
+                        charCountSpan.classList.add('text-red-600');
+                    }
+                } else {
+                    charCountSpan.classList.remove('text-amber-600', 'text-red-600');
+                    charCountSpan.classList.add('text-gray-500');
+                }
+            }
+        }
+        
+        // Preview the selected image
+        function previewSelectedImage() {
+            const input = document.getElementById('profilePicture');
+            const preview = document.getElementById('imagePreview');
+            const previewPlaceholder = document.getElementById('imagePreviewPlaceholder');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    if (preview) {
+                        // Update existing preview
+                        preview.src = e.target.result;
+                    } else if (previewPlaceholder) {
+                        // Replace placeholder with new image
+                        const container = previewPlaceholder.parentElement;
+                        
+                        // Create new image element
+                        const newPreview = document.createElement('div');
+                        newPreview.className = 'mb-3';
+                        newPreview.innerHTML = `<img src="${e.target.result}" alt="Ảnh chân dung" class="h-32 w-32 object-cover rounded-full border-2 border-blue-300" id="imagePreview" />`;
+                        
+                        // Replace placeholder with new image
+                        container.replaceChild(newPreview, previewPlaceholder);
+                    }
+                };
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        // Upload image function
+        function uploadImage() {
+            const fileInput = document.getElementById('profilePicture');
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                alert('Vui lòng chọn ảnh trước khi tải lên');
+                return;
+            }
+            
+            // Check file size
+            const fileSize = fileInput.files[0].size / (1024 * 1024); // Size in MB
+            if (fileSize > 5) {
+                alert('Kích thước file không được vượt quá 5MB');
+                return;
+            }
+            
+            // Create a separate form just for the image
+            const formData = new FormData();
+            formData.append('profilePicture', fileInput.files[0]);
+            formData.append('MaCongDan', document.querySelector('input[name="MaCongDan"]').value);
+            
+            // Show loading indicator
+            const uploadButton = document.querySelector('button[onclick="uploadImage()"]');
+            const originalButtonText = uploadButton.innerHTML;
+            uploadButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
+            uploadButton.disabled = true;
+            
+            // Submit the form
+            document.querySelector('form').submit();
+        }
+        
+        // Test image upload
+        function testImageUpload() {
+            const fileInput = document.getElementById('profilePicture');
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                alert('Vui lòng chọn ảnh trước');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            console.log('File selected:', file.name);
+            console.log('File size:', (file.size / 1024).toFixed(2) + ' KB');
+            console.log('File type:', file.type);
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                console.log('File read successfully');
+                console.log('Data URL length:', e.target.result.length);
+                
+                // Create a test element to show success
+                const testResult = document.createElement('div');
+                testResult.className = 'bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4';
+                testResult.innerHTML = `
+                    <strong>Kiểm tra thành công!</strong>
+                    <p>Tên file: ${file.name}</p>
+                    <p>Kích thước: ${(file.size / 1024).toFixed(2)} KB</p>
+                    <p>Loại file: ${file.type}</p>
+                    <p>File đã được đọc và sẵn sàng để tải lên</p>
+                `;
+                
+                // Insert after the form buttons
+                const formButtons = document.querySelector('.flex.justify-between.mt-8');
+                formButtons.parentNode.insertBefore(testResult, formButtons.nextSibling);
+                
+                // Set up form to make sure it includes the file
+                const hiddenAnhChanDung = document.querySelector('input[name="AnhChanDung"]');
+                if (!hiddenAnhChanDung.value) {
+                    console.log('Setting hidden AnhChanDung field...');
+                }
+            };
+            
+            reader.onerror = function() {
+                console.error('Error reading file');
+                alert('Có lỗi khi đọc file ảnh. Vui lòng thử lại với ảnh khác.');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        // AJAX image upload
+        function uploadImageAjax() {
+            const fileInput = document.getElementById('profilePicture');
+            const statusDiv = document.getElementById('fileSelected');
+            
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                statusDiv.textContent = 'Vui lòng chọn ảnh trước khi tải lên';
+                statusDiv.className = 'text-xs text-red-600 mt-2 font-semibold';
+                return;
+            }
+            
+            // Check file size
+            const file = fileInput.files[0];
+            const fileSize = file.size / (1024 * 1024); // Size in MB
+            if (fileSize > 5) {
+                statusDiv.textContent = 'Kích thước file vượt quá 5MB';
+                statusDiv.className = 'text-xs text-red-600 mt-2 font-semibold';
+                return;
+            }
+            
+            // Create form data for AJAX request
+            const formData = new FormData();
+            formData.append('profileImage', file);
+            formData.append('maCongDan', document.querySelector('input[name="MaCongDan"]').value);
+            
+            // Show loading indicator
+            const uploadButton = document.querySelector('button[onclick="uploadImageAjax()"]');
+            const originalButtonText = uploadButton.innerHTML;
+            uploadButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
+            uploadButton.disabled = true;
+            statusDiv.textContent = 'Đang tải ảnh lên...';
+            statusDiv.className = 'text-xs text-blue-600 mt-2 font-semibold';
+            
+            // Get the antiforgery token
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            
+            // Send AJAX request
+            fetch('@Url.Action("UploadProfileImage", "CanBo")', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'RequestVerificationToken': token
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Reset the button
+                uploadButton.innerHTML = originalButtonText;
+                uploadButton.disabled = false;
+                
+                if (data.success) {
+                    // Show success message
+                    statusDiv.textContent = data.message;
+                    statusDiv.className = 'text-xs text-green-600 mt-2 font-semibold';
+                    
+                    // Refresh the page after 1.5 seconds to show the updated image
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    // Show error message
+                    statusDiv.textContent = data.message;
+                    statusDiv.className = 'text-xs text-red-600 mt-2 font-semibold';
+                }
+            })
+            .catch(error => {
+                // Reset the button
+                uploadButton.innerHTML = originalButtonText;
+                uploadButton.disabled = false;
+                
+                console.error('Error:', error);
+                statusDiv.textContent = 'Đã xảy ra lỗi khi tải ảnh';
+                statusDiv.className = 'text-xs text-red-600 mt-2 font-semibold';
+            });
+        }
+    </script>
+} 

@@ -1,0 +1,433 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = NHOM10_DACS_QLVIPHAM
+build_property.RootNamespace = NHOM10_DACS_QLVIPHAM
+build_property.ProjectDir = C:\Users\ADMIN\source\repos\NHOM10_DACS_QLVIPHAM\NHOM10_DACS_QLVIPHAM\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\ADMIN\source\repos\NHOM10_DACS_QLVIPHAM\NHOM10_DACS_QLVIPHAM
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/AdminUser/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Vc2VyXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/AdminUser/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Vc2VyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Admin/PhanQuyen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGhhblF1eWVuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Admin/QuanLyNguoiDung.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUXVhbkx5Tmd1b2lEdW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Admin/QuanLyPhongBan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUXVhbkx5UGhvbmdCYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Admin/TaoCanBo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVGFvQ2FuQm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Admin/TaoPhongBan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVGFvUGhvbmdCYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/BangChung/DanhSachYeuCau.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFuZ0NodW5nXERhbmhTYWNoWWV1Q2F1LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/BangChung/XemBangChung.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFuZ0NodW5nXFhlbUJhbmdDaHVuZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/BangChung/XuLyYeuCau.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFuZ0NodW5nXFh1THlZZXVDYXUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/BangChung/YeuCauBangChung.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFuZ0NodW5nXFlldUNhdUJhbmdDaHVuZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/BaoCaoYeuCauCapNhatThongTin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cQmFvQ2FvWWV1Q2F1Q2FwTmhhdFRob25nVGluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/CapNhatTheCanCuoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cQ2FwTmhhdFRoZUNhbkN1b2MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/CapNhatThongTinCanBo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cQ2FwTmhhdFRob25nVGluQ2FuQm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/ChinhSuaCongDan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cQ2hpbmhTdWFDb25nRGFuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/ChinhSuaTheCanCuoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cQ2hpbmhTdWFUaGVDYW5DdW9jLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/ChiTietBienBan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cQ2hpVGlldEJpZW5CYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/ChiTietCongDan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cQ2hpVGlldENvbmdEYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/CongDanKhongCoTheCC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cQ29uZ0Rhbktob25nQ29UaGVDQy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyBienBanThanhToan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5QmllbkJhblRoYW5oVG9hbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyBienBanViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5QmllbkJhblZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyCongDan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5Q29uZ0Rhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyKhieuNai.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5S2hpZXVOYWkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyLoaiViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5TG9haVZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyLuatViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5THVhdFZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyTheCanCuoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5VGhlQ2FuQ3VvYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5VmlQaGFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyYeuCauCapLaiThe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5WWV1Q2F1Q2FwTGFpVGhlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyYeuCauCapNhatThongTin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5WWV1Q2F1Q2FwTmhhdFRob25nVGluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/QuanLyYeuCauThayDoiThongTin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cUXVhbkx5WWV1Q2F1VGhheURvaVRob25nVGluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/SuaCongDan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cU3VhQ29uZ0Rhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/SuaLoaiViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cU3VhTG9haVZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/SuaViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cU3VhVmlQaGFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/TaoCongDan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cVGFvQ29uZ0Rhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/TaoTheCanCuoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cVGFvVGhlQ2FuQ3VvYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/ThemBienBanViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cVGhlbUJpZW5CYW5WaVBoYW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/ThemLoaiViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cVGhlbUxvYWlWaVBoYW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/ThemViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cVGhlbVZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/ThongKeThanhToan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cVGhvbmdLZVRoYW5oVG9hbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/TraCuuCongDan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cVHJhQ3V1Q29uZ0Rhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/TraLoiKhieuNai.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cVHJhTG9pS2hpZXVOYWkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/UploadBangChungKhieuNai.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cVXBsb2FkQmFuZ0NodW5nS2hpZXVOYWkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/XemKhieuNai.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cWGVtS2hpZXVOYWkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/XemYeuCauCapLaiThe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cWGVtWWV1Q2F1Q2FwTGFpVGhlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/XemYeuCauCapNhatThongTin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cWGVtWWV1Q2F1Q2FwTmhhdFRob25nVGluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/XetDuyetCapNhatThongTin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cWGV0RHV5ZXRDYXBOaGF0VGhvbmdUaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/XuLyThanhToanTrucTiep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cWHVMeVRoYW5oVG9hblRydWNUaWVwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CanBo/YeuCauCapNhatThongTinDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuQm9cWWV1Q2F1Q2FwTmhhdFRob25nVGluRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Chatbot/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdGJvdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/CapNhatThongTinCaNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxDYXBOaGF0VGhvbmdUaW5DYU5oYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/ChiTietKhieuNai.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxDaGlUaWV0S2hpZXVOYWkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/ChiTietViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxDaGlUaWV0VmlQaGFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/DanhSachKhieuNai.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxEYW5oU2FjaEtoaWV1TmFpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/DanhSachViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxEYW5oU2FjaFZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/LichSuYeuCauCapNhat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxMaWNoU3VZZXVDYXVDYXBOaGF0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/TaoKhieuNai.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxUYW9LaGlldU5haS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/ThongTinCaNhan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxUaG9uZ1RpbkNhTmhhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/CongDan/YeuCauCapNhatThongTin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ0RhblxZZXVDYXVDYXBOaGF0VGhvbmdUaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Home/HuongDan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxIdW9uZ0Rhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Home/LienHe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMaWVuSGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Home/LuatPhap.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMdWF0UGhhcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Shared/Components/Notification/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTm90aWZpY2F0aW9uXERlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Shared/_CanBoLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DYW5Cb0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Shared/_ChatbotPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DaGF0Ym90UGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Shared/_ThongBaoPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9UaG9uZ0Jhb1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ThanhToan/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhhbmhUb2FuXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ThanhToan/ThongBao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhhbmhUb2FuXFRob25nQmFvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/TheCanCuoc/CapNhatTheCanCuoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlQ2FuQ3VvY1xDYXBOaGF0VGhlQ2FuQ3VvYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/TheCanCuoc/ChiTietTheCanCuoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlQ2FuQ3VvY1xDaGlUaWV0VGhlQ2FuQ3VvYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/TheCanCuoc/TraCuuTheCanCuoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlQ2FuQ3VvY1xUcmFDdXVUaGVDYW5DdW9jLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/TheCanCuoc/XacNhanYeuCauCapLaiThe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlQ2FuQ3VvY1xYYWNOaGFuWWV1Q2F1Q2FwTGFpVGhlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/TheCanCuoc/YeuCauCapLaiThe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlQ2FuQ3VvY1xZZXVDYXVDYXBMYWlUaGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ThongBao/ChiTiet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhvbmdCYW9cQ2hpVGlldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ThongBao/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhvbmdCYW9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/User/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/ChiTietLoaiViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXENoaVRpZXRMb2FpVmlQaGFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/ChiTietViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXENoaVRpZXRWaVBoYW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/DanhSachLoaiViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXERhbmhTYWNoTG9haVZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/DanhSachViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXERhbmhTYWNoVmlQaGFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/HoaDonThanhToan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXEhvYURvblRoYW5oVG9hbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/KetQuaTraCuuViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXEtldFF1YVRyYUN1dVZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/KhieuNaiViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXEtoaWV1TmFpVmlQaGFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/PrintBienBan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXFByaW50QmllbkJhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/ThanhToanViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXFRoYW5oVG9hblZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/ViPham/TraCuuViPham.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmlQaGFtXFRyYUN1dVZpUGhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/source/repos/NHOM10_DACS_QLVIPHAM/NHOM10_DACS_QLVIPHAM/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-rpum3j3la2
